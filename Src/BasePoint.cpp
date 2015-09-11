@@ -3,38 +3,43 @@
 #include <cmath>
 
 
+namespace PointConst
+{
+    const static int MAX_VALUE_MODULO = 20000000;
+    const static double MAX_ERROR = 0.0001;
+    const static int X_ID = 0;
+    const static int Y_ID = 1;
+    const static int Z_ID = 2;
+}
+
+using namespace PointConst;
+
 BasePoint::BasePoint( double x_, double y_, double z_ )
     : x(x_)
     , y(y_)
     , z(z_)
-    , x_set( true )
-    , y_set( true )
-    , z_set( true )
-    , is_vertix( false )
     , is_visible( false )
 {
+    is_set[X_ID] = true; is_set[Y_ID] = true; is_set[Z_ID] = true;
 }
 
 BasePoint::BasePoint()
     : x( 0.0 )
     , y( 0.0 )
     , z( 0.0 )
-    , x_set( false )
-    , y_set( false )                          
-    , z_set( false )
-    , is_vertix( false )
     , is_visible( false )
 {
+    is_set[X_ID] = false; is_set[Y_ID] = false; is_set[Z_ID] = false;
 }
 
 
 bool  BasePoint::IsEqual( const BasePoint& p ) const
 {
-    if (abs(x - p.x) > 0.05)
+    if (abs( x - p.x ) > MAX_ERROR)
         return false;
-    if (abs(y - p.y) > 0.05)
+    if (abs( y - p.y ) > MAX_ERROR)
         return false;
-    if (abs(z - p.z) > 0.05)
+    if (abs( z - p.z ) > MAX_ERROR)
         return false;
 
     return true;
@@ -69,45 +74,51 @@ double BasePoint::GetZ() const
 void BasePoint::SetX( double x_ )
 {
     x = x_;
-    x_set = true;
 }
 
 
 void BasePoint::SetY( double y_ )
 {
     y = y_;
-    y_set = true;
 }
 
 
 void BasePoint::SetZ( double z_ )
 {
     z = z_;
-    z_set = true;
 }
 
 
 bool BasePoint::IsSetX() const
 {
-    return x_set;
+    return is_set[X_ID];
 }
 
 
 bool BasePoint::IsSetY() const
 {
-    return y_set;
+    return is_set[Y_ID];
 }
 
 
 bool BasePoint::IsSetZ() const
 {
-    return z_set;
+    return is_set[Z_ID];
 }
 
 
 bool BasePoint::IsValid() const
 {
-    if (!x_set || !y_set || !z_set)
+    if (!is_set)
+        return false;
+
+    if (abs( x ) > MAX_VALUE_MODULO)
+        return false;
+
+    if (abs( y ) > MAX_VALUE_MODULO)
+        return false;
+
+    if (abs( z ) > MAX_VALUE_MODULO)
         return false;
 
     return true;
@@ -121,20 +132,13 @@ double BasePoint::GetLength( const BasePoint& p ) const
 
 void BasePoint::SetName( const std::string& name_str )
 {
- name = name_str;
+    name = name_str;
 }
 
 std::string BasePoint::GetName() const
 {
- return name;
+    return name;
 }
-
-int BasePoint::GetIndex()
-{
-    std::string index_str = name.substr( 1 );
-    return atoi( index_str.c_str() );
-}
-
 
 bool BasePoint::IsVisible() const
 {
@@ -145,16 +149,4 @@ bool BasePoint::IsVisible() const
 void BasePoint::SetVisible( bool is_visible_ )
 {
     is_visible = is_visible_;
-}
-
-
-bool BasePoint::IsVertix() const
-{
-    return is_vertix;
-}
-
-
-void BasePoint::SetVertix( bool is_vertix_ )
-{
-    is_vertix = is_vertix_;
 }
