@@ -114,10 +114,14 @@
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\BasePoint.cpp" />
+    <ClCompile Include="Src\BaseSegment.cpp" />
     <ClCompile Include="Src\KochSnowflake.cpp" />
     <ClCompile Include="Src\stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\BasePoint.h" />
+    <ClInclude Include="Src\BaseSegment.h" />
     <ClInclude Include="Src\KochSnowflake.h" />
     <ClInclude Include="Src\Resource.h" />
     <ClInclude Include="Src\stdafx.h" />
