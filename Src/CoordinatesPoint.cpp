@@ -35,6 +35,12 @@ void CoordinatesPoint::SetVisible( bool is_visible_ )
 }
 
 
+void CoordinatesPoint::SetColor( Color color_ )
+{
+    color = color_;
+}
+
+
 PointPos CoordinatesPoint::GetPos() const
 {
     return pos;
@@ -50,4 +56,10 @@ std::string CoordinatesPoint::GetName() const
 bool CoordinatesPoint::GetVisible() const
 {
     return is_visible;
+}
+
+
+Color CoordinatesPoint::GetColor() const
+{
+    return color;
 }

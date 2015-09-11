@@ -30,6 +30,8 @@ public:
 
     void SetVisible( bool is_visible );
 
+    void SetColor( Color coor );
+
     bool IsVisible( bool is_visible );
 
     PointPos GetPos() const;
@@ -38,6 +40,8 @@ public:
 
     bool GetVisible() const;
 
+    Color GetColor() const;
+
 private:
 
     PointPos pos;
@@ -45,4 +49,6 @@ private:
     std::string name;
 
     bool is_visible;
+
+    Color color;
 };

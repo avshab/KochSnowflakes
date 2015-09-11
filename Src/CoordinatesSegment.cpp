@@ -34,6 +34,12 @@ void CoordinatesSegment::SetVisible( bool is_visible_ )
 }
 
 
+void CoordinatesSegment::SetColor( Color color_ )
+{
+    color = color_;
+}
+
+
 SegmentPoints CoordinatesSegment::GetPoints() const
 {
     return pts;
@@ -47,4 +53,10 @@ std::string CoordinatesSegment::GetName() const
 bool CoordinatesSegment::GetVisible() const
 {
     return is_visible;
+}
+
+
+Color CoordinatesSegment::GetColor() const
+{
+    return color;
 }

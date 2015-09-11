@@ -121,6 +121,7 @@
     <ClCompile Include="Src\CoordinatesModel.cpp" />
     <ClCompile Include="Src\CoordinatesPoint.cpp" />
     <ClCompile Include="Src\CoordinatesSegment.cpp" />
+    <ClCompile Include="Src\KochSegment.cpp" />
     <ClCompile Include="Src\KochSnowflake.cpp" />
     <ClCompile Include="Src\PainterI.cpp" />
     <ClCompile Include="Src\stdafx.cpp" />
@@ -133,6 +134,7 @@
     <ClInclude Include="Src\CoordinatesModel.h" />
     <ClInclude Include="Src\CoordinatesPoint.h" />
     <ClInclude Include="Src\CoordinatesSegment.h" />
+    <ClInclude Include="Src\KochSegment.h" />
     <ClInclude Include="Src\KochSnowflake.h" />
     <ClInclude Include="Src\PainterI.h" />
     <ClInclude Include="Src\Resource.h" />

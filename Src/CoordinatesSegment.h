@@ -30,6 +30,8 @@ public:
 
     void SetVisible( bool is_visible );
 
+    void SetColor( Color coor );
+
     bool IsVisible( bool is_visible );
 
     SegmentPoints GetPoints() const;
@@ -38,6 +40,8 @@ public:
 
     bool GetVisible() const;
 
+    Color GetColor() const;
+
 private:
 
     std::string name;
@@ -45,6 +49,8 @@ private:
     bool is_visible;
 
     SegmentPoints pts;
+
+    Color color;
 };
 
 
