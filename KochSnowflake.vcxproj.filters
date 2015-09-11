@@ -34,6 +34,9 @@
     <ClCompile Include="Src\KochSegment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\SnowflakesFractal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\KochSnowflake.h">
@@ -76,6 +79,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\KochSegment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\SnowflakesFractal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

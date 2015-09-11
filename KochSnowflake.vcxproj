@@ -124,6 +124,7 @@
     <ClCompile Include="Src\KochSegment.cpp" />
     <ClCompile Include="Src\KochSnowflake.cpp" />
     <ClCompile Include="Src\PainterI.cpp" />
+    <ClCompile Include="Src\SnowflakesFractal.cpp" />
     <ClCompile Include="Src\stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +139,7 @@
     <ClInclude Include="Src\KochSnowflake.h" />
     <ClInclude Include="Src\PainterI.h" />
     <ClInclude Include="Src\Resource.h" />
+    <ClInclude Include="Src\SnowflakesFractal.h" />
     <ClInclude Include="Src\stdafx.h" />
     <ClInclude Include="Src\Styles.h" />
     <ClInclude Include="Src\targetver.h" />
