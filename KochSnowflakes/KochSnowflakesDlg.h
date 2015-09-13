@@ -5,6 +5,12 @@
 #pragma once
 
 
+#include "afxwin.h"
+#include "afxcmn.h"
+#include "ProcessMaster.h"
+#include "PainterI.h"
+
+
 // CKochSnowflakesDlg dialog
 class CKochSnowflakesDlg : public CDialogEx
 {
@@ -25,7 +31,19 @@ protected:
 
 	// Generated message map functions
 	virtual BOOL OnInitDialog();
-	afx_msg void OnPaint();
+
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+
+
+private:
+
+	PainterI painter;
+
+	ProcessMaster process;
+
+public:
+
+	afx_msg void OnBnClickedOk();
+	//CStatic pic_view;
 };

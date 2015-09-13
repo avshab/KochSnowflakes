@@ -1,10 +1,13 @@
 #include "stdafx.h"
 #include "CoordinatesModel.h"
+#include "CoordinatesPoint.h"
 
 
 CoordinatesModel::CoordinatesModel()
 {
-
+	std::vector<ModelObject*> v;
+	obj_map[eModelObjectType::BASE_POINT] = v;
+	obj_map[eModelObjectType::BASE_SEGMENT] = v;
 }
 
 
@@ -15,10 +18,7 @@ CoordinatesModel::~CoordinatesModel()
 
 bool CoordinatesModel::IsEmpty() const
 {
-    if (!base_points.empty())
-        return false;
-
-    if (!base_segs.empty())
+	if (!obj_map.empty())
         return false;
 
     return true;
@@ -30,30 +30,36 @@ void CoordinatesModel::SetModelName( const std::string& name_ )
 }
 
 
-void CoordinatesModel::SetBasePoints( const std::vector<CoordinatesPoint>& pts )
-{
-    base_points = pts;
-}
-
-void CoordinatesModel::SetBaseSegments( const std::vector<CoordinatesSegment>& segs )
-{
-    base_segs = segs;
-}
-
-
 std::string CoordinatesModel::GetModelName() const
 {
     return name;
 }
 
 
-std::vector<CoordinatesPoint> CoordinatesModel::GetBasePoints() const
+void CoordinatesModel::AddObjectsVector(const eModelObjectType& type, const std::vector<ModelObject*>& objs)
 {
-    return base_points;
+	for (auto it = begin(objs); it != end(objs); it++)
+		obj_map.at(type).push_back(*it);
 }
 
 
-std::vector<CoordinatesSegment> CoordinatesModel::GetBaseSegments() const
+void CoordinatesModel::AddObject(const eModelObjectType& type, ModelObject* objs)
 {
-    return base_segs;
+
+	obj_map.at(type).push_back(objs);
 }
+
+
+void CoordinatesModel::SetObjectMap(const std::map<eModelObjectType, std::vector<ModelObject*>>& map)
+{
+	obj_map = map;
+}
+
+std::map<eModelObjectType, std::vector<ModelObject*>> CoordinatesModel::GetObjectMap() const
+{
+	return obj_map;
+}
+
+
+
+

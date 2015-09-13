@@ -3,17 +3,12 @@
 
 
 BaseSegment::BaseSegment( const BasePoint& p1_, const BasePoint& p2_ )
-    : p1( p1_ )
-    , p2( p2_ )
-    , is_visible( false )
+	: pts(p1_, p2_)
 {
 }
 
 
 BaseSegment::BaseSegment()
-    : p1( BasePoint() )
-    , p2( BasePoint() )
-    , is_visible( false )
 {
 }
 
@@ -21,25 +16,15 @@ BaseSegment::~BaseSegment()
 {
 }
 
-void BaseSegment::SetName( const std::string& name_str )
-{
-    name = name_str;
-}
-
 bool BaseSegment::IsEqual( const BaseSegment& l ) const
 {
-    if ((p1.IsEqual( l.p1 ) && p2.IsEqual( l.p2 )))
+	if ((pts.p1.IsEqual(l.pts.p1) && pts.p2.IsEqual(l.pts.p2)))
         return true;
 
-    if ((p1.IsEqual( l.p2 ) && p2.IsEqual( l.p1 )))
+	if ((pts.p1.IsEqual(l.pts.p2) && pts.p2.IsEqual(l.pts.p1)))
         return true;
 
     return false;
-}
-
-std::string BaseSegment::GetName() const
-{
-    return name;
 }
 
 
@@ -70,15 +55,6 @@ std::string BaseSegment::GetName() const
 //
 //}
 
-void BaseSegment::SetVisible( bool is_visible_)
-{
-    is_visible = is_visible_;
-}
-
-bool BaseSegment::IsVisible() const
-{
-    return  is_visible;
-}
 
 
 //
@@ -100,3 +76,15 @@ bool BaseSegment::IsVisible() const
 //    return std::pair<double, double>( v1, v2 );
 //}
 //
+
+
+void BaseSegment::SetBasePoints(const SegmentBasePoints& pts_)
+{
+	pts = pts_;
+}
+
+
+SegmentBasePoints BaseSegment::GetBasePoints() const
+{
+	return pts;
+}

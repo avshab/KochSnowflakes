@@ -66,6 +66,21 @@
     <ClInclude Include="src\Styles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\PainterKochSnowflakes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KochCoordModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BaseObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProcessMaster.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ModelObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="KochSnowflakes.cpp">
@@ -105,6 +120,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\SnowflakesFractal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PainterKochSnowflakes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KochCoordModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BaseObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProcessMaster.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModelObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

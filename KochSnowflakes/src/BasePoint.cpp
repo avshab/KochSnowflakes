@@ -18,7 +18,6 @@ BasePoint::BasePoint( double x_, double y_, double z_ )
     : x(x_)
     , y(y_)
     , z(z_)
-    , is_visible( false )
 {
     is_set[X_ID] = true; is_set[Y_ID] = true; is_set[Z_ID] = true;
 }
@@ -27,7 +26,6 @@ BasePoint::BasePoint()
     : x( 0.0 )
     , y( 0.0 )
     , z( 0.0 )
-    , is_visible( false )
 {
     is_set[X_ID] = false; is_set[Y_ID] = false; is_set[Z_ID] = false;
 }
@@ -128,25 +126,4 @@ bool BasePoint::IsValid() const
 double BasePoint::GetLength( const BasePoint& p ) const
 {
     return sqrt( (x - p.x) * (x - p.x) + (y - p.y) * (y - p.y) + (z - p.z) * (z - p.z) );
-}
-
-void BasePoint::SetName( const std::string& name_str )
-{
-    name = name_str;
-}
-
-std::string BasePoint::GetName() const
-{
-    return name;
-}
-
-bool BasePoint::IsVisible() const
-{
-    return is_visible;
-}
-
-
-void BasePoint::SetVisible( bool is_visible_ )
-{
-    is_visible = is_visible_;
 }

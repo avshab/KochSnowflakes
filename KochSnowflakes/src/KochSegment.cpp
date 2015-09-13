@@ -8,17 +8,18 @@ namespace
 }
 
 
-double GetThird( double l ) { return COEF * l;  }
+double GetThird( double l ) { return l / 3.0;  }
 
 
 KochSegment::KochSegment( const BasePoint& p1_, const BasePoint& p2_ )
+	: BaseSegment(p1_,p2_)
 {
     seg.p1 = p1_;
     seg.p1.SetZ( 0.0 );
     seg.p5 = p2_; 
     seg.p5.SetZ( 0.0 );
-    seg.p2 = BasePoint( GetThird( seg.p5.GetX() - seg.p1.GetX() ), GetThird( seg.p5.GetY() - seg.p1.GetY() ), GetThird( seg.p5.GetZ() - seg.p1.GetZ() ) );
-    seg.p4 = BasePoint( GetThird( seg.p1.GetX() - seg.p5.GetX() ), GetThird( seg.p1.GetY() - seg.p5.GetY() ), GetThird( seg.p1.GetZ() - seg.p5.GetZ() ) );
+	seg.p2 = BasePoint(seg.p1.GetX() + GetThird(seg.p5.GetX() - seg.p1.GetX()), seg.p1.GetY() + GetThird(seg.p5.GetY() - seg.p1.GetY()), seg.p1.GetZ() + GetThird(seg.p5.GetZ() - seg.p1.GetZ()));
+	seg.p4 = BasePoint(seg.p5.GetX() + GetThird(seg.p1.GetX() - seg.p5.GetX()), seg.p5.GetY() + GetThird(seg.p1.GetY() - seg.p5.GetY()), seg.p5.GetZ() + GetThird(seg.p1.GetZ() - seg.p5.GetZ()));
 }
 
 
@@ -34,10 +35,10 @@ std::vector<KochSegment> KochSegment::Divide()
     eGrowthDirection dir = GetDirection();
 
     if (dir == eGrowthDirection::INSIDE)
-        seg.p4 = BasePoint( cos( ALFA ) * R, sin( ALFA ) * R, seg.p1.GetZ() ); 
+        seg.p3 = BasePoint( cos( ALFA ) * R, sin( ALFA ) * R, seg.p1.GetZ() ); 
 
     if (dir == eGrowthDirection::OUTSIDE)
-        seg.p4 = BasePoint( cos( - ALFA ) * R, sin( - ALFA ) * R, seg.p1.GetZ() );
+        seg.p3 = BasePoint( cos( - ALFA ) * R, sin( - ALFA ) * R, seg.p1.GetZ() );
 
     std::vector<KochSegment> segs;
 

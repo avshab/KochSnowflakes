@@ -1,10 +1,11 @@
 #pragma once
+#include "BaseObject.h"
 #include "CoordinatesSegment.h"
-
 #include <vector>
 
 
-class CoordinatesFace
+class CoordinatesFace 
+	: public BaseObject
 {
 public:
 

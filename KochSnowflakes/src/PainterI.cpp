@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "PainterI.h"
-
+#include "KochSegment.h"
 
 
 PainterI::PainterI()
@@ -70,15 +70,27 @@ void PainterI::OnPaint()
     window_height = (int)bounds.Height;
 
     g.SetSmoothingMode( SmoothingMode::SmoothingModeAntiAlias ); 
-
+	Pen pt(3);
+	g.DrawLine(&pt, Point(0, 0), Point(100, 100));
 
     Color color = StylesFigures::section_lines_color;
     Pen pen( color, StylesFigures::pen_width );
     pen.SetDashStyle( DashStyle::DashStyleDash );
 
-    PaintSegments( model.GetBaseSegments(), &g );
-    PaintPoints( model.GetBasePoints(), &g );
 
+	std::map<eModelObjectType, std::vector<ModelObject*>> model_map = model.GetObjectMap();
+	
+	for (auto it = begin(model_map); it != end(model_map); it++)
+	{
+		if (it->first == eModelObjectType::BASE_POINT)
+			if (!it->second.empty())
+				PaintPoints(it->second, &g);
+
+		if (it->first == eModelObjectType::BASE_SEGMENT)
+			if (!it->second.empty())
+				PaintSegments(it->second, &g);
+		
+	}
 
     BitBlt( hdc, 0, 0, 1200, 700, hdcMem, 0, 0, SRCCOPY );
     SelectObject( hdcMem, oldScreen );
@@ -94,25 +106,26 @@ bool PainterI::IsDushSegment( int id_elem ) const
 }
 
 
-void PainterI::PaintSegments( const std::vector<CoordinatesSegment>& segments, Graphics* g ) const
+void PainterI::PaintSegments(const std::vector<ModelObject*>& segments, Graphics* g) const
 {
     Color color;
-
-    int id = 0;   
-    for (auto it = begin( segments ); it != end( segments ); it++)
+	for (auto it = begin(segments); it != end(segments); it++)
     {
-        Pen pen( color, StylesFigures::pen_width );
-        
-        g->DrawLine( &pen, AdaptPointCoordinates( it->GetPoints().c1 ), AdaptPointCoordinates( it->GetPoints().c2 ) );
-        id++;
+        Pen pen( Color::Red, StylesFigures::pen_width );
+		CoordinatesSegment* s = dynamic_cast<CoordinatesSegment*>(*it);
+		
+		g->DrawLine(&pen, AdaptPointCoordinates(s->GetPoints().c1), AdaptPointCoordinates(s->GetPoints().c2));
     }
 
 }
 
-void PainterI::PaintPoints( const std::vector<CoordinatesPoint>& points, Graphics* g ) const
+void PainterI::PaintPoints(const std::vector<ModelObject*>& points, Graphics* g) const
 {
-    for (auto it = begin( points ); it != end( points ); it++)
-        PaintPoint( *it, g );
+	for (int i = 0; i < points.size(); i++)
+	{
+		CoordinatesPoint* s = dynamic_cast<CoordinatesPoint*>(points.at(i));
+		PaintPoint( *s, g );
+	}   
 }
 
 
@@ -148,7 +161,7 @@ void PainterI::PaintPoint( const CoordinatesPoint& point, Graphics* g ) const
     PointF fp((Gdiplus::REAL)p.X, (Gdiplus::REAL)p.Y); 
     Rect rect( p.X - StylesFigures::point_radius, p.Y - StylesFigures::point_radius, 2 * StylesFigures::point_radius, 2 * StylesFigures::point_radius );
     SolidBrush brush( color );
-    if (!point.GetVisible())
+    if (!point.IsVisible())
         brush.SetColor( Color( 100, 72, 27, 72) );
     g->FillEllipse( &brush, rect );
 }
@@ -174,16 +187,16 @@ void PainterI::PaintPointsName( const std::vector<CoordinatesPoint>& points, Gra
 }
 
 
-Point PainterI::AdaptPointCoordinates( const CoordinatesPoint& p ) const
+Gdiplus::Point PainterI::AdaptPointCoordinates(const CoordinatesPoint& p) const
 {
-    int sw = (int)(window_width / 2);
-    int sh = (int)(window_height / 2);
-    Point pt( p.GetPos().x + sw, window_height - (p.GetPos().y + sh) );
-    return pt;
+   // int sw = (int)(window_width / 2);
+   // int sh = (int)(window_height / 2);
+	//Gdiplus::Point pt( p.GetPos().x + sw, window_height - (p.GetPos().y + sh) );
+	return Gdiplus::Point(p.GetPos().x, p.GetPos().y);
 }
 
 
-void PainterI::SetModel( const CoordinatesModel& model_ )
+void PainterI::SetModel( CoordinatesModel* model_ )
 {
-    model = model_;
+    model.SetObjectMap(model_->GetObjectMap());
 }

@@ -1,39 +1,43 @@
 #pragma once
 #include "Styles.h" 
-#include "CoordinatesFace.h"
-
+#include "ModelObject.h" 
+#include <map>
 #include <vector>
 
+
+enum eModelObjectType
+{
+	BASE_POINT,
+	BASE_SEGMENT
+};
 
 class CoordinatesModel
 {
 public:
 
-    CoordinatesModel();
+	CoordinatesModel();
 
-    virtual ~CoordinatesModel();
+	virtual ~CoordinatesModel();
 
-public: 
+public:
 
-    virtual bool IsEmpty() const;
-    
-    void SetModelName( const std::string& name );
+	virtual bool IsEmpty() const;
 
-    void SetBasePoints( const std::vector<CoordinatesPoint>& pts );
+	void SetModelName(const std::string& name);
 
-    void SetBaseSegments( const std::vector<CoordinatesSegment>& segs );
+	std::string GetModelName() const;
 
-    std::string GetModelName() const;
+	void AddObjectsVector(const eModelObjectType& type, const std::vector<ModelObject*>& objs);
 
-    std::vector<CoordinatesPoint> GetBasePoints() const;
+	void AddObject(const eModelObjectType& type, ModelObject* objs);
 
-    std::vector<CoordinatesSegment> GetBaseSegments() const;
+	void SetObjectMap(const std::map<eModelObjectType, std::vector<ModelObject*>>& map);
 
-private:
+	std::map<eModelObjectType, std::vector<ModelObject*>> GetObjectMap() const;
 
-    std::string name;
+protected:
 
-    std::vector<CoordinatesPoint> base_points;
+	std::string name;
 
-    std::vector<CoordinatesSegment> base_segs;
+	std::map<eModelObjectType, std::vector<ModelObject*>> obj_map;
 };

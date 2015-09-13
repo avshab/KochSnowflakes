@@ -23,18 +23,6 @@ void CoordinatesPoint::SetPos( const PointPos& pos_ )
 }
 
 
-void CoordinatesPoint::SetName( const std::string& name_ )
-{
-    name = name_;
-}
-
-
-void CoordinatesPoint::SetVisible( bool is_visible_ )
-{
-    is_visible = is_visible_;
-}
-
-
 void CoordinatesPoint::SetColor( Color color_ )
 {
     color = color_;
@@ -44,18 +32,6 @@ void CoordinatesPoint::SetColor( Color color_ )
 PointPos CoordinatesPoint::GetPos() const
 {
     return pos;
-}
-
-
-std::string CoordinatesPoint::GetName() const
-{
-    return name;
-}
-
-
-bool CoordinatesPoint::GetVisible() const
-{
-    return is_visible;
 }
 
 

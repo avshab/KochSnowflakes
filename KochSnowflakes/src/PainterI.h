@@ -1,4 +1,5 @@
 #pragma once
+#include "CoordinatesFace.h"
 #include "CoordinatesModel.h"
 #include <vector>
 
@@ -15,7 +16,7 @@ public:
 
     void OnPaint();
 
-    void SetModel( const CoordinatesModel& model );
+    virtual void SetModel( CoordinatesModel* model );
 
 protected:
 
@@ -35,9 +36,9 @@ private:
 
     void CreateVirtualWindow( CDC* dc_virt, CRect w_rect );
 
-    Point AdaptPointCoordinates( const CoordinatesPoint& point ) const;
+	Gdiplus::Point AdaptPointCoordinates(const CoordinatesPoint& point) const;
 
-    void PaintSegments( const std::vector<CoordinatesSegment>& segments, Graphics* g ) const;
+	void PaintSegments(const std::vector<ModelObject*>& segments, Graphics* g) const;
 
     void PaintFiguresFaces( const std::vector<CoordinatesFace>& faces, Graphics* g ) const;
 
@@ -49,7 +50,7 @@ private:
 
     void PaintPoint( const CoordinatesPoint& point, Graphics* g ) const;
 
-    void PaintPoints( const std::vector<CoordinatesPoint>& point, Graphics* g ) const;
+	void PaintPoints(const std::vector<ModelObject*>& point, Graphics* g) const;
 
     void PaintPointName( const CoordinatesPoint& point, Graphics* g ) const;
 

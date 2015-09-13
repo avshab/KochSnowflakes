@@ -109,14 +109,19 @@
     <ClInclude Include="KochSnowflakesDlg.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="src\BaseLine.h" />
+    <ClInclude Include="src\BaseObject.h" />
     <ClInclude Include="src\BasePoint.h" />
     <ClInclude Include="src\BaseSegment.h" />
     <ClInclude Include="src\CoordinatesFace.h" />
     <ClInclude Include="src\CoordinatesModel.h" />
     <ClInclude Include="src\CoordinatesPoint.h" />
     <ClInclude Include="src\CoordinatesSegment.h" />
+    <ClInclude Include="src\KochCoordModel.h" />
     <ClInclude Include="src\KochSegment.h" />
+    <ClInclude Include="src\ModelObject.h" />
     <ClInclude Include="src\PainterI.h" />
+    <ClInclude Include="src\PainterKochSnowflakes.h" />
+    <ClInclude Include="src\ProcessMaster.h" />
     <ClInclude Include="src\SnowflakesFractal.h" />
     <ClInclude Include="src\Styles.h" />
     <ClInclude Include="stdafx.h" />
@@ -126,14 +131,19 @@
     <ClCompile Include="KochSnowflakes.cpp" />
     <ClCompile Include="KochSnowflakesDlg.cpp" />
     <ClCompile Include="src\BaseLine.cpp" />
+    <ClCompile Include="src\BaseObject.cpp" />
     <ClCompile Include="src\BasePoint.cpp" />
     <ClCompile Include="src\BaseSegment.cpp" />
     <ClCompile Include="src\CoordinatesFace.cpp" />
     <ClCompile Include="src\CoordinatesModel.cpp" />
     <ClCompile Include="src\CoordinatesPoint.cpp" />
     <ClCompile Include="src\CoordinatesSegment.cpp" />
+    <ClCompile Include="src\KochCoordModel.cpp" />
     <ClCompile Include="src\KochSegment.cpp" />
+    <ClCompile Include="src\ModelObject.cpp" />
     <ClCompile Include="src\PainterI.cpp" />
+    <ClCompile Include="src\PainterKochSnowflakes.cpp" />
+    <ClCompile Include="src\ProcessMaster.cpp" />
     <ClCompile Include="src\SnowflakesFractal.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -152,4 +162,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="KochSnowflakes.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

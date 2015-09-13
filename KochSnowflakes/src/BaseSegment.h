@@ -2,7 +2,17 @@
 #include "BasePoint.h"
 
 
+struct SegmentBasePoints
+{
+	SegmentBasePoints(const BasePoint& p1_, const BasePoint& p2_)
+		: p1(p1_), p2(p2_) 	{};
+	SegmentBasePoints(){};
+	BasePoint p1;
+	BasePoint p2;
+};
+
 class BaseSegment
+	: public BaseObject
 {
 public:
     BaseSegment( const BasePoint& p1, const BasePoint& p2 );
@@ -11,15 +21,11 @@ public:
 
     virtual ~BaseSegment();
 
+	void SetBasePoints(const SegmentBasePoints& pts);
+
+	SegmentBasePoints GetBasePoints() const;
+
 protected:
-
-    void SetName( const std::string& name_str );
-
-    std::string GetName() const;
-
-    void SetVisible( bool is_visible );
-
-    bool IsVisible() const;
 
     bool IsEqual( const BaseSegment& l ) const;
     
@@ -44,13 +50,5 @@ protected:
     
 protected:
 
-    BasePoint p1;
-
-    BasePoint p2;
-
-private:
-
-    std::string name;
-
-    bool is_visible;
+	SegmentBasePoints pts;
 };

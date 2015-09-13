@@ -1,8 +1,9 @@
 #pragma once
-#include <string>
+#include "BaseObject.h"
 
 
-class BasePoint
+class BasePoint 
+	: public BaseObject
     {
     public:
 
@@ -38,14 +39,6 @@ class BasePoint
 
         bool IsVertix() const;
 
-        void SetName( const std::string& name_str );
-
-        std::string GetName() const;
-
-        bool IsVisible() const;
-
-        void SetVisible( bool is_visible_ );
-
     private:
 
         double x;
@@ -55,8 +48,4 @@ class BasePoint
         double z;
 
         bool is_set[3];
-
-        bool is_visible;
-
-        std::string name;
 };

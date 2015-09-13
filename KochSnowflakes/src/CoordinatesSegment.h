@@ -3,12 +3,12 @@
 #include <vector>
 
 
-struct SegmentPoints
+struct SegmentCoordPoints
 {
-    SegmentPoints( const CoordinatesPoint& c1_, const CoordinatesPoint& c2_ )
+    SegmentCoordPoints( const CoordinatesPoint& c1_, const CoordinatesPoint& c2_ )
         : c1(c1_), c2(c2_){};
 
-    SegmentPoints(){};
+    SegmentCoordPoints(){};
 
     CoordinatesPoint c1;
 
@@ -17,28 +17,19 @@ struct SegmentPoints
 
 
 class CoordinatesSegment
+	: public ModelObject
 {
 public:
 
-    CoordinatesSegment( const SegmentPoints& pts, const std::string& name, bool is_visible );
+    CoordinatesSegment( const SegmentCoordPoints& pts, const std::string& name, bool is_visible );
 
     CoordinatesSegment();
 
-    void SetPoints( const SegmentPoints& pts );
-
-    void SetName( const std::string& name );
-
-    void SetVisible( bool is_visible );
+    void SetPoints( const SegmentCoordPoints& pts );
 
     void SetColor( Color coor );
 
-    bool IsVisible( bool is_visible );
-
-    SegmentPoints GetPoints() const;
-
-    std::string GetName() const;
-
-    bool GetVisible() const;
+    SegmentCoordPoints GetPoints() const;
 
     Color GetColor() const;
 
@@ -48,7 +39,7 @@ private:
 
     bool is_visible;
 
-    SegmentPoints pts;
+    SegmentCoordPoints pts;
 
     Color color;
 };

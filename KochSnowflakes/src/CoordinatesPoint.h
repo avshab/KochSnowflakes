@@ -1,5 +1,6 @@
 #pragma once
 #include "Styles.h"  
+#include "ModelObject.h"  
 #include <vector>
 
 
@@ -17,6 +18,7 @@ struct PointPos
 
 
 class CoordinatesPoint
+	: public ModelObject
 {
 public:
 
@@ -26,19 +28,9 @@ public:
 
     void SetPos( const PointPos& pos );
 
-    void SetName( const std::string& name );
-
-    void SetVisible( bool is_visible );
-
     void SetColor( Color coor );
 
-    bool IsVisible( bool is_visible );
-
     PointPos GetPos() const;
-
-    std::string GetName() const;
-
-    bool GetVisible() const;
 
     Color GetColor() const;
 
