@@ -9,8 +9,12 @@ ProcessMaster::ProcessMaster()
 {
 	model = new KochCoordModel();
 	model->SetModelName("Koch Model");
-	KochSegment k( BasePoint(50, 50, 0), BasePoint(200, 200, 0) );
-	model->SetKochSegment( k );
+	KochSegment k1( BasePoint( 200, 200, 0 ), BasePoint( 500, 200, 0 ) );
+    KochSegment k2( BasePoint( 500, 200, 0 ), BasePoint( 350, 459.80762113533160, 0 ) );
+    KochSegment k3( BasePoint( 350, 459.80762113533160, 0 ), BasePoint( 200, 200, 0 ) );
+	model->SetKochSegment( k1 );
+    model->SetKochSegment( k2 );
+    model->SetKochSegment( k3 );
 }
 
 
@@ -21,7 +25,9 @@ ProcessMaster::~ProcessMaster()
 
 void ProcessMaster::SetPainter(PainterI *p)
 {
-	painter = p;
+	painter = p;   
+    painter->SetModel( model->GetModel() );
+    painter->RedrawWindow();
 }
 
 void ProcessMaster::Process()
@@ -29,7 +35,8 @@ void ProcessMaster::Process()
 	SnowflakesFractal fractal;
 	fractal.SetKochSegments(model->GetKochSegments());
 	fractal.Iterate();
+    model->Clear();
 	model->SetKochSegments(fractal.GetKochSegments());
-	painter->SetModel(model);
+	painter->SetModel(model->GetModel());
 	painter->RedrawWindow();
 }

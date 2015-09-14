@@ -8,8 +8,6 @@ namespace
 }
 
 
-double GetThird( double l ) { return l / 3.0;  }
-
 
 KochSegment::KochSegment( const BasePoint& p1_, const BasePoint& p2_ )
 	: BaseSegment(p1_,p2_)
@@ -18,27 +16,45 @@ KochSegment::KochSegment( const BasePoint& p1_, const BasePoint& p2_ )
     seg.p1.SetZ( 0.0 );
     seg.p5 = p2_; 
     seg.p5.SetZ( 0.0 );
-	seg.p2 = BasePoint(seg.p1.GetX() + GetThird(seg.p5.GetX() - seg.p1.GetX()), seg.p1.GetY() + GetThird(seg.p5.GetY() - seg.p1.GetY()), seg.p1.GetZ() + GetThird(seg.p5.GetZ() - seg.p1.GetZ()));
-	seg.p4 = BasePoint(seg.p5.GetX() + GetThird(seg.p1.GetX() - seg.p5.GetX()), seg.p5.GetY() + GetThird(seg.p1.GetY() - seg.p5.GetY()), seg.p5.GetZ() + GetThird(seg.p1.GetZ() - seg.p5.GetZ()));
+    double k = 1.0 / 3.0;
+    seg.p2 = GetMiddlePoint( seg.p1, seg.p5, k );
+    seg.p4 = GetMiddlePoint( seg.p5, seg.p1, k );
 }
-
+ 
 
 KochSegment::KochSegment()
 {
+  
+}
+
+
+BasePoint KochSegment::GetMiddlePoint( const BasePoint& p1_, const BasePoint& p2_, double k ) const
+{
+    BasePoint pad( p1_.GetX() + (p2_.GetX() - p1_.GetX()) * k, p1_.GetY() + (p2_.GetY() - p1_.GetY()) * k, p1_.GetZ() + (p2_.GetZ() - p1_.GetZ())  * k );
+    return BasePoint( p1_.GetX() + (p2_.GetX() - p1_.GetX()) * k, p1_.GetY() + ( p2_.GetY() - p1_.GetY() ) * k, p1_.GetZ() + ( p2_.GetZ() - p1_.GetZ() )  * k);
 }
 
 
 std::vector<KochSegment> KochSegment::Divide()
 {
-    double R = seg.p5.GetLength( seg.p2 );
+    double R = seg.p2.GetLength( seg.p4 );
 
     eGrowthDirection dir = GetDirection();
 
-    if (dir == eGrowthDirection::INSIDE)
-        seg.p3 = BasePoint( cos( ALFA ) * R, sin( ALFA ) * R, seg.p1.GetZ() ); 
+    BasePoint b = GetMiddlePoint( seg.p2, seg.p4, 0.5 );
+
+    double alfa; 
+
+     if (dir == eGrowthDirection::INSIDE)
+        alfa = 3.14159265 / 3.0;
 
     if (dir == eGrowthDirection::OUTSIDE)
-        seg.p3 = BasePoint( cos( - ALFA ) * R, sin( - ALFA ) * R, seg.p1.GetZ() );
+        alfa = -3.14159265 / 3.0;
+
+    double Bx = cos( alfa ) * (seg.p4.GetX() - seg.p2.GetX()) - sin( alfa ) * (seg.p4.GetY() - seg.p2.GetY());
+    double By = sin( alfa ) * (seg.p4.GetX() - seg.p2.GetX()) + cos( alfa ) * (seg.p4.GetY() - seg.p2.GetY());
+   
+    seg.p3 = BasePoint( seg.p2.GetX() + Bx, seg.p2.GetY() + By, seg.p1.GetZ() );
 
     std::vector<KochSegment> segs;
 
@@ -53,5 +69,5 @@ std::vector<KochSegment> KochSegment::Divide()
 
 eGrowthDirection KochSegment::GetDirection() const
 {
-    return eGrowthDirection::INSIDE;
+    return eGrowthDirection::OUTSIDE;
 }

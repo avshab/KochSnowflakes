@@ -16,7 +16,7 @@ void SnowflakesFractal::Iterate()
     {
         std::vector<KochSegment> cur_segs = it->Divide();
 		for (auto it_c = begin(cur_segs); it_c != end(cur_segs); it_c++)
-            new_segs.push_back( *it );
+            new_segs.push_back( *it_c );
     }    
 
     segs = new_segs;

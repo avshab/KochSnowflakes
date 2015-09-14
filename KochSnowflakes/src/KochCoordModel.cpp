@@ -3,7 +3,7 @@
 #include "CoordinatesSegment.h"
 
 
-KochCoordModel::KochCoordModel()
+KochCoordModel::KochCoordModel() : CoordinatesModel()
 {
 
 }

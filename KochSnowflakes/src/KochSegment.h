@@ -42,4 +42,6 @@ private:
     bool is_visible;
 
     KochUnitSegment seg;
+
+    BasePoint GetMiddlePoint( const BasePoint& p1, const BasePoint& p2, double k ) const;
 };

@@ -70,13 +70,11 @@ void PainterI::OnPaint()
     window_height = (int)bounds.Height;
 
     g.SetSmoothingMode( SmoothingMode::SmoothingModeAntiAlias ); 
-	Pen pt(3);
-	g.DrawLine(&pt, Point(0, 0), Point(100, 100));
+
 
     Color color = StylesFigures::section_lines_color;
     Pen pen( color, StylesFigures::pen_width );
     pen.SetDashStyle( DashStyle::DashStyleDash );
-
 
 	std::map<eModelObjectType, std::vector<ModelObject*>> model_map = model.GetObjectMap();
 	
@@ -111,10 +109,12 @@ void PainterI::PaintSegments(const std::vector<ModelObject*>& segments, Graphics
     Color color;
 	for (auto it = begin(segments); it != end(segments); it++)
     {
-        Pen pen( Color::Red, StylesFigures::pen_width );
+        Color color = StylesFigures::section_lines_color;
+        Pen pen( color, 1 );
 		CoordinatesSegment* s = dynamic_cast<CoordinatesSegment*>(*it);
-		
-		g->DrawLine(&pen, AdaptPointCoordinates(s->GetPoints().c1), AdaptPointCoordinates(s->GetPoints().c2));
+        Gdiplus::Point p1 = AdaptPointCoordinates( s->GetPoints().c1 );
+        Gdiplus::Point p2 = AdaptPointCoordinates( s->GetPoints().c2 );
+		g->DrawLine(&pen, p1, p2);
     }
 
 }
@@ -196,7 +196,7 @@ Gdiplus::Point PainterI::AdaptPointCoordinates(const CoordinatesPoint& p) const
 }
 
 
-void PainterI::SetModel( CoordinatesModel* model_ )
+void PainterI::SetModel( const CoordinatesModel& model_ )
 {
-    model.SetObjectMap(model_->GetObjectMap());
+    model = model_;
 }

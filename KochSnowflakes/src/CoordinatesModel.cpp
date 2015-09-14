@@ -24,6 +24,14 @@ bool CoordinatesModel::IsEmpty() const
     return true;
 }
 
+
+void CoordinatesModel::Clear()
+{
+    obj_map.at( eModelObjectType::BASE_POINT ).clear();
+    obj_map.at( eModelObjectType::BASE_SEGMENT ).clear();
+}
+
+
 void CoordinatesModel::SetModelName( const std::string& name_ )
 {
     name = name_;
@@ -60,6 +68,12 @@ std::map<eModelObjectType, std::vector<ModelObject*>> CoordinatesModel::GetObjec
 	return obj_map;
 }
 
+
+
+CoordinatesModel CoordinatesModel::GetModel()
+{
+    return *this;
+}
 
 
 

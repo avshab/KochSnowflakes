@@ -19,6 +19,4 @@ void PainterKochSnowflakes::Paint()
 void PainterKochSnowflakes::SetModel(CoordinatesModel* model)
 {
 
-	CoordinatesModel* m = dynamic_cast<CoordinatesModel*>(model);
-	PainterI::SetModel(m);
 }

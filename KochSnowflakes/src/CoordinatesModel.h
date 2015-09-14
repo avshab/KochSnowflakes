@@ -35,6 +35,10 @@ public:
 
 	std::map<eModelObjectType, std::vector<ModelObject*>> GetObjectMap() const;
 
+    CoordinatesModel GetModel();
+
+    void Clear();
+
 protected:
 
 	std::string name;
