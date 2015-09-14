@@ -81,8 +81,7 @@ BOOL CKochSnowflakesApp::InitInstance()
 	}
 	else if (nResponse == IDCANCEL)
 	{
-		// TODO: Place code here to handle when the dialog is
-		//  dismissed with Cancel
+        return FALSE;
 	}
 	else if (nResponse == -1)
 	{

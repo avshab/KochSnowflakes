@@ -5,8 +5,8 @@
 
 namespace
 {
-    const static double COEF = 1 / 3;
-    const static double ALFA = 60 * 3.14159265 / 180;
+    const static double COEF = 1.0 / 3.0;
+    const static double ALFA = 60.0 * 3.14159265 / 180.0;
 }
 
 
@@ -21,12 +21,19 @@ KochSegment::KochSegment( const BasePoint& p1_, const BasePoint& p2_ )
     double k = 1.0 / 3.0;
     seg.p2 = GetMiddlePoint( seg.p1, seg.p5, k );
     seg.p4 = GetMiddlePoint( seg.p5, seg.p1, k );
+    l = seg.p1.GetLength( seg.p5 );
 }
  
 
 KochSegment::KochSegment()
 {
   
+}
+
+
+double KochSegment::GetLength() const
+{
+    return l;
 }
 
 
@@ -48,10 +55,10 @@ std::vector<KochSegment> KochSegment::Divide()
     double alfa; 
 
      if (dir == eGrowthDirection::INSIDE)
-        alfa = 3.14159265 / 3.0;
+         alfa = ALFA;
 
     if (dir == eGrowthDirection::OUTSIDE)
-        alfa = -3.14159265 / 3.0;
+        alfa = -ALFA;
 
     double Bx = cos( alfa ) * (seg.p4.GetX() - seg.p2.GetX()) - sin( alfa ) * (seg.p4.GetY() - seg.p2.GetY());
     double By = sin( alfa ) * (seg.p4.GetX() - seg.p2.GetX()) + cos( alfa ) * (seg.p4.GetY() - seg.p2.GetY());

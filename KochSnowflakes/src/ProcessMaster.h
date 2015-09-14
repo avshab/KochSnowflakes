@@ -3,6 +3,7 @@
 
 class PainterI;
 class KochCoordModel;
+class SnowflakesFractal;
 
 
 class ProcessMaster
@@ -21,5 +22,7 @@ private:
 	PainterI *painter;
 
 	KochCoordModel* model;
+
+    SnowflakesFractal *fractal;
 };
 

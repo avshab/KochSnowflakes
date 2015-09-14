@@ -2,6 +2,8 @@
 #include "SnowflakesFractal.h"
 
 
+const static int MAX_RANDOM = 6;
+
 SnowflakesFractal::SnowflakesFractal()
 {
 
@@ -10,16 +12,19 @@ SnowflakesFractal::SnowflakesFractal()
 
 void SnowflakesFractal::Iterate()
 {
-    std::vector<KochSegment> new_segs;
+    int s = segs.size();
 
-    for (auto it = begin( segs ); it != end( segs ); it++)
+    for (int i = 0; i < s; i++)
     {
-        std::vector<KochSegment> cur_segs = it->Divide();
-		for (auto it_c = begin(cur_segs); it_c != end(cur_segs); it_c++)
-            new_segs.push_back( *it_c );
+        if (r_as.GetRandomAS( i, s, segs.at( i ).GetLength() ))
+        {
+              std::vector<KochSegment> cur_segs = segs.at( i ).Divide();  
+              segs.erase( segs.begin() + i );
+		        for (auto it_c = begin(cur_segs); it_c != end(cur_segs); it_c++)
+                    segs.push_back( *it_c );
+        }
     }    
 
-    segs = new_segs;
 }
 
 

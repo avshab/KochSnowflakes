@@ -31,6 +31,8 @@ public:
 
     std::vector<KochSegment> Divide();
 
+    double GetLength() const;
+
 private:
 
     eGrowthDirection GetDirection() const;
@@ -41,7 +43,9 @@ private:
 
     bool is_visible;
 
-    KochUnitSegment seg;
+    KochUnitSegment seg;    
+
+    double l;
 
     BasePoint GetMiddlePoint( const BasePoint& p1, const BasePoint& p2, double k ) const;
 };

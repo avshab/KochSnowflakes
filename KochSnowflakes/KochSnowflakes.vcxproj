@@ -122,6 +122,7 @@
     <ClInclude Include="src\PainterI.h" />
     <ClInclude Include="src\PainterKochSnowflakes.h" />
     <ClInclude Include="src\ProcessMaster.h" />
+    <ClInclude Include="src\RandomAS.h" />
     <ClInclude Include="src\SnowflakesFractal.h" />
     <ClInclude Include="src\Styles.h" />
     <ClInclude Include="stdafx.h" />
@@ -144,6 +145,7 @@
     <ClCompile Include="src\PainterI.cpp" />
     <ClCompile Include="src\PainterKochSnowflakes.cpp" />
     <ClCompile Include="src\ProcessMaster.cpp" />
+    <ClCompile Include="src\RandomAS.cpp" />
     <ClCompile Include="src\SnowflakesFractal.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

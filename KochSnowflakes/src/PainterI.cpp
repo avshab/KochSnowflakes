@@ -94,6 +94,8 @@ void PainterI::OnPaint()
     SelectObject( hdcMem, oldScreen );
     DeleteObject( hScreen );
     DeleteDC( hdcMem );
+
+    model.Clear();
 }
 
 

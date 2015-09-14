@@ -15,11 +15,14 @@ ProcessMaster::ProcessMaster()
 	model->SetKochSegment( k1 );
     model->SetKochSegment( k2 );
     model->SetKochSegment( k3 );
+    fractal = new SnowflakesFractal();   
+    fractal->SetKochSegments(model->GetKochSegments());
 }
 
 
 ProcessMaster::~ProcessMaster()
 {
+    model->Clear();
     delete model;
 }
 
@@ -32,11 +35,10 @@ void ProcessMaster::SetPainter(PainterI *p)
 
 void ProcessMaster::Process()
 {
-	SnowflakesFractal fractal;
-	fractal.SetKochSegments(model->GetKochSegments());
-	fractal.Iterate();
+
+	fractal->Iterate();
     model->Clear();
-	model->SetKochSegments(fractal.GetKochSegments());
+	model->SetKochSegments(fractal->GetKochSegments());
 	painter->SetModel(model->GetModel());
 	painter->RedrawWindow();
 }

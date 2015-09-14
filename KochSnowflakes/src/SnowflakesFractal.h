@@ -1,7 +1,7 @@
 #pragma once
 #include "KochSegment.h"
 #include "CoordinatesModel.h"
-
+#include "RandomAS.h"
 
 class SnowflakesFractal
 {
@@ -16,6 +16,8 @@ public:
     std::vector<KochSegment> GetKochSegments() const;
 
 private:
+
+    RandomAS r_as;
 
     std::vector<KochSegment> segs;
 
