@@ -16,8 +16,7 @@ ProcessMaster::ProcessMaster()
 
 ProcessMaster::~ProcessMaster()
 {
-	delete painter;
-	delete model;
+    delete model;
 }
 
 void ProcessMaster::SetPainter(PainterI *p)

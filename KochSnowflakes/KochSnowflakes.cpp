@@ -49,6 +49,7 @@ BOOL CKochSnowflakesApp::InitInstance()
 	InitCtrls.dwICC = ICC_WIN95_CLASSES;
 	InitCommonControlsEx(&InitCtrls);
 
+    GdiplusStartup( &m_pGdiToken, &m_gdiplusStartupInput, NULL );
 	CWinApp::InitInstance();
 
 

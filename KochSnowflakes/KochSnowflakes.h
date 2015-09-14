@@ -19,6 +19,7 @@ class CKochSnowflakesApp : public CWinApp
 {
 public:
 	CKochSnowflakesApp();
+    ~CKochSnowflakesApp(){ GdiplusShutdown( m_pGdiToken ); };
 
 // Overrides
 public:
@@ -27,6 +28,9 @@ public:
 // Implementation
 
 	DECLARE_MESSAGE_MAP()
+private:
+    GdiplusStartupInput m_gdiplusStartupInput;
+    ULONG_PTR m_pGdiToken;
 };
 
 extern CKochSnowflakesApp theApp;
