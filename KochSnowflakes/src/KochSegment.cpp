@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "KochSegment.h"
 
+#include <cmath>
+
 namespace
 {
     const static double COEF = 1 / 3;
@@ -69,5 +71,9 @@ std::vector<KochSegment> KochSegment::Divide()
 
 eGrowthDirection KochSegment::GetDirection() const
 {
+    int y = rand();
+
+    if(y % 2 == 0.0)     
+        return eGrowthDirection::INSIDE;
     return eGrowthDirection::OUTSIDE;
 }
