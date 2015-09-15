@@ -13,7 +13,7 @@ SnowflakesFractal::SnowflakesFractal()
 void SnowflakesFractal::Iterate()
 {
     DoubleDivideAll();
-    SimpleRandom();
+   // SimpleRandom();
   //  DivideAll();
 }
                                                                                                 
