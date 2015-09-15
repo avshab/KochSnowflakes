@@ -49,6 +49,14 @@ void KochCoordModel::SetKochSegment(const KochSegment& seg)
 	CoordinatesPoint c2(pos_2, "p", true);
 	SegmentCoordPoints cpts(c1, c2);
 	ModelObject* s = new CoordinatesSegment(cpts, "segment", true);
+
+	if ((int)base_pts.p1.GetX() > 400)
+		s->SetColor(Color::Red);
+	else if ((int)base_pts.p1.GetY() < 300)
+		s->SetColor(Color::Blue);
+	else if ((int)base_pts.p2.GetX() < 300)
+		s->SetColor(Color::HotPink);
+
 	AddObject(eModelObjectType::BASE_SEGMENT, s);
     s = NULL;
 }
