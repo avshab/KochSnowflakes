@@ -24,21 +24,21 @@ ProcessMaster::~ProcessMaster()
 {
     model->Clear();
     delete model;
+    delete fractal;
 }
 
 void ProcessMaster::SetPainter(PainterI *p)
 {
 	painter = p;   
-    painter->SetModel( model->GetModel() );
+    painter->SetModel( &model->GetModel() );
     painter->RedrawWindow();
 }
 
 void ProcessMaster::Process()
 {
-
 	fractal->Iterate();
     model->Clear();
 	model->SetKochSegments(fractal->GetKochSegments());
-	painter->SetModel(model->GetModel());
+	painter->SetModel(&model->GetModel());
 	painter->RedrawWindow();
 }

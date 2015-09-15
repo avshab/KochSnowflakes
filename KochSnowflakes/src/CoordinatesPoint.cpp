@@ -23,19 +23,7 @@ void CoordinatesPoint::SetPos( const PointPos& pos_ )
 }
 
 
-void CoordinatesPoint::SetColor( Color color_ )
-{
-    color = color_;
-}
-
-
 PointPos CoordinatesPoint::GetPos() const
 {
     return pos;
-}
-
-
-Color CoordinatesPoint::GetColor() const
-{
-    return color;
 }

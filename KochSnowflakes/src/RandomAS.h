@@ -9,9 +9,12 @@ public:
 
     bool GetRandomAS( int current, int num, double w );
 
+    int GetRandomNumber() const;
 
 private:
 
-    double min_w;
+    double min_val;
+
+    double max_val;
 
 };

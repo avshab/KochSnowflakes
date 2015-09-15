@@ -6,35 +6,49 @@
 #include <cstdlib>
 
 RandomAS::RandomAS()
-    : min_w( 0.0 )
+    : min_val( 0.0 )
+    , max_val( 0.0 )
 {
   
 }
 
 
-bool RandomAS::GetRandomAS( int current, int num, double w )
+int RandomAS::GetRandomNumber() const
 {
+    Sleep( 100 );
     srand( time( NULL ) );
-    int x = rand() % 100 + 1;
+    int v = rand() % 100 + 1;
+    return v;
+}
 
 
+bool RandomAS::GetRandomAS( int current, int size, double w )
+{
+    int ver[3] = { 0, 0, 0 };
 
-    if (min_w == 0.0)
-    {   
-        min_w = w;
-        if (x > 49)
-            return true;
-    }   
+    if (min_val < w)
+    {
+        if ((max_val + min_val) / 2.0 < w)
+            ver[0] = 1;
+    }
 
-    if (min_w > w)
-        min_w = w;
-    
-    if ( w > min_w)
-        return true;
-   
-    if (x < 80  && x >20)
+    if (max_val < w)
+    {
+        max_val = w;
+
+    }
+    else
+        ver[1] = 1;
+
+    int t = GetRandomNumber();
+
+    if (t % 2 == 0)
+        ver[2] = 1;
+
+    int ver_sum = ver[0] + ver[1] + ver[2];
+
+    if (ver_sum < 3)
         return false;
-
 
     return true;
 }

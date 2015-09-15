@@ -22,19 +22,7 @@ void CoordinatesSegment::SetPoints( const SegmentCoordPoints& pts_ )
 }
 
 
-void CoordinatesSegment::SetColor( Color color_ )
-{
-    color = color_;
-}
-
-
 SegmentCoordPoints CoordinatesSegment::GetPoints() const
 {
     return pts;
-}
-
-
-Color CoordinatesSegment::GetColor() const
-{
-    return color;
 }

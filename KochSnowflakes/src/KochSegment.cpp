@@ -44,18 +44,18 @@ BasePoint KochSegment::GetMiddlePoint( const BasePoint& p1_, const BasePoint& p2
 }
 
 
-std::vector<KochSegment> KochSegment::Divide()
+std::vector<KochSegment> KochSegment::Divide( eGrowthDirection dir )
 {
     double R = seg.p2.GetLength( seg.p4 );
 
-    eGrowthDirection dir = GetDirection();
+    //eGrowthDirection dir = GetDirection();
 
     BasePoint b = GetMiddlePoint( seg.p2, seg.p4, 0.5 );
 
     double alfa; 
 
-     if (dir == eGrowthDirection::INSIDE)
-         alfa = ALFA;
+    if (dir == eGrowthDirection::INSIDE)
+        alfa = ALFA;
 
     if (dir == eGrowthDirection::OUTSIDE)
         alfa = -ALFA;

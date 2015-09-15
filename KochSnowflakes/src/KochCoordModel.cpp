@@ -26,6 +26,7 @@ std::vector<KochSegment> KochCoordModel::GetKochSegments() const
 		BasePoint p2(pts.c2.GetPos().x, pts.c2.GetPos().y, 0.0);
 		KochSegment ks(p1, p2);
 		segs.push_back(ks);
+        m = NULL;
 	}
 	return segs;
 }
@@ -48,4 +49,5 @@ void KochCoordModel::SetKochSegment(const KochSegment& seg)
 	SegmentCoordPoints cpts(c1, c2);
 	ModelObject* s = new CoordinatesSegment(cpts, "segment", true);
 	AddObject(eModelObjectType::BASE_SEGMENT, s);
+    s = NULL;
 }

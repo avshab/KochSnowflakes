@@ -35,3 +35,15 @@ bool ModelObject::IsVisible() const
 {
     return  is_visible;
 }
+
+
+void ModelObject::SetColor( Color color_ )
+{
+    color = color_;
+}
+
+
+Color ModelObject::GetColor() const
+{
+    return color;
+}

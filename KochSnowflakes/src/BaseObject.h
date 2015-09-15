@@ -18,7 +18,6 @@ public:
 
     bool IsVisible() const;
 
-    
 protected:
 
     std::string name; 

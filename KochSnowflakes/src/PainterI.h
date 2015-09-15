@@ -16,7 +16,7 @@ public:
 
     void OnPaint();
 
-    virtual void SetModel( const CoordinatesModel& model );
+    virtual void SetModel( CoordinatesModel* model );
 
 protected:
 

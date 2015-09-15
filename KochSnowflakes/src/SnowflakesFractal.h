@@ -21,4 +21,12 @@ private:
 
     std::vector<KochSegment> segs;
 
+    void DivideAll();    
+
+    void DoubleDivideAll();
+
+    void SimpleRandom();
+
+
+
 };

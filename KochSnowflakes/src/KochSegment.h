@@ -29,7 +29,7 @@ public:
 
     KochSegment();
 
-    std::vector<KochSegment> Divide();
+    std::vector<KochSegment> Divide( eGrowthDirection = eGrowthDirection::OUTSIDE );
 
     double GetLength() const;
 

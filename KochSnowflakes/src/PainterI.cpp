@@ -3,6 +3,7 @@
 #include "KochSegment.h"
 
 
+
 PainterI::PainterI()
 {
 
@@ -11,6 +12,8 @@ PainterI::PainterI()
 
 PainterI::~PainterI()
 {
+    model.Clear();
+    
     DestroyWindow();
 }
 
@@ -94,7 +97,6 @@ void PainterI::OnPaint()
     SelectObject( hdcMem, oldScreen );
     DeleteObject( hScreen );
     DeleteDC( hdcMem );
-
     model.Clear();
 }
 
@@ -111,12 +113,13 @@ void PainterI::PaintSegments(const std::vector<ModelObject*>& segments, Graphics
     Color color;
 	for (auto it = begin(segments); it != end(segments); it++)
     {
-        Color color = StylesFigures::section_lines_color;
+        Color color = dynamic_cast<CoordinatesSegment*>(*it)->GetColor();
         Pen pen( color, 1 );
-		CoordinatesSegment* s = dynamic_cast<CoordinatesSegment*>(*it);
-        Gdiplus::Point p1 = AdaptPointCoordinates( s->GetPoints().c1 );
-        Gdiplus::Point p2 = AdaptPointCoordinates( s->GetPoints().c2 );
+		//CoordinatesSegment* s = dynamic_cast<CoordinatesSegment*>(*it);
+        Gdiplus::Point p1 = AdaptPointCoordinates( dynamic_cast<CoordinatesSegment*>(*it)->GetPoints().c1 );
+        Gdiplus::Point p2 = AdaptPointCoordinates( dynamic_cast<CoordinatesSegment*>(*it)->GetPoints().c2 );
 		g->DrawLine(&pen, p1, p2);
+      //  delete s;
     }
 
 }
@@ -125,8 +128,8 @@ void PainterI::PaintPoints(const std::vector<ModelObject*>& points, Graphics* g)
 {
 	for (int i = 0; i < points.size(); i++)
 	{
-		CoordinatesPoint* s = dynamic_cast<CoordinatesPoint*>(points.at(i));
-		PaintPoint( *s, g );
+		//CoordinatesPoint* s = dynamic_cast<CoordinatesPoint*>(points.at(i));
+        PaintPoint( *dynamic_cast<CoordinatesPoint*>(points.at( i )), g );
 	}   
 }
 
@@ -150,7 +153,7 @@ void PainterI::PaintFace( int iteration, const CoordinatesFace& face, Graphics* 
 void PainterI::PaintFiguresFaces( const std::vector<CoordinatesFace>& faces, Graphics* g ) const
 {
     for (unsigned int i = 0; i < faces.size(); i++)
-        if (faces.at( i ).GetVisible())//IsVisibleSegment(i))       // if (i == 0 || i == 3 || i == 5)       //      
+        if (faces.at( i ).GetVisible())
             PaintFace( i, faces.at( i ), g );
 }
 
@@ -198,7 +201,7 @@ Gdiplus::Point PainterI::AdaptPointCoordinates(const CoordinatesPoint& p) const
 }
 
 
-void PainterI::SetModel( const CoordinatesModel& model_ )
+void PainterI::SetModel( CoordinatesModel* model_ )
 {
-    model = model_;
+    model.SetObjectMap(model_->GetObjectMap());
 }

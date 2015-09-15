@@ -30,6 +30,7 @@ CKochSnowflakesApp::CKochSnowflakesApp()
 }
 
 
+
 // The one and only CKochSnowflakesApp object
 
 CKochSnowflakesApp theApp;
@@ -76,12 +77,9 @@ BOOL CKochSnowflakesApp::InitInstance()
 	INT_PTR nResponse = dlg.DoModal();
 	if (nResponse == IDOK)
 	{
-		// TODO: Place code here to handle when the dialog is
-		//  dismissed with OK
 	}
 	else if (nResponse == IDCANCEL)
 	{
-        return FALSE;
 	}
 	else if (nResponse == -1)
 	{

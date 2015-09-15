@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+//#include "Styles.h"
 
 
 class ModelObject
@@ -18,8 +19,14 @@ public:
 
     bool IsVisible() const;
 
+    void SetColor( Color color );
+
+    Color GetColor() const;
+
     
 protected:
+
+    Color color;
 
     std::string name; 
 

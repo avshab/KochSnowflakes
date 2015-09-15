@@ -33,6 +33,7 @@ protected:
 	virtual BOOL OnInitDialog();
 
 	afx_msg HCURSOR OnQueryDragIcon();
+
 	DECLARE_MESSAGE_MAP()
 
 
@@ -43,7 +44,6 @@ private:
 	ProcessMaster process;
 
 public:
-
-	afx_msg void OnBnClickedOk();
-	//CStatic pic_view;
+    
+    afx_msg void OnBnClickedOk();
 };

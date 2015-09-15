@@ -1,5 +1,4 @@
-#pragma once
-#include "Styles.h"  
+#pragma once 
 #include "ModelObject.h"  
 #include <vector>
 
@@ -28,11 +27,7 @@ public:
 
     void SetPos( const PointPos& pos );
 
-    void SetColor( Color coor );
-
     PointPos GetPos() const;
-
-    Color GetColor() const;
 
 private:
 
@@ -42,5 +37,4 @@ private:
 
     bool is_visible;
 
-    Color color;
 };

@@ -28,8 +28,11 @@ bool CoordinatesModel::IsEmpty() const
 
 void CoordinatesModel::Clear()
 {
-    for (auto it = begin( obj_map.at( eModelObjectType::BASE_POINT ) ); it != end( obj_map.at( eModelObjectType::BASE_POINT ) ); it++)
-        delete *it;
+    for (int i = 0; i < obj_map.at( eModelObjectType::BASE_POINT ).size(); i++)
+        obj_map.at( eModelObjectType::BASE_POINT ).at( i ) = NULL;
+    for (int i = 0; i < obj_map.at( eModelObjectType::BASE_SEGMENT ).size(); i++)
+        obj_map.at( eModelObjectType::BASE_SEGMENT ).at( i ) = NULL;
+
     obj_map.at( eModelObjectType::BASE_POINT ).clear();
     obj_map.at( eModelObjectType::BASE_SEGMENT ).clear();
 }

@@ -27,11 +27,7 @@ public:
 
     void SetPoints( const SegmentCoordPoints& pts );
 
-    void SetColor( Color coor );
-
     SegmentCoordPoints GetPoints() const;
-
-    Color GetColor() const;
 
 private:
 
@@ -40,8 +36,6 @@ private:
     bool is_visible;
 
     SegmentCoordPoints pts;
-
-    Color color;
 };
 
 
