@@ -7,6 +7,7 @@ CoordinatesSegment::CoordinatesSegment( const SegmentCoordPoints& pts_, const st
     , name( name_ )
     , is_visible( is_visible_ )
 {
+	SetColor(Gdiplus::Color::DarkSeaGreen);
 };
 
 

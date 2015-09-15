@@ -11,6 +11,8 @@ class BasePoint
 
         BasePoint();
 
+		virtual ~BasePoint(){};
+
         bool IsEqual( const BasePoint& p ) const;
 
         bool IsOnesLine( const BasePoint& p1, const BasePoint& p2 ) const;

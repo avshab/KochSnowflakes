@@ -12,8 +12,6 @@ PainterI::PainterI()
 
 PainterI::~PainterI()
 {
-    model.Clear();
-    
     DestroyWindow();
 }
 
@@ -97,7 +95,6 @@ void PainterI::OnPaint()
     SelectObject( hdcMem, oldScreen );
     DeleteObject( hScreen );
     DeleteDC( hdcMem );
-    model.Clear();
 }
 
 
@@ -113,13 +110,11 @@ void PainterI::PaintSegments(const std::vector<ModelObject*>& segments, Graphics
     Color color;
 	for (auto it = begin(segments); it != end(segments); it++)
     {
-        Color color = dynamic_cast<CoordinatesSegment*>(*it)->GetColor();
+		Color color = dynamic_cast<CoordinatesSegment*>(*it)->GetColor();
         Pen pen( color, 1 );
-		//CoordinatesSegment* s = dynamic_cast<CoordinatesSegment*>(*it);
         Gdiplus::Point p1 = AdaptPointCoordinates( dynamic_cast<CoordinatesSegment*>(*it)->GetPoints().c1 );
         Gdiplus::Point p2 = AdaptPointCoordinates( dynamic_cast<CoordinatesSegment*>(*it)->GetPoints().c2 );
 		g->DrawLine(&pen, p1, p2);
-      //  delete s;
     }
 
 }
@@ -127,10 +122,7 @@ void PainterI::PaintSegments(const std::vector<ModelObject*>& segments, Graphics
 void PainterI::PaintPoints(const std::vector<ModelObject*>& points, Graphics* g) const
 {
 	for (int i = 0; i < points.size(); i++)
-	{
-		//CoordinatesPoint* s = dynamic_cast<CoordinatesPoint*>(points.at(i));
         PaintPoint( *dynamic_cast<CoordinatesPoint*>(points.at( i )), g );
-	}   
 }
 
 

@@ -13,7 +13,6 @@ CoordinatesModel::CoordinatesModel()
 
 CoordinatesModel::~CoordinatesModel()
 {
-    Clear();
 }
 
 
@@ -29,12 +28,15 @@ bool CoordinatesModel::IsEmpty() const
 void CoordinatesModel::Clear()
 {
     for (int i = 0; i < obj_map.at( eModelObjectType::BASE_POINT ).size(); i++)
-        obj_map.at( eModelObjectType::BASE_POINT ).at( i ) = NULL;
+        delete[] obj_map.at( eModelObjectType::BASE_POINT ).at( i );
     for (int i = 0; i < obj_map.at( eModelObjectType::BASE_SEGMENT ).size(); i++)
-        obj_map.at( eModelObjectType::BASE_SEGMENT ).at( i ) = NULL;
+		delete[] obj_map.at(eModelObjectType::BASE_SEGMENT).at(i);
 
-    obj_map.at( eModelObjectType::BASE_POINT ).clear();
+
     obj_map.at( eModelObjectType::BASE_SEGMENT ).clear();
+	obj_map.at(eModelObjectType::BASE_SEGMENT).shrink_to_fit();
+	obj_map.at( eModelObjectType::BASE_POINT ).clear();
+	obj_map.at(eModelObjectType::BASE_POINT).shrink_to_fit();
 }
 
 

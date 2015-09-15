@@ -5,8 +5,10 @@
 #include <ctime>
 #include <cstdlib>
 
+
+
 RandomAS::RandomAS()
-    : min_val( 0.0 )
+    : min_val( 100.0 )
     , max_val( 0.0 )
 {
   
@@ -15,7 +17,7 @@ RandomAS::RandomAS()
 
 int RandomAS::GetRandomNumber() const
 {
-    Sleep( 100 );
+    Sleep( 10 );
     srand( time( NULL ) );
     int v = rand() % 100 + 1;
     return v;
@@ -47,7 +49,7 @@ bool RandomAS::GetRandomAS( int current, int size, double w )
 
     int ver_sum = ver[0] + ver[1] + ver[2];
 
-    if (ver_sum < 3)
+    if (ver_sum < 2)
         return false;
 
     return true;

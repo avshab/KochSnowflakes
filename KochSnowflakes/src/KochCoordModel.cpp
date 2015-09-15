@@ -34,6 +34,7 @@ std::vector<KochSegment> KochCoordModel::GetKochSegments() const
 
 void KochCoordModel::SetKochSegments(const std::vector<KochSegment>& segs_)
 {
+	Clear();
 	for (auto it = begin(segs_); it != end(segs_); it++)
 		SetKochSegment(*it);
 }

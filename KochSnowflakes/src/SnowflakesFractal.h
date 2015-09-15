@@ -27,6 +27,8 @@ private:
 
     void SimpleRandom();
 
+	void DoubleSimpleRandom();
+
 
 
 };

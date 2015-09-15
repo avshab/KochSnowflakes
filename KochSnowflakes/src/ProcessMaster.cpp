@@ -37,7 +37,7 @@ void ProcessMaster::SetPainter(PainterI *p)
 void ProcessMaster::Process()
 {
 	fractal->Iterate();
-    model->Clear();
+   
 	model->SetKochSegments(fractal->GetKochSegments());
 	painter->SetModel(&model->GetModel());
 	painter->RedrawWindow();

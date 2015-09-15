@@ -11,6 +11,8 @@ public:
 
     CoordinatesFace();
 
+	virtual ~CoordinatesFace(){};
+
     void SetName( const std::string& name );
 
     void SetVisible( bool is_visible );

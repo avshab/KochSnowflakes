@@ -10,6 +10,8 @@ public:
 
     BaseLine();
 
+	virtual ~BaseLine(){};
+
     void SetName( const std::string& name_str );
 
     virtual std::string GetName() const;
