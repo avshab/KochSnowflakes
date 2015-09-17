@@ -24,7 +24,7 @@ int RandomAS::GetRandomNumber() const
 }
 
 
-bool RandomAS::GetRandomAS( int current, int size, double w )
+bool RandomAS::IsDivideRandom( int current, int size, double w )
 {
     int ver[3] = { 0, 0, 0 };
 

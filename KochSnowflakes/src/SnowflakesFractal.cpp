@@ -52,7 +52,7 @@ void SnowflakesFractal::SimpleRandom()
 
     for (int i = 0; i < s; i++)
     {
-        if (r_as.GetRandomAS( i, s, segs.at( i ).GetLength() ))
+        if (r_as.IsDivideRandom( i, s, segs.at( i ).GetLength() ))
         {
             std::vector<KochSegment> cur_segs = segs.at( i ).Divide();
             segs.erase( segs.begin() + i );
@@ -81,7 +81,7 @@ void SnowflakesFractal::DoubleSimpleRandom()
 		random_status++;
 		if (random_status > 5)
 			random_status = 0;
-		if (r_as.GetRandomAS(i, s, segs.at(i).GetLength()))
+        if (r_as.IsDivideRandom( i, s, segs.at( i ).GetLength() ))
 		{
 
 			std::vector<KochSegment> cur_segs = segs.at(i).Divide(grow_dir);
@@ -107,7 +107,7 @@ void SnowflakesFractal::DoubleSimpleRandom()
 		random_status++;
 		if (random_status > 5)
 			random_status = 0;
-		if (r_as.GetRandomAS(i, s, segs.at(i).GetLength()))
+        if (r_as.IsDivideRandom( i, s, segs.at( i ).GetLength() ))
 		{
 
 			std::vector<KochSegment> cur_segs = segs.at(i).Divide(grow_dir);

@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 
 
 class RandomAS 
@@ -7,9 +7,11 @@ public:
 
     RandomAS();
 
-    bool GetRandomAS( int current, int num, double w );
+    bool IsDivideRandom( int current, int num, double w );
 
     int GetRandomNumber() const;
+
+    //int GetRandomNumber() const;
 
 private:
 
