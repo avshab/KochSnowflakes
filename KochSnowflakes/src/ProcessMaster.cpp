@@ -10,18 +10,11 @@ ProcessMaster::ProcessMaster()
 	model = new KochCoordModel();
 	model->SetModelName("Koch Model");
 	KochSegment k1( BasePoint( 200, 200, 0 ), BasePoint( 500, 200, 0 ) );
-    KochSegment k2( BasePoint( 500, 200, 0 ), BasePoint( 350, 459.80762113533160, 0 ) );
-    KochSegment k3( BasePoint( 350, 459.80762113533160, 0 ), BasePoint( 200, 200, 0 ) );
-
-    KochSegment k4( BasePoint( 300, 250, 0 ), BasePoint( 400, 250, 0 ) );
-    KochSegment k5( BasePoint( 400, 250, 0 ), BasePoint( 350, 359.80762113533160, 0 ) );
-    KochSegment k6( BasePoint( 350, 359.80762113533160, 0 ), BasePoint( 300, 250, 0 ) );
+    BasePoint pc = k1.GetPointIsosTriangle( eGrowthDirection::INSIDE );
 	model->SetKochSegment( k1 );
-    model->SetKochSegment( k2 );
-    model->SetKochSegment( k3 );
-    model->SetKochSegment( k4 );
-    model->SetKochSegment( k5 );
-    model->SetKochSegment( k6 );
+    model->SetKochSegment( KochSegment( BasePoint( 500, 200, 0 ), pc ) );
+    model->SetKochSegment( KochSegment( pc, BasePoint( 200, 200, 0 ) ) );
+
     fractal = new SnowflakesFractal();   
     fractal->SetKochSegments(model->GetKochSegments());
 }

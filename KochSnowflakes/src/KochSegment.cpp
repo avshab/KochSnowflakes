@@ -44,15 +44,9 @@ BasePoint KochSegment::GetMiddlePoint( const BasePoint& p1_, const BasePoint& p2
 }
 
 
-std::vector<KochSegment> KochSegment::Divide( eGrowthDirection dir )
+BasePoint KochSegment::GetPointIsosTriangle( eGrowthDirection dir ) const
 {
-    double R = seg.p2.GetLength( seg.p4 );
-
-    //eGrowthDirection dir = GetDirection();
-
-    BasePoint b = GetMiddlePoint( seg.p2, seg.p4, 0.5 );
-
-    double alfa; 
+    double alfa;
 
     if (dir == eGrowthDirection::INSIDE)
         alfa = ALFA;
@@ -60,13 +54,18 @@ std::vector<KochSegment> KochSegment::Divide( eGrowthDirection dir )
     if (dir == eGrowthDirection::OUTSIDE)
         alfa = -ALFA;
 
-    double Bx = cos( alfa ) * (seg.p4.GetX() - seg.p2.GetX()) - sin( alfa ) * (seg.p4.GetY() - seg.p2.GetY());
-    double By = sin( alfa ) * (seg.p4.GetX() - seg.p2.GetX()) + cos( alfa ) * (seg.p4.GetY() - seg.p2.GetY());
-   
-    seg.p3 = BasePoint( seg.p2.GetX() + Bx, seg.p2.GetY() + By, seg.p1.GetZ() );
+
+    double Bx = cos( alfa ) * (seg.p5.GetX() - seg.p1.GetX()) - sin( alfa ) * (seg.p5.GetY() - seg.p1.GetY());
+    double By = sin( alfa ) * (seg.p5.GetX() - seg.p1.GetX()) + cos( alfa ) * (seg.p5.GetY() - seg.p1.GetY());
+
+    return  BasePoint( seg.p1.GetX() + Bx, seg.p1.GetY() + By, seg.p1.GetZ() );
+}
+
+std::vector<KochSegment> KochSegment::Divide( eGrowthDirection dir )
+{
+    seg.p3 = KochSegment( seg.p2, seg.p4 ).GetPointIsosTriangle( dir );
 
     std::vector<KochSegment> segs;
-
     segs.push_back( KochSegment( seg.p1, seg.p2 ) );
     segs.push_back( KochSegment( seg.p2, seg.p3 ) );
     segs.push_back( KochSegment( seg.p3, seg.p4 ) );

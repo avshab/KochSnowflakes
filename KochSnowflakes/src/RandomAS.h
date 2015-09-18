@@ -11,7 +11,7 @@ public:
 
     int GetRandomNumber() const;
 
-    //int GetRandomNumber() const;
+    //int GetRandomNumbers( int current, int num, double w ); const;
 
 private:
 

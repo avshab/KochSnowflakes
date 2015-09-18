@@ -33,6 +33,5 @@ private:
 
 	void DoubleSimpleRandom();
 
-
-
+    void NewRandom();
 };

@@ -31,6 +31,8 @@ public:
 
     std::vector<KochSegment> Divide( eGrowthDirection = eGrowthDirection::OUTSIDE );
 
+    BasePoint GetPointIsosTriangle( eGrowthDirection = eGrowthDirection::OUTSIDE ) const;
+
     double GetLength() const;
 
 private:
