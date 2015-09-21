@@ -5,6 +5,7 @@
 BaseSegment::BaseSegment( const BasePoint& p1_, const BasePoint& p2_ )
 	: pts(p1_, p2_)
 {
+    length = pts.p1.GetLength( pts.p2 );
 }
 
 
@@ -37,4 +38,19 @@ void BaseSegment::SetBasePoints(const SegmentBasePoints& pts_)
 SegmentBasePoints BaseSegment::GetBasePoints() const
 {
 	return pts;
+}
+
+
+BaseSegment BaseSegment::Rotate( double alf_ ) const
+{
+    double alfa = alf_ * 3.14159265 / 180.0;
+    double Bx = cos( alfa ) * length;
+    double By = sin( alfa ) * length;
+    BasePoint p( pts.p1.GetX() + Bx, pts.p1.GetY() + By, pts.p1.GetZ() );
+    return  BaseSegment( pts.p1, p );
+}
+
+double BaseSegment::GetLength() const
+{
+    return length;
 }

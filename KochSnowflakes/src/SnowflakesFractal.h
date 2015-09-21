@@ -15,6 +15,8 @@ public:
 
     std::vector<KochSegment> GetKochSegments() const;
 
+    void SetCenterPoint( const BasePoint& p );
+
 private:
 
     RandomAS r_as;
@@ -22,6 +24,14 @@ private:
     std::vector<KochSegment> segs;
 
 	int random_status;
+
+    double min_w;
+
+    int rand_size;
+
+    double iter;
+
+    BasePoint center_point;
 
 private:
 
@@ -34,4 +44,9 @@ private:
 	void DoubleSimpleRandom();
 
     void NewRandom();
+
+    void CenterRandom();
+
+
+    void StartNewSnowflakesSegment();
 };

@@ -17,6 +17,11 @@ public:
 	void Process();
 
 	void SetPainter(PainterI *p);
+
+
+
+
+
 private:
 
 	PainterI *painter;
@@ -24,5 +29,7 @@ private:
 	KochCoordModel* model;
 
     SnowflakesFractal *fractal;
+
+
 };
 

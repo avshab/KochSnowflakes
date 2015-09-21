@@ -10,16 +10,18 @@
 RandomAS::RandomAS()
     : min_val( 100.0 )
     , max_val( 0.0 )
+    , num_iter( 0 )
 {
   
 }
 
 
-int RandomAS::GetRandomNumber() const
+int RandomAS::GetRandomNumber( int base ) const
 {
-    Sleep( 10 );
+    Sleep( 5 );
     srand( time( NULL ) );
-    int v = rand() % 100 + 1;
+
+    int v = rand() % base;
     return v;
 }
 
@@ -42,7 +44,7 @@ bool RandomAS::IsDivideRandom( int current, int size, double w )
     else
         ver[1] = 1;
 
-    int t = GetRandomNumber();
+    int t = GetRandomNumber( 100 );
 
     if (t % 2 == 0)
         ver[2] = 1;
@@ -53,4 +55,63 @@ bool RandomAS::IsDivideRandom( int current, int size, double w )
         return false;
 
     return true;
+}
+
+
+Color RandomAS::GetRandomColor()
+{
+    int col = GetRandomNumber( 5 );
+
+    switch (col)
+    {
+        case 0:
+            return Color::Orange;
+            break;
+        case 1:
+            return Color::Blue;
+            break;
+        case 2:
+            return Color::Red;
+            break;    
+        case 3:
+            return Color::Green;
+            break;
+        case 4:
+            return Color::Fuchsia;
+            break;
+        default:
+            return Color::White;
+            break;
+    }
+}
+
+
+#include <Windows.h>
+#include <iostream>
+#include <sstream>
+int* RandomAS::GetRandomNumbers( int randoms, int w )
+{
+    num_iter++;
+
+
+    int s = 2;
+    if (randoms > s)
+        s = randoms;
+
+    int first = GetRandomNumber( s );
+    int second = GetRandomNumber( s );
+
+    
+    while (second == first)
+        second = GetRandomNumber( s );
+
+    int ver[2] = { first, second };
+    OutputDebugStringW( L"New Iteration  " );
+
+    std::wostringstream os_;    
+    os_ << num_iter << "  ( " << randoms << " )  elements" << std::endl << "first: " << first << "    second: " << second << std::endl;
+    OutputDebugStringW( os_.str().c_str() );
+
+
+    return ver;
 }

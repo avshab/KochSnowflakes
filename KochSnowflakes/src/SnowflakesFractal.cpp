@@ -7,6 +7,8 @@ const static int MAX_RANDOM = 6;
 SnowflakesFractal::SnowflakesFractal()
 	: random_status(0)
 {
+    rand_size = 3;
+    iter = 0;
 
 }
 
@@ -16,7 +18,7 @@ void SnowflakesFractal::Iterate()
     //DoubleDivideAll();
     //SimpleRandom();
     //DivideAll();
-	DoubleSimpleRandom();
+    NewRandom();
 
 }
                                                                                                 
@@ -128,13 +130,113 @@ void SnowflakesFractal::DoubleDivideAll()
     for (auto it = begin( segs ); it != end( segs ); it++)
     {
         std::vector<KochSegment> cur_segs = it->Divide( eGrowthDirection::INSIDE );
-        for (auto it_c = begin( cur_segs ); it_c != end( cur_segs ); it_c++)
-            new_segs.push_back( *it_c );
-
         cur_segs = it->Divide( eGrowthDirection::OUTSIDE );
         for (auto it_c = begin( cur_segs ); it_c != end( cur_segs ); it_c++)
             new_segs.push_back( *it_c );
     }
     segs.clear();
     segs = new_segs;
+    new_segs.clear();
+    for (auto it = begin( segs ); it != end( segs ); it++)
+    {
+        std::vector<KochSegment> cur_segs = it->Divide( eGrowthDirection::INSIDE );
+        for (auto it_c = begin( cur_segs ); it_c != end( cur_segs ); it_c++)
+            new_segs.push_back( *it_c );
+    }
+    segs.clear();
+    segs = new_segs;
+}
+
+
+void SnowflakesFractal::NewRandom()
+{
+    min_w = segs.at( 0 ).GetLength();
+    int s = segs.size(); 
+    int* objs = r_as.GetRandomNumbers( rand_size, s );
+    int del_objs[2] = { objs[0], objs[1] };
+    
+    
+    std::vector<KochSegment> cur_segs_1= segs.at( del_objs[0] ).Divide( eGrowthDirection::INSIDE );  
+    std::vector<KochSegment> cur_segs_2 = segs.at( del_objs[1] ).Divide( eGrowthDirection::OUTSIDE );    
+    segs.erase( segs.begin() + del_objs[0] );
+    if (del_objs[0] < del_objs[1])
+        segs.erase( segs.begin() + del_objs[1] - 1 );
+    else
+        segs.erase( segs.begin() + del_objs[1] );
+
+    for (auto it_c = begin( cur_segs_1 ); it_c != end( cur_segs_1 ); it_c++)
+        segs.push_back( *it_c );
+
+    for (auto it_c = begin( cur_segs_2 ); it_c != end( cur_segs_2 ); it_c++)
+        segs.push_back( *it_c );
+
+
+    s = segs.size();
+    iter += 0.2;
+    rand_size += (int)( iter );
+
+    if (rand_size % 5 == 0)
+        StartNewSnowflakesSegment();
+}
+
+
+void SnowflakesFractal::CenterRandom()
+{
+    int s = segs.size();
+    int R = r_as.GetRandomNumber( 100 );
+
+
+    //std::vector<KochSegment> cur_segs_1 = segs.at( del_objs[0] ).Divide( eGrowthDirection::INSIDE );
+    //std::vector<KochSegment> cur_segs_2 = segs.at( del_objs[1] ).Divide( eGrowthDirection::OUTSIDE );
+    //segs.erase( segs.begin() + del_objs[0] );
+    //if (del_objs[0] < del_objs[1])
+    //    segs.erase( segs.begin() + del_objs[1] - 1 );
+    //else
+    //    segs.erase( segs.begin() + del_objs[1] );
+
+    //for (auto it_c = begin( cur_segs_1 ); it_c != end( cur_segs_1 ); it_c++)
+    //    segs.push_back( *it_c );
+
+    //for (auto it_c = begin( cur_segs_2 ); it_c != end( cur_segs_2 ); it_c++)
+    //    segs.push_back( *it_c );
+
+
+    //s = segs.size();
+    //iter += 0.2;
+    //rand_size += (int)(iter);
+
+    //if (rand_size % 10 == 0)
+    //    StartNewSnowflakesSegment();
+}
+
+
+void SnowflakesFractal::StartNewSnowflakesSegment()
+{
+    int* objs = r_as.GetRandomNumbers( 300, 360 );
+    int par_m[2] = { objs[0], objs[1] };
+    std::vector<KochSegment> vect;
+    BasePoint p1( center_point );
+    p1.SetX( p1.GetX() + par_m[0] );
+
+    KochSegment s1( center_point, p1 );
+    KochSegment s2( s1.Rotate( 120 ) );
+    KochSegment s3( s1.Rotate( 240 ) );
+   
+    vect.push_back( KochSegment( p1, s2.GetBasePoints().p2 ) );
+    vect.push_back( KochSegment( s2.GetBasePoints().p2, s3.GetBasePoints().p2 ) );
+    vect.push_back( KochSegment( s3.GetBasePoints().p2, p1 ) );
+    Color c = r_as.GetRandomColor();
+    for (auto it = begin( vect ); it != end( vect ); it++)
+    {
+        it->SetColor( c );
+        segs.insert( segs.begin(), *it );
+    }
+    rand_size = 3;
+    iter = 0;
+        
+}
+
+void SnowflakesFractal::SetCenterPoint( const BasePoint& p )
+{
+    center_point = p;
 }

@@ -9,14 +9,18 @@ public:
 
     bool IsDivideRandom( int current, int num, double w );
 
-    int GetRandomNumber() const;
+    int GetRandomNumber( int base ) const;
 
-    //int GetRandomNumbers( int current, int num, double w ); const;
+    int* GetRandomNumbers( int num, int w );
+
+    Color GetRandomColor();
 
 private:
 
     double min_val;
 
     double max_val;
+
+    int num_iter;
 
 };

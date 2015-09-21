@@ -21,7 +21,13 @@ KochSegment::KochSegment( const BasePoint& p1_, const BasePoint& p2_ )
     double k = 1.0 / 3.0;
     seg.p2 = GetMiddlePoint( seg.p1, seg.p5, k );
     seg.p4 = GetMiddlePoint( seg.p5, seg.p1, k );
-    l = seg.p1.GetLength( seg.p5 );
+
+}
+
+KochSegment::KochSegment( const BaseSegment& s )
+    : BaseSegment( s.GetBasePoints().p1, s.GetBasePoints().p2 )
+{
+    KochSegment( s.GetBasePoints().p1, s.GetBasePoints().p2 );
 }
  
 
@@ -30,11 +36,6 @@ KochSegment::KochSegment()
   
 }
 
-
-double KochSegment::GetLength() const
-{
-    return l;
-}
 
 
 BasePoint KochSegment::GetMiddlePoint( const BasePoint& p1_, const BasePoint& p2_, double k ) const
@@ -55,6 +56,7 @@ BasePoint KochSegment::GetPointIsosTriangle( eGrowthDirection dir ) const
         alfa = -ALFA;
 
 
+
     double Bx = cos( alfa ) * (seg.p5.GetX() - seg.p1.GetX()) - sin( alfa ) * (seg.p5.GetY() - seg.p1.GetY());
     double By = sin( alfa ) * (seg.p5.GetX() - seg.p1.GetX()) + cos( alfa ) * (seg.p5.GetY() - seg.p1.GetY());
 
@@ -71,6 +73,8 @@ std::vector<KochSegment> KochSegment::Divide( eGrowthDirection dir )
     segs.push_back( KochSegment( seg.p3, seg.p4 ) );
     segs.push_back( KochSegment( seg.p4, seg.p5 ) );
 
+    for (auto it = begin( segs ); it != end( segs ); it++)
+        it->SetColor( GetColor() );
     return segs;
 }
 
@@ -83,3 +87,4 @@ eGrowthDirection KochSegment::GetDirection() const
         return eGrowthDirection::INSIDE;
     return eGrowthDirection::OUTSIDE;
 }
+

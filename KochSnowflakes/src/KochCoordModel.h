@@ -17,10 +17,14 @@ public:
 
 	void SetKochSegments( const std::vector<KochSegment>& segs );
 
-	void SetKochSegment(const KochSegment& seg);
+	void SetKochSegment(const KochSegment& seg);  
+    
+    void SetCenterPoint( const BasePoint& p );
 
 private:
 
 	std::vector<KochSegment> segments;
+
+    BasePoint  base_point;
 
 };

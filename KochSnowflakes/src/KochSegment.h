@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseSegment.h"
+#include "ModelObject.h"
 
 #include<vector>
 
@@ -21,19 +22,20 @@ struct KochUnitSegment
 
 
 class KochSegment :
-    public BaseSegment
+    public BaseSegment, public ModelObject
 {
 public:
 
     KochSegment( const BasePoint& p1, const BasePoint& p2 );
+
+    KochSegment( const BaseSegment& s );
+
 
     KochSegment();
 
     std::vector<KochSegment> Divide( eGrowthDirection = eGrowthDirection::OUTSIDE );
 
     BasePoint GetPointIsosTriangle( eGrowthDirection = eGrowthDirection::OUTSIDE ) const;
-
-    double GetLength() const;
 
 private:
 
@@ -47,7 +49,7 @@ private:
 
     KochUnitSegment seg;    
 
-    double l;
 
     BasePoint GetMiddlePoint( const BasePoint& p1, const BasePoint& p2, double k ) const;
+
 };

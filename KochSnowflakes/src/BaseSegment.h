@@ -25,11 +25,18 @@ public:
 
 	SegmentBasePoints GetBasePoints() const;
 
+
+    BaseSegment Rotate( double alfa ) const;
+
+    double GetLength() const;
+
 protected:
 
     bool IsEqual( const BaseSegment& l ) const;
     
 protected:
+
+    double length;
 
 	SegmentBasePoints pts;
 };
