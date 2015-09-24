@@ -21,7 +21,7 @@ std::vector<KochSegment> KochCoordModel::GetKochSegments() const
 	for (int i = 0; i < cs.size(); i++)
 	{
 		CoordinatesSegment* m = dynamic_cast<CoordinatesSegment*>(cs.at(i));
-		SegmentCoordPoints pts = m->GetPoints();
+		SegmentCoordPoints pts = m->GetUnitPoints();
 		BasePoint p1(pts.c1.GetPos().x, pts.c1.GetPos().y, 0.0);
 		BasePoint p2(pts.c2.GetPos().x, pts.c2.GetPos().y, 0.0);
 		KochSegment ks(p1, p2);
@@ -58,24 +58,10 @@ void KochCoordModel::SetKochSegment(const KochSegment& seg)
     s = NULL;
 }
 
-#include "RandomAS.h"
+
 void KochCoordModel::SetCenterPoint( const BasePoint& p )
 {
     base_point = p;    
-
-    RandomAS r_as;
-    int* objs = r_as.GetRandomNumbers( 300, 360 );
-    int par_m[2] = { objs[0], objs[1] };
-
-    BasePoint p1( p );
-    p1.SetX( p1.GetX() + par_m[0] );
-
-    KochSegment s1( p, p1 );
-    KochSegment s2( s1.Rotate( 120 ) );
-    KochSegment s3( s1.Rotate( 240 ) );
-    SetKochSegment( KochSegment( p1,  s2.GetBasePoints().p2 ) );
-    SetKochSegment( KochSegment( s2.GetBasePoints().p2, s3.GetBasePoints().p2 ) );
-    SetKochSegment( KochSegment( s3.GetBasePoints().p2, p1 ) );
 }
 
 

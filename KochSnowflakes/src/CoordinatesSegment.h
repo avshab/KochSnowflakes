@@ -27,7 +27,7 @@ public:
 
     void SetPoints( const SegmentCoordPoints& pts );
 
-    SegmentCoordPoints GetPoints() const;
+    SegmentCoordPoints GetUnitPoints() const;
 
 private:
 

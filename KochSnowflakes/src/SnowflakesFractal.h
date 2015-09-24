@@ -2,6 +2,8 @@
 #include "KochSegment.h"
 #include "CoordinatesModel.h"
 #include "RandomAS.h"
+#include "KochTriangle.h"
+
 
 class SnowflakesFractal
 {
@@ -23,6 +25,8 @@ private:
 
     std::vector<KochSegment> segs;
 
+    std::vector<KochTriangle> tris;
+
 	int random_status;
 
     double min_w;
@@ -32,6 +36,8 @@ private:
     double iter;
 
     BasePoint center_point;
+
+  
 
 private:
 
@@ -47,6 +53,7 @@ private:
 
     void CenterRandom();
 
+    void DivideTriangles();
 
     void StartNewSnowflakesSegment();
 };

@@ -107,16 +107,39 @@ bool PainterI::IsDushSegment( int id_elem ) const
 
 void PainterI::PaintSegments(const std::vector<ModelObject*>& segments, Graphics* g) const
 {
-    Color color;
 	for (auto it = begin(segments); it != end(segments); it++)
     {
-		Color color = dynamic_cast<CoordinatesSegment*>(*it)->GetColor();
+		Color cr = dynamic_cast<CoordinatesSegment*>(*it)->GetColor();
+        
+        Gdiplus::Point p1 = AdaptPointCoordinates( dynamic_cast<CoordinatesSegment*>(*it)->GetUnitPoints().c1 );
+        Gdiplus::Point p2 = AdaptPointCoordinates( dynamic_cast<CoordinatesSegment*>(*it)->GetUnitPoints().c2 );
+
+        Color color( cr.GetRed(), cr.GetGreen(), cr.GetBlue() );    
         Pen pen( color, 1 );
-        Gdiplus::Point p1 = AdaptPointCoordinates( dynamic_cast<CoordinatesSegment*>(*it)->GetPoints().c1 );
-        Gdiplus::Point p2 = AdaptPointCoordinates( dynamic_cast<CoordinatesSegment*>(*it)->GetPoints().c2 );
+        SolidBrush brush( color );
 		g->DrawLine(&pen, p1, p2);
+        //Point pts[4];
+        //pts[0] = p1;   
+        //pts[2] = Gdiplus::Point(p2.X + 5, p2.Y + 5  );
+        //pts[3] = p2;
+        //pts[1] = Gdiplus::Point( p1.X + 5, p1.Y + 5  );  
+        //g->FillPolygon( &brush, pts, 4 );
     }
 
+
+    //for (int i = segments.size() - 1; i >= 0; i--)
+    //{
+    //    Color cr = dynamic_cast<CoordinatesSegment*>(segments.at(i))->GetColor();
+    //    Color color( 60, cr.GetRed(), cr.GetGreen(), cr.GetBlue() );
+    //    Pen pen( color, 1 );
+    //    Gdiplus::Point p1 = AdaptPointCoordinates( dynamic_cast<CoordinatesSegment*>(segments.at( i ))->GetUnitPoints().c1 );
+    //    Gdiplus::Point p2 = AdaptPointCoordinates( dynamic_cast<CoordinatesSegment*>(segments.at( i ))->GetUnitPoints().c2 );
+    //  //  g->DrawLine( &pen, p1, p2 );
+    //    SolidBrush brush( color );
+    //    int r = (int)sqrt( (p2.X - p1.X) * (p2.X - p1.X) + (p2.Y - p1.Y) * (p2.Y - p1.Y) );
+    //   // g->DrawEllipse( &pen, Rect( p1.X - (int)r / 2, p1.Y - ( int )r / 2, r, r ) );
+    //    g->FillEllipse( &brush, Rect( p1.X - (int)r / 2, p1.Y - (int)r / 2, r, r ) );
+    //}
 }
 
 void PainterI::PaintPoints(const std::vector<ModelObject*>& points, Graphics* g) const

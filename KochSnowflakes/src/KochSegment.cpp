@@ -7,6 +7,25 @@ namespace
 {
     const static double COEF = 1.0 / 3.0;
     const static double ALFA = 60.0 * 3.14159265 / 180.0;
+
+    BasePoint GetThirdPoint( BaseSegment* s, eGrowthDirection dir = eGrowthDirection::OUTSIDE )
+    {
+        double alfa;
+
+        if (dir == eGrowthDirection::INSIDE)
+            alfa = ALFA;
+
+        if (dir == eGrowthDirection::OUTSIDE)
+            alfa = -ALFA;
+
+        SegmentBasePoints bp = s->GetBasePoints();
+
+        double Bx = cos( alfa ) * (bp.p2.GetX() - bp.p1.GetX()) - sin( alfa ) * (bp.p2.GetY() - bp.p1.GetY());
+        double By = sin( alfa ) * (bp.p2.GetX() - bp.p1.GetX()) + cos( alfa ) * (bp.p2.GetY() - bp.p1.GetY());
+
+        return  BasePoint( bp.p1.GetX() + Bx, bp.p1.GetY() + By, bp.p1.GetZ() );
+    }
+
 }
 
 
@@ -14,6 +33,7 @@ namespace
 KochSegment::KochSegment( const BasePoint& p1_, const BasePoint& p2_ )
 	: BaseSegment(p1_,p2_)
 {
+    BaseSegment sn( p1_, p2_ );
     seg.p1 = p1_;
     seg.p1.SetZ( 0.0 );
     seg.p5 = p2_; 
@@ -21,13 +41,24 @@ KochSegment::KochSegment( const BasePoint& p1_, const BasePoint& p2_ )
     double k = 1.0 / 3.0;
     seg.p2 = GetMiddlePoint( seg.p1, seg.p5, k );
     seg.p4 = GetMiddlePoint( seg.p5, seg.p1, k );
-
+    opposite_point = GetThirdPoint( &sn, eGrowthDirection::INSIDE );
+    order_iteration = 0;
 }
 
 KochSegment::KochSegment( const BaseSegment& s )
-    : BaseSegment( s.GetBasePoints().p1, s.GetBasePoints().p2 )
+    : BaseSegment( s )
 {
-    KochSegment( s.GetBasePoints().p1, s.GetBasePoints().p2 );
+    SegmentBasePoints bp = GetBasePoints();
+    BaseSegment sn = s;
+    seg.p1 = bp.p1;
+    seg.p1.SetZ( 0.0 );
+    seg.p5 = bp.p2;
+    seg.p5.SetZ( 0.0 );
+    double k = 1.0 / 3.0;
+    seg.p2 = GetMiddlePoint( seg.p1, seg.p5, k );
+    seg.p4 = GetMiddlePoint( seg.p5, seg.p1, k );
+    opposite_point = GetThirdPoint( &sn, eGrowthDirection::INSIDE );
+    order_iteration = 0;
 }
  
 
@@ -38,44 +69,45 @@ KochSegment::KochSegment()
 
 
 
-BasePoint KochSegment::GetMiddlePoint( const BasePoint& p1_, const BasePoint& p2_, double k ) const
+KochUnitPoints KochSegment::GetUnitPoints() const
 {
-    BasePoint pad( p1_.GetX() + (p2_.GetX() - p1_.GetX()) * k, p1_.GetY() + (p2_.GetY() - p1_.GetY()) * k, p1_.GetZ() + (p2_.GetZ() - p1_.GetZ())  * k );
-    return BasePoint( p1_.GetX() + (p2_.GetX() - p1_.GetX()) * k, p1_.GetY() + ( p2_.GetY() - p1_.GetY() ) * k, p1_.GetZ() + ( p2_.GetZ() - p1_.GetZ() )  * k);
+    return seg;
+
 }
 
 
-BasePoint KochSegment::GetPointIsosTriangle( eGrowthDirection dir ) const
+
+BasePoint KochSegment::GetPointIsosTriangle( eGrowthDirection dir )
 {
-    double alfa;
-
-    if (dir == eGrowthDirection::INSIDE)
-        alfa = ALFA;
-
-    if (dir == eGrowthDirection::OUTSIDE)
-        alfa = -ALFA;
-
-
-
-    double Bx = cos( alfa ) * (seg.p5.GetX() - seg.p1.GetX()) - sin( alfa ) * (seg.p5.GetY() - seg.p1.GetY());
-    double By = sin( alfa ) * (seg.p5.GetX() - seg.p1.GetX()) + cos( alfa ) * (seg.p5.GetY() - seg.p1.GetY());
-
-    return  BasePoint( seg.p1.GetX() + Bx, seg.p1.GetY() + By, seg.p1.GetZ() );
+    return  GetThirdPoint( this, dir );
 }
 
 std::vector<KochSegment> KochSegment::Divide( eGrowthDirection dir )
-{
-    seg.p3 = KochSegment( seg.p2, seg.p4 ).GetPointIsosTriangle( dir );
-
+{   
     std::vector<KochSegment> segs;
+
+    seg.p3 = KochSegment( seg.p2, seg.p4 ).GetPointIsosTriangle( dir );
+    BasePoint  ff = KochSegment( seg.p2, seg.p4 ).GetPointIsosTriangle( eGrowthDirection::INSIDE );
+
+    order_iteration++;
     segs.push_back( KochSegment( seg.p1, seg.p2 ) );
     segs.push_back( KochSegment( seg.p2, seg.p3 ) );
     segs.push_back( KochSegment( seg.p3, seg.p4 ) );
     segs.push_back( KochSegment( seg.p4, seg.p5 ) );
+    //segs.push_back( KochSegment( seg.p4, seg.p2 ) );  
 
     for (auto it = begin( segs ); it != end( segs ); it++)
-        it->SetColor( GetColor() );
+    {
+        it->SetColor( GetColor() );   
+    }
+
     return segs;
+}
+
+
+void KochSegment::SetIteration( int order )
+{
+    order_iteration = order;
 }
 
 

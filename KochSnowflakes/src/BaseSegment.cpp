@@ -17,6 +17,14 @@ BaseSegment::~BaseSegment()
 {
 }
 
+
+BasePoint BaseSegment::GetMiddlePoint( const BasePoint& p1_, const BasePoint& p2_, double k ) const
+{
+    BasePoint pad( p1_.GetX() + (p2_.GetX() - p1_.GetX()) * k, p1_.GetY() + (p2_.GetY() - p1_.GetY()) * k, p1_.GetZ() + (p2_.GetZ() - p1_.GetZ())  * k );
+    return BasePoint( p1_.GetX() + (p2_.GetX() - p1_.GetX()) * k, p1_.GetY() + (p2_.GetY() - p1_.GetY()) * k, p1_.GetZ() + (p2_.GetZ() - p1_.GetZ())  * k );
+}
+
+
 bool BaseSegment::IsEqual( const BaseSegment& l ) const
 {
 	if ((pts.p1.IsEqual(l.pts.p1) && pts.p2.IsEqual(l.pts.p2)))
@@ -43,11 +51,12 @@ SegmentBasePoints BaseSegment::GetBasePoints() const
 
 BaseSegment BaseSegment::Rotate( double alf_ ) const
 {
-    double alfa = alf_ * 3.14159265 / 180.0;
-    double Bx = cos( alfa ) * length;
-    double By = sin( alfa ) * length;
-    BasePoint p( pts.p1.GetX() + Bx, pts.p1.GetY() + By, pts.p1.GetZ() );
-    return  BaseSegment( pts.p1, p );
+    BaseSegment g = *this;
+    double a = alf_ * 3.14159265 / 180.0;
+    double Bx = cos( a ) * length;
+    double By = sin( a ) * length;
+    BasePoint cp( pts.p1.GetX() + Bx, pts.p1.GetY() + By, pts.p1.GetZ() );
+    return  BaseSegment( pts.p1, cp );
 }
 
 double BaseSegment::GetLength() const

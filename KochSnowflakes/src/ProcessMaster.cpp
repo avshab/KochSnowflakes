@@ -7,28 +7,15 @@
 
 ProcessMaster::ProcessMaster()
 {
-	//model = new KochCoordModel();
-	//model->SetModelName("Koch Model");
-    //std::vector<KochSegment> vect;
-    //vect.push_back(KochSegment( BasePoint( 200, 200, 0 ), BasePoint( 500, 200, 0 ) ));
-    //BasePoint pc = vect.at(0).GetPointIsosTriangle( eGrowthDirection::INSIDE );
-    //vect.push_back( KochSegment( BasePoint( 500, 200, 0 ), pc ) );
-    //vect.push_back( KochSegment( pc, BasePoint( 200, 200, 0 ) ) );
-
-    //for (auto it = begin( vect ); it != end( vect ); it++)
-    //    it->SetColor( Color::Purple );
-
-
-    //model->SetKochSegments( vect );
-    //
-    //fractal = new SnowflakesFractal();   
-    //fractal->SetKochSegments(model->GetKochSegments());
-
     model = new KochCoordModel();
     model->SetModelName( "Koch Model" );
     model->SetCenterPoint( BasePoint( 350, 300, 0 ) );
-    fractal = new SnowflakesFractal();
-    fractal->SetKochSegments( model->GetKochSegments() );
+    fractal = new SnowflakesFractal();     
+
+    fractal->SetKochSegments( model->GetKochSegments() );         
+    fractal->SetCenterPoint( BasePoint( 350, 300, 0 ) );
+    model->SetKochSegments( fractal->GetKochSegments() );
+
 }
 
 
@@ -48,19 +35,13 @@ void ProcessMaster::SetPainter(PainterI *p)
 
 void ProcessMaster::Process()
 {
-    model = new KochCoordModel();
-    model->SetModelName( "Koch Model" );
-    model->SetCenterPoint( BasePoint(300, 300, 0) );
-    fractal = new SnowflakesFractal();
-    fractal->SetKochSegments( model->GetKochSegments() );
-    fractal->SetCenterPoint( BasePoint( 300, 300, 0 ) );
-    while (true)
-    {
+  //  while (true)
+   // {
      	fractal->Iterate();                        
         model->SetKochSegments(fractal->GetKochSegments());
 	    painter->SetModel(&model->GetModel());
 	    painter->RedrawWindow();
-        Sleep( 100 );
-    }
+      ///  Sleep( 500 );
+   // }
 
 }

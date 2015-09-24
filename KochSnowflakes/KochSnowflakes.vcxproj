@@ -120,6 +120,7 @@
     <ClInclude Include="src\CoordinatesSegment.h" />
     <ClInclude Include="src\KochCoordModel.h" />
     <ClInclude Include="src\KochSegment.h" />
+    <ClInclude Include="src\KochTriangle.h" />
     <ClInclude Include="src\ModelObject.h" />
     <ClInclude Include="src\PainterI.h" />
     <ClInclude Include="src\PainterKochSnowflakes.h" />
@@ -143,6 +144,7 @@
     <ClCompile Include="src\CoordinatesSegment.cpp" />
     <ClCompile Include="src\KochCoordModel.cpp" />
     <ClCompile Include="src\KochSegment.cpp" />
+    <ClCompile Include="src\KochTriangle.cpp" />
     <ClCompile Include="src\ModelObject.cpp" />
     <ClCompile Include="src\PainterI.cpp" />
     <ClCompile Include="src\PainterKochSnowflakes.cpp" />

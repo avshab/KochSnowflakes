@@ -25,6 +25,7 @@ public:
 
 	SegmentBasePoints GetBasePoints() const;
 
+    BasePoint GetMiddlePoint( const BasePoint& p1, const BasePoint& p2, double k ) const;
 
     BaseSegment Rotate( double alfa ) const;
 

@@ -23,7 +23,7 @@ void CoordinatesSegment::SetPoints( const SegmentCoordPoints& pts_ )
 }
 
 
-SegmentCoordPoints CoordinatesSegment::GetPoints() const
+SegmentCoordPoints CoordinatesSegment::GetUnitPoints() const
 {
     return pts;
 }
