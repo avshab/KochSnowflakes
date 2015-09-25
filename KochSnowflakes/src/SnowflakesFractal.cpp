@@ -8,8 +8,9 @@ const static int MAX_RANDOM = 6;
 
 static int ITERATION_INDEX = 1;
 
-SnowflakesFractal::SnowflakesFractal()
-	: random_status(0)
+SnowflakesFractal::SnowflakesFractal( KochCoordModel* m )
+    : model(m)
+    , random_status(0)
 {
     rand_size = 3;
     iter = 0;
@@ -21,7 +22,7 @@ void SnowflakesFractal::Iterate()
 {
    // DoubleDivideAll();
     //SimpleRandom();
-    //DivideAll();
+   // DivideAll();
    // NewRandom();
     
     DivideTriangles();
@@ -50,9 +51,9 @@ void SnowflakesFractal::DivideTriangles()
     for (auto it = begin( tris ); it != end( tris ); it++)
     {
         
-        std::vector<KochSegment> cur_segs = it->GetSegments( );
-        for (auto it_c = begin( cur_segs ); it_c != end( cur_segs ); it_c++)
-            segs.push_back( *it_c );
+        //std::vector<KochSegment> cur_segs = it->GetSegments( );
+        //for (auto it_c = begin( cur_segs ); it_c != end( cur_segs ); it_c++)
+        //    segs.push_back( *it_c );
 
 
         std::vector<KochTriangle> cur_tris = it->GetIterTriangles();
@@ -60,7 +61,7 @@ void SnowflakesFractal::DivideTriangles()
             new_tris.push_back( *it_c );
        // new_tris.push_back( it->GetInternalTriangle() );
     }
-    tris.clear();
+    model->SetKochTriangles( tris );
     tris = new_tris;
 
     ITERATION_INDEX++;

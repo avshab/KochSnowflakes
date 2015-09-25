@@ -8,25 +8,23 @@ CoordinatesPolygon::CoordinatesPolygon()
 }
 
 
-void CoordinatesPolygon::SetName( const std::string& name_ )
+
+CoordinatesPolygon::CoordinatesPolygon( std::vector<CoordinatesPoint>& pts_, const std::string& name_, bool is_visible_ )
+    : versus( pts_ )
+    , pts_size( pts_.size() )
 {
-    name = name_;
+ 
 }
 
 
-void CoordinatesPolygon::SetVisible( bool is_visible_ )
+void CoordinatesPolygon::SetCoordinates( std::vector<CoordinatesPoint>& pts )
 {
-    is_visible = is_visible_;
+    versus = pts;
+    pts_size = pts.size();
 }
 
 
-std::string CoordinatesPolygon::GetName() const
+std::vector<CoordinatesPoint> CoordinatesPolygon::GetCoordinates() const
 {
-    return name;
-}
-
-
-bool CoordinatesPolygon::GetVisible() const
-{
-    return is_visible;
+    return versus;
 }

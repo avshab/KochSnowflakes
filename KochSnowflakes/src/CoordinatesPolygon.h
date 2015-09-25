@@ -1,31 +1,26 @@
 #pragma once
-#include "BaseObject.h"
 #include "CoordinatesSegment.h"
 #include <vector>
 
 
 class CoordinatesPolygon 
-	: public BaseObject
+    : public CoordinatesObject
 {
 public:
 
     CoordinatesPolygon();
 
+    CoordinatesPolygon( std::vector<CoordinatesPoint>& pts, const std::string& name_, bool is_visible_ );
+
 	virtual ~CoordinatesPolygon(){};
 
-    void SetName( const std::string& name );
+    void SetCoordinates( std::vector<CoordinatesPoint>& pts );
 
-    void SetVisible( bool is_visible );
+    std::vector<CoordinatesPoint> GetCoordinates() const;
 
-    bool IsVisible( bool is_visible );
-
-    std::string GetName() const;
-
-    bool GetVisible() const;
+    int pts_size;
 
 private:
 
-    std::string name;
-
-    bool is_visible;
+    std::vector<CoordinatesPoint> versus;
 };

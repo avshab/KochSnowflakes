@@ -4,15 +4,13 @@
 
 CoordinatesSegment::CoordinatesSegment( const SegmentCoordPoints& pts_, const std::string& name_, bool is_visible_ )
     : pts( pts_ )
-    , name( name_ )
-    , is_visible( is_visible_ )
+
 {
 	SetColor(Gdiplus::Color::Green);
 };
 
 
 CoordinatesSegment::CoordinatesSegment()
-    : is_visible(false)
 {
 }
 

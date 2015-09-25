@@ -76,6 +76,17 @@ KochUnitPoints KochSegment::GetUnitPoints() const
 }
 
 
+void KochSegment::SetColor( Color c )
+{
+    color = c;
+}
+
+
+Color KochSegment::GetColor() const
+{
+    return color;
+}
+
 
 BasePoint KochSegment::GetPointIsosTriangle( eGrowthDirection dir )
 {

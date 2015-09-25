@@ -10,6 +10,8 @@ public:
 
     KochTriangle( const BasePoint& p1, const BasePoint& p2, const BasePoint& p3 );
 
+    std::vector<BasePoint> GetPoints() const;
+
     std::vector<KochSegment> GetSegments() const;
 
     std::vector<KochTriangle> GetIterTriangles();     
@@ -17,6 +19,10 @@ public:
     KochTriangle GetInternalTriangle() const;
 
     void SetIteration( int );
+
+    void SetColor( Color color );
+
+    Color GetColor() const;
 
 private:
 

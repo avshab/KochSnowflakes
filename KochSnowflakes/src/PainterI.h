@@ -40,9 +40,9 @@ private:
 
 	void PaintSegments(const std::vector<CoordinatesObject*>& segments, Graphics* g) const;
 
-    void PaintFiguresFaces( const std::vector<CoordinatesPolygon>& faces, Graphics* g ) const;
+    void PaintFaces( const std::vector<CoordinatesObject*>& faces, Graphics* g ) const;
 
-    void PaintFace( int iteration, const CoordinatesPolygon& points, Graphics* g ) const;
+    void PaintFace( const CoordinatesPolygon& points, Graphics* g ) const;
     
     bool IsDushSegment( int id_elem ) const;
 

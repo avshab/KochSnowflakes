@@ -8,7 +8,8 @@
 enum eModelObjectType
 {
 	BASE_POINT,
-	BASE_SEGMENT
+	BASE_SEGMENT,
+    BASE_POLYGON
 };
 
 class CoordinatesModel
@@ -37,7 +38,7 @@ public:
 
     CoordinatesModel GetModel();
 
-    void Clear();
+    void Clear( const eModelObjectType& type );
 
 protected:
 

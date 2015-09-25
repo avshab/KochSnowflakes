@@ -22,7 +22,7 @@ struct KochUnitPoints
 
 
 class KochSegment :
-    public BaseSegment, public CoordinatesObject
+    public BaseSegment
 {
 public:
 
@@ -36,8 +36,12 @@ public:
 
     BasePoint GetPointIsosTriangle( eGrowthDirection = eGrowthDirection::OUTSIDE ) ;
 
+    KochUnitPoints GetUnitPoints() const;    
+    
+    void SetColor( Color color );
 
-    KochUnitPoints GetUnitPoints() const;
+    Color GetColor() const;
+
 private:
 
     eGrowthDirection GetDirection() const;
@@ -55,4 +59,6 @@ private:
     BasePoint opposite_point;
 
     int order_iteration;
+
+    Color color;
 };

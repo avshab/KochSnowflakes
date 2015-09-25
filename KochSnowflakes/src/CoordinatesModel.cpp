@@ -8,6 +8,7 @@ CoordinatesModel::CoordinatesModel()
 	std::vector<CoordinatesObject*> v;
 	obj_map[eModelObjectType::BASE_POINT] = v;
 	obj_map[eModelObjectType::BASE_SEGMENT] = v;
+    obj_map[eModelObjectType::BASE_POLYGON] = v;
 }
 
 
@@ -25,18 +26,13 @@ bool CoordinatesModel::IsEmpty() const
 }
 
 
-void CoordinatesModel::Clear()
+void CoordinatesModel::Clear( const eModelObjectType& type )
 {
-    for (int i = 0; i < obj_map.at( eModelObjectType::BASE_POINT ).size(); i++)
-        delete[] obj_map.at( eModelObjectType::BASE_POINT ).at( i );
-    for (int i = 0; i < obj_map.at( eModelObjectType::BASE_SEGMENT ).size(); i++)
-		delete[] obj_map.at(eModelObjectType::BASE_SEGMENT).at(i);
+    for (int i = 0; i < obj_map.at( type ).size(); i++)
+        delete[] obj_map.at( type ).at( i );
 
-
-    obj_map.at( eModelObjectType::BASE_SEGMENT ).clear();
-	obj_map.at(eModelObjectType::BASE_SEGMENT).shrink_to_fit();
-	obj_map.at( eModelObjectType::BASE_POINT ).clear();
-	obj_map.at(eModelObjectType::BASE_POINT).shrink_to_fit();
+    obj_map.at( type ).clear();
+    obj_map.at( type ).shrink_to_fit();
 }
 
 

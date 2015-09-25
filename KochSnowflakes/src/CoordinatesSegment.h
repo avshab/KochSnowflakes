@@ -31,10 +31,6 @@ public:
 
 private:
 
-    std::string name;
-
-    bool is_visible;
-
     SegmentCoordPoints pts;
 };
 

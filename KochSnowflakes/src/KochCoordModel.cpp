@@ -1,6 +1,12 @@
 #include "stdafx.h"
 #include "KochCoordModel.h"
-#include "CoordinatesSegment.h"
+#include "CoordinatesPolygon.h"
+
+
+CoordinatesPoint TranslatePointToCoord( std::vector<BasePoint>::iterator p )
+{
+    return CoordinatesPoint( PointPos(p->GetX(), p->GetY()), "p", true );
+}
 
 
 KochCoordModel::KochCoordModel() : CoordinatesModel()
@@ -35,7 +41,7 @@ std::vector<KochSegment> KochCoordModel::GetKochSegments() const
 
 void KochCoordModel::SetKochSegments(const std::vector<KochSegment>& segs_)
 {
-	Clear();
+	Clear( eModelObjectType::BASE_SEGMENT );
 	for (auto it = begin(segs_); it != end(segs_); it++)
 		SetKochSegment(*it);
 }
@@ -56,6 +62,30 @@ void KochCoordModel::SetKochSegment(const KochSegment& seg)
 
 	AddObject(eModelObjectType::BASE_SEGMENT, s);
     s = NULL;
+}
+
+
+
+void KochCoordModel::SetKochTriangles( const std::vector<KochTriangle>& tris )
+{
+    Clear( eModelObjectType::BASE_POLYGON );
+
+    for (auto it = begin( tris ); it != end( tris ); it++)
+        SetKochTriangle( *it );
+}
+
+void KochCoordModel::SetKochTriangle( const KochTriangle& tri )
+{
+    std::vector<CoordinatesPoint> coords;
+    std::vector<BasePoint> pts = tri.GetPoints();
+
+    for (auto it = begin( pts ); it != end( pts ); it++)
+        coords.push_back(TranslatePointToCoord(it));
+
+    CoordinatesObject* pol = new CoordinatesPolygon( coords, "polygon", true );
+    pol->SetColor( tri.GetColor() );
+    AddObject( eModelObjectType::BASE_POLYGON, pol );
+    pol = NULL;
 }
 
 

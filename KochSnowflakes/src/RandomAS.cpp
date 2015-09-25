@@ -18,7 +18,7 @@ RandomAS::RandomAS()
 
 int RandomAS::GetRandomNumber( int base ) const
 {
-    Sleep( 5 );
+    Sleep( 2 );
     srand( time( NULL ) );
 
     int v = rand() % base;
@@ -65,7 +65,7 @@ Color RandomAS::GetRandomColor()
     switch (col)
     {
         case 0:
-            return Color::Orange;
+            return Color::White;
             break;
         case 1:
             return Color::Blue;
@@ -77,7 +77,7 @@ Color RandomAS::GetRandomColor()
             return Color::Green;
             break;
         case 4:
-            return Color::Fuchsia;
+            return Color::White;
             break;
         default:
             return Color::White;

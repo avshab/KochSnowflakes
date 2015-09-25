@@ -61,11 +61,10 @@ std::vector<KochTriangle> KochTriangle::GetIterTriangles()
         d_s.push_back( KochTriangle( pts.p2, pts.p3, pts.p4 ) );
     }
     order_iteration++;
-    if (order_iteration == 4)
-    {
-        RandomAS r_as;
-        color = r_as.GetRandomColor();
-    }
+
+    RandomAS r_as;
+    color = r_as.GetRandomColor();
+
     for (auto it = begin( d_s ); it != end( d_s ); it++)
         it->SetIteration( order_iteration );
         
@@ -86,4 +85,20 @@ KochTriangle KochTriangle::GetInternalTriangle() const
 void KochTriangle::SetIteration( int iter )
 {
     order_iteration = iter;
+}
+
+
+std::vector<BasePoint> KochTriangle::GetPoints() const
+{
+    return versus;
+}
+
+void KochTriangle::SetColor( Color c )
+{
+    color = c;
+}
+
+Color KochTriangle::GetColor() const
+{
+    return color;
 }
