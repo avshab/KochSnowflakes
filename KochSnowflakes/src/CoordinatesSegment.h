@@ -17,7 +17,7 @@ struct SegmentCoordPoints
 
 
 class CoordinatesSegment
-	: public ModelObject
+	: public CoordinatesObject
 {
 public:
 

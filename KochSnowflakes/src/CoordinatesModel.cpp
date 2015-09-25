@@ -5,7 +5,7 @@
 
 CoordinatesModel::CoordinatesModel()
 {
-	std::vector<ModelObject*> v;
+	std::vector<CoordinatesObject*> v;
 	obj_map[eModelObjectType::BASE_POINT] = v;
 	obj_map[eModelObjectType::BASE_SEGMENT] = v;
 }
@@ -52,26 +52,26 @@ std::string CoordinatesModel::GetModelName() const
 }
 
 
-void CoordinatesModel::AddObjectsVector(const eModelObjectType& type, const std::vector<ModelObject*>& objs)
+void CoordinatesModel::AddObjectsVector(const eModelObjectType& type, const std::vector<CoordinatesObject*>& objs)
 {
 	for (auto it = begin(objs); it != end(objs); it++)
 		obj_map.at(type).push_back(*it);
 }
 
 
-void CoordinatesModel::AddObject(const eModelObjectType& type, ModelObject* objs)
+void CoordinatesModel::AddObject(const eModelObjectType& type, CoordinatesObject* objs)
 {
 
 	obj_map.at(type).push_back(objs);
 }
 
 
-void CoordinatesModel::SetObjectMap(const std::map<eModelObjectType, std::vector<ModelObject*>>& map)
+void CoordinatesModel::SetObjectMap(const std::map<eModelObjectType, std::vector<CoordinatesObject*>>& map)
 {
 	obj_map = map;
 }
 
-std::map<eModelObjectType, std::vector<ModelObject*>> CoordinatesModel::GetObjectMap() const
+std::map<eModelObjectType, std::vector<CoordinatesObject*>> CoordinatesModel::GetObjectMap() const
 {
 	return obj_map;
 }

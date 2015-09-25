@@ -17,7 +17,7 @@ KochCoordModel::~KochCoordModel()
 std::vector<KochSegment> KochCoordModel::GetKochSegments() const
 {
 	std::vector<KochSegment> segs; 
-	std::vector<ModelObject*> cs = obj_map.at(eModelObjectType::BASE_SEGMENT);
+	std::vector<CoordinatesObject*> cs = obj_map.at(eModelObjectType::BASE_SEGMENT);
 	for (int i = 0; i < cs.size(); i++)
 	{
 		CoordinatesSegment* m = dynamic_cast<CoordinatesSegment*>(cs.at(i));
@@ -49,7 +49,7 @@ void KochCoordModel::SetKochSegment(const KochSegment& seg)
 	CoordinatesPoint c1(pos_1, "p", true);
 	CoordinatesPoint c2(pos_2, "p", true);
 	SegmentCoordPoints cpts(c1, c2);
-	ModelObject* s = new CoordinatesSegment(cpts, "segment", true);
+	CoordinatesObject* s = new CoordinatesSegment(cpts, "segment", true);
 
 
     s->SetColor( seg.GetColor() );

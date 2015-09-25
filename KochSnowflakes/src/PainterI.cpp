@@ -77,7 +77,7 @@ void PainterI::OnPaint()
     Pen pen( color, StylesFigures::pen_width );
     pen.SetDashStyle( DashStyle::DashStyleDash );
 
-	std::map<eModelObjectType, std::vector<ModelObject*>> model_map = model.GetObjectMap();
+	std::map<eModelObjectType, std::vector<CoordinatesObject*>> model_map = model.GetObjectMap();
 	
 	for (auto it = begin(model_map); it != end(model_map); it++)
 	{
@@ -105,7 +105,7 @@ bool PainterI::IsDushSegment( int id_elem ) const
 }
 
 
-void PainterI::PaintSegments(const std::vector<ModelObject*>& segments, Graphics* g) const
+void PainterI::PaintSegments(const std::vector<CoordinatesObject*>& segments, Graphics* g) const
 {
 	for (auto it = begin(segments); it != end(segments); it++)
     {
@@ -142,14 +142,14 @@ void PainterI::PaintSegments(const std::vector<ModelObject*>& segments, Graphics
     //}
 }
 
-void PainterI::PaintPoints(const std::vector<ModelObject*>& points, Graphics* g) const
+void PainterI::PaintPoints(const std::vector<CoordinatesObject*>& points, Graphics* g) const
 {
 	for (int i = 0; i < points.size(); i++)
         PaintPoint( *dynamic_cast<CoordinatesPoint*>(points.at( i )), g );
 }
 
 
-void PainterI::PaintFace( int iteration, const CoordinatesFace& face, Graphics* g ) const
+void PainterI::PaintFace( int iteration, const CoordinatesPolygon& face, Graphics* g ) const
 {
     Color color;
 
@@ -165,7 +165,7 @@ void PainterI::PaintFace( int iteration, const CoordinatesFace& face, Graphics* 
 }
 
 
-void PainterI::PaintFiguresFaces( const std::vector<CoordinatesFace>& faces, Graphics* g ) const
+void PainterI::PaintFiguresFaces( const std::vector<CoordinatesPolygon>& faces, Graphics* g ) const
 {
     for (unsigned int i = 0; i < faces.size(); i++)
         if (faces.at( i ).GetVisible())

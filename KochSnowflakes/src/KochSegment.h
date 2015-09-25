@@ -1,6 +1,6 @@
 #pragma once
 #include "BaseSegment.h"
-#include "ModelObject.h"
+#include "CoordinatesObject.h"
 
 #include<vector>
 
@@ -22,7 +22,7 @@ struct KochUnitPoints
 
 
 class KochSegment :
-    public BaseSegment, public ModelObject
+    public BaseSegment, public CoordinatesObject
 {
 public:
 

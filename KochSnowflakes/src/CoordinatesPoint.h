@@ -1,5 +1,5 @@
 #pragma once 
-#include "ModelObject.h"  
+#include "CoordinatesObject.h"  
 #include <vector>
 
 
@@ -17,7 +17,7 @@ struct PointPos
 
 
 class CoordinatesPoint
-	: public ModelObject
+	: public CoordinatesObject
 {
 public:
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "Styles.h" 
-#include "ModelObject.h" 
+#include "CoordinatesObject.h" 
 #include <map>
 #include <vector>
 
@@ -27,13 +27,13 @@ public:
 
 	std::string GetModelName() const;
 
-	void AddObjectsVector(const eModelObjectType& type, const std::vector<ModelObject*>& objs);
+	void AddObjectsVector(const eModelObjectType& type, const std::vector<CoordinatesObject*>& objs);
 
-	void AddObject(const eModelObjectType& type, ModelObject* objs);
+	void AddObject(const eModelObjectType& type, CoordinatesObject* objs);
 
-	void SetObjectMap(const std::map<eModelObjectType, std::vector<ModelObject*>>& map);
+	void SetObjectMap(const std::map<eModelObjectType, std::vector<CoordinatesObject*>>& map);
 
-	std::map<eModelObjectType, std::vector<ModelObject*>> GetObjectMap() const;
+	std::map<eModelObjectType, std::vector<CoordinatesObject*>> GetObjectMap() const;
 
     CoordinatesModel GetModel();
 
@@ -43,5 +43,5 @@ protected:
 
 	std::string name;
 
-	std::map<eModelObjectType, std::vector<ModelObject*>> obj_map;
+	std::map<eModelObjectType, std::vector<CoordinatesObject*>> obj_map;
 };

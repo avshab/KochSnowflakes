@@ -58,6 +58,7 @@ void SnowflakesFractal::DivideTriangles()
         std::vector<KochTriangle> cur_tris = it->GetIterTriangles();
         for (auto it_c = begin( cur_tris ); it_c != end( cur_tris ); it_c++)
             new_tris.push_back( *it_c );
+       // new_tris.push_back( it->GetInternalTriangle() );
     }
     tris.clear();
     tris = new_tris;

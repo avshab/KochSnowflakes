@@ -12,10 +12,17 @@ public:
 
     std::vector<KochSegment> GetSegments() const;
 
-    std::vector<KochTriangle> GetIterTriangles();
+    std::vector<KochTriangle> GetIterTriangles();     
+
+    KochTriangle GetInternalTriangle() const;
+
+    void SetIteration( int );
 
 private:
+
     std::vector<KochTriangle> GetCornerTriangles() const;
+
+    Color color;
 
     std::vector<BasePoint> versus;
 

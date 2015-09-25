@@ -42,9 +42,6 @@
     <ClInclude Include="src\BaseSegment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\CoordinatesFace.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\CoordinatesModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -78,13 +75,16 @@
     <ClInclude Include="src\ProcessMaster.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ModelObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\RandomAS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\KochTriangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CoordinatesObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CoordinatesPolygon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -105,9 +105,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\BaseSegment.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CoordinatesFace.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\CoordinatesModel.cpp">
@@ -140,13 +137,16 @@
     <ClCompile Include="src\ProcessMaster.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ModelObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\RandomAS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\KochTriangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CoordinatesObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CoordinatesPolygon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
