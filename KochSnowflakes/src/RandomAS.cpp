@@ -65,7 +65,7 @@ Color RandomAS::GetRandomColor()
     switch (col)
     {
         case 0:
-            return Color::White;
+            return Color::Yellow;
             break;
         case 1:
             return Color::Blue;
@@ -77,7 +77,7 @@ Color RandomAS::GetRandomColor()
             return Color::Green;
             break;
         case 4:
-            return Color::White;
+            return Color::Purple;
             break;
         default:
             return Color::White;

@@ -96,7 +96,8 @@ BasePoint KochSegment::GetPointIsosTriangle( eGrowthDirection dir )
 std::vector<KochSegment> KochSegment::Divide( eGrowthDirection dir )
 {   
     std::vector<KochSegment> segs;
-
+    if (order_iteration != 0)
+        return segs;
     seg.p3 = KochSegment( seg.p2, seg.p4 ).GetPointIsosTriangle( dir );
     BasePoint  ff = KochSegment( seg.p2, seg.p4 ).GetPointIsosTriangle( eGrowthDirection::INSIDE );
 

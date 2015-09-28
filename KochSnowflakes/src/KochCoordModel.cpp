@@ -74,6 +74,15 @@ void KochCoordModel::SetKochTriangles( const std::vector<KochTriangle>& tris )
         SetKochTriangle( *it );
 }
 
+
+void KochCoordModel::AddKochTriangles( const std::vector<KochTriangle>& tris )
+{
+
+    for (auto it = begin( tris ); it != end( tris ); it++)
+        SetKochTriangle( *it );
+}
+
+
 void KochCoordModel::SetKochTriangle( const KochTriangle& tri )
 {
     std::vector<CoordinatesPoint> coords;

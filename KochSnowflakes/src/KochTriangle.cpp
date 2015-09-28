@@ -51,7 +51,11 @@ std::vector<KochTriangle> KochTriangle::GetCornerTriangles() const
 std::vector<KochTriangle> KochTriangle::GetIterTriangles()
 {
 
-    std::vector<KochTriangle> d_s;
+    std::vector<KochTriangle> d_s;   
+
+    if (order_iteration != 0)
+        return d_s;
+
     if (order_iteration < 5)
         d_s = GetCornerTriangles();
 
@@ -65,8 +69,8 @@ std::vector<KochTriangle> KochTriangle::GetIterTriangles()
     RandomAS r_as;
     color = r_as.GetRandomColor();
 
-    for (auto it = begin( d_s ); it != end( d_s ); it++)
-        it->SetIteration( order_iteration );
+    //for (auto it = begin( d_s ); it != end( d_s ); it++)
+    //    it->SetIteration( order_iteration );
         
     return d_s;
 }

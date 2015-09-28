@@ -46,19 +46,23 @@ void SnowflakesFractal::DivideTriangles()
     eGrowthDirection grow_dir = eGrowthDirection::INSIDE;
     // if (ITERATION_INDEX % 2 == 0)
     grow_dir = eGrowthDirection::OUTSIDE;
-    std::vector<KochTriangle> new_tris;
+    std::vector<KochTriangle> new_tris = tris;
     segs.clear();
     for (auto it = begin( tris ); it != end( tris ); it++)
     {
         
         //std::vector<KochSegment> cur_segs = it->GetSegments( );
         //for (auto it_c = begin( cur_segs ); it_c != end( cur_segs ); it_c++)
-        //    segs.push_back( *it_c );
-
+        //    segs.push_back( *it_c );                       
 
         std::vector<KochTriangle> cur_tris = it->GetIterTriangles();
+        if (cur_tris.empty())
+            new_tris.push_back( *it );
+
+
         for (auto it_c = begin( cur_tris ); it_c != end( cur_tris ); it_c++)
             new_tris.push_back( *it_c );
+ 
        // new_tris.push_back( it->GetInternalTriangle() );
     }
     model->SetKochTriangles( tris );
@@ -66,6 +70,7 @@ void SnowflakesFractal::DivideTriangles()
 
     ITERATION_INDEX++;
 }
+
 
 void SnowflakesFractal::DivideAll()
 {
@@ -104,6 +109,7 @@ void SnowflakesFractal::SimpleRandom()
     }
 
 }
+
 
 void SnowflakesFractal::DoubleSimpleRandom()
 {
@@ -162,6 +168,7 @@ void SnowflakesFractal::DoubleSimpleRandom()
 	}
 
 }
+
 
 void SnowflakesFractal::DoubleDivideAll()
 {
@@ -254,6 +261,7 @@ void SnowflakesFractal::StartNewSnowflakesSegment()
     iter = 0;
         
 }
+
 
 void SnowflakesFractal::SetCenterPoint( const BasePoint& p )
 {

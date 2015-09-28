@@ -23,6 +23,8 @@ public:
 
     void SetKochTriangles( const std::vector<KochTriangle>& tris );
 
+    void AddKochTriangles( const std::vector<KochTriangle>& tris );
+
     void SetKochTriangle( const KochTriangle& tri );
 
 private:
