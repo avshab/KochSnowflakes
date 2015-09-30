@@ -170,9 +170,9 @@ void hsv2rgb( struct HSV &hsv, struct RGB &rgb )
 HSV RandomAS::GetColorStep() const
 {
     HSV hsv;
-    hsv.h = GetRandomNumber( 50 ) + 30;
-    hsv.s = GetRandomNumber( 40 ) + 10;
-    hsv.v = GetRandomNumber( 40 ) + 10;
+    hsv.h = GetRandomNumber( 40 ) + 30;
+    hsv.s = GetRandomNumber( 20 ) + 60;
+    hsv.v = GetRandomNumber( 20 ) + 60;
     return hsv;
 }
 

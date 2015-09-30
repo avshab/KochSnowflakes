@@ -16,7 +16,9 @@ KochTriangle::KochTriangle( const KochSegment& s1, const KochSegment& s2, const 
         segs.at( i ).Divide();
 
     was_iterating = false;
-    iter_order = iter_order_;
+    iter_order = ++iter_order_;
+    if (segs.at( 0 ).GetLength() < 1)
+        iter_order = 10;
 }
 
 
@@ -35,47 +37,61 @@ KochTriangle::KochTriangle( const BasePoint& p1, const BasePoint& p2, const Base
 
     was_iterating = false;
     iter_order = ++iter_order_;
+    if (segs.at( 0 ).GetLength() < 1)
+        iter_order = 10;
 }
  
 
-std::vector<KochTriangle> KochTriangle::GetCornerTriangles() const
+void KochTriangle::SetChildsTriangles()
 {
-    std::vector<KochTriangle> corner_segs;
-    corner_segs.push_back( KochTriangle( segs.at( 0 ).GetUnitPoints().p4, segs.at( 1 ).GetUnitPoints().p1, segs.at( 1 ).GetUnitPoints().p2, iter_order ) );
-    corner_segs.push_back( KochTriangle( segs.at( 1 ).GetUnitPoints().p4, segs.at( 2 ).GetUnitPoints().p1, segs.at( 2 ).GetUnitPoints().p2, iter_order ) );
-    corner_segs.push_back( KochTriangle( segs.at( 2 ).GetUnitPoints().p4, segs.at( 0 ).GetUnitPoints().p1, segs.at( 0 ).GetUnitPoints().p2, iter_order  ) );
+
+    childs[0] = KochTriangle( segs.at( 0 ).GetUnitPoints().p4, segs.at( 1 ).GetUnitPoints().p1, segs.at( 1 ).GetUnitPoints().p2, iter_order );
+    childs[1] = KochTriangle( segs.at( 1 ).GetUnitPoints().p4, segs.at( 2 ).GetUnitPoints().p1, segs.at( 2 ).GetUnitPoints().p2, iter_order );
+    childs[2] = KochTriangle( segs.at( 2 ).GetUnitPoints().p4, segs.at( 0 ).GetUnitPoints().p1, segs.at( 0 ).GetUnitPoints().p2, iter_order );
                                                                                                                                          
-    corner_segs.push_back( KochTriangle( segs.at( 0 ).GetUnitPoints().p2, segs.at( 1 ).GetUnitPoints().p2, segs.at( 2 ).GetUnitPoints().p2, iter_order  ) );
-    corner_segs.push_back( KochTriangle( segs.at( 0 ).GetUnitPoints().p4, segs.at( 1 ).GetUnitPoints().p4, segs.at( 2 ).GetUnitPoints().p4, iter_order  ) );
-    return corner_segs;
+    childs[3] = KochTriangle( segs.at( 0 ).GetUnitPoints().p2, segs.at( 1 ).GetUnitPoints().p2, segs.at( 2 ).GetUnitPoints().p2, iter_order );
+    childs[4] = KochTriangle( segs.at( 0 ).GetUnitPoints().p4, segs.at( 1 ).GetUnitPoints().p4, segs.at( 2 ).GetUnitPoints().p4, iter_order );
+
+    for (int i = 0; i < 3; i++)
+    {  
+        KochUnitPoints pts = segs.at( i ).GetUnitPoints();                                                                
+        childs[i + 5] = KochTriangle( pts.p2, pts.p3, pts.p4, iter_order );
+    }
+   
 }
 
 std::vector<KochTriangle> KochTriangle::GetIterTriangles()
-{
-    if (was_iterating == false)
-    {
-        childs = GetCornerTriangles();
-        for (int i = 0; i < 3; i++)
-        {
-            KochUnitPoints pts = segs.at( i ).GetUnitPoints();
-            childs.push_back( KochTriangle( pts.p2, pts.p3, pts.p4, iter_order ) );
-        }
-        was_iterating = true;
-        for (auto it = begin( childs ); it != end( childs ); it++)
-            it->SetColor( rand.GetRandomColor( color ) );
-        return childs;
-    }
-
+{   
+    
     std::vector<KochTriangle> cur_tris;
 
-    if (iter_order > 15)
+    if (was_iterating == false)
+    {
+        SetChildsTriangles();
+
+        was_iterating = true;
+        for (auto it = begin( childs ); it != end( childs ); it++)
+        {   
+            it->second.SetColor( rand.GetRandomColor( color ) );
+            cur_tris.push_back( it->second );
+        }
+
+        return cur_tris;
+    }
+
+    
+
+    if (iter_order > 7)
         return cur_tris;
 
     int counter = 0;
     while (cur_tris.empty())
     {
-        int num = rand.GetRandomNumber( 8 );
+        int num = rand.GetRandomNumber( 5 );      
+        KochTriangle tri = childs.at( num );
         cur_tris = childs.at( num ).GetIterTriangles();
+        
+       
         if (counter > 10)
             break;
         counter++;
