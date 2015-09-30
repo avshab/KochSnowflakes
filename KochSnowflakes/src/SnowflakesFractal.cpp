@@ -44,30 +44,11 @@ std::vector<KochSegment> SnowflakesFractal::GetKochSegments() const
 void SnowflakesFractal::DivideTriangles()
 {
     eGrowthDirection grow_dir = eGrowthDirection::INSIDE;
-    // if (ITERATION_INDEX % 2 == 0)
+
     grow_dir = eGrowthDirection::OUTSIDE;
-    std::vector<KochTriangle> new_tris = tris;
-    segs.clear();
-    for (auto it = begin( tris ); it != end( tris ); it++)
-    {
-        
-        //std::vector<KochSegment> cur_segs = it->GetSegments( );
-        //for (auto it_c = begin( cur_segs ); it_c != end( cur_segs ); it_c++)
-        //    segs.push_back( *it_c );                       
+    std::vector<KochTriangle> cur_tris = tris.at(0).GetIterTriangles();
 
-        std::vector<KochTriangle> cur_tris = it->GetIterTriangles();
-        if (cur_tris.empty())
-            new_tris.push_back( *it );
-
-
-        for (auto it_c = begin( cur_tris ); it_c != end( cur_tris ); it_c++)
-            new_tris.push_back( *it_c );
- 
-       // new_tris.push_back( it->GetInternalTriangle() );
-    }
-    model->SetKochTriangles( tris );
-    tris = new_tris;
-
+    model->AddKochTriangles( cur_tris );
     ITERATION_INDEX++;
 }
 
@@ -230,8 +211,6 @@ void SnowflakesFractal::CenterRandom()
 {
     int s = segs.size();
     int R = r_as.GetRandomNumber( 100 );
-
-
 }
 
 
@@ -251,10 +230,10 @@ void SnowflakesFractal::StartNewSnowflakesSegment()
     vect.push_back( KochSegment( s1.GetBasePoints().p2, s2.GetBasePoints().p2 ) );
     vect.push_back( KochSegment( s2.GetBasePoints().p2, s3.GetBasePoints().p2 ) );
     vect.push_back( KochSegment( s3.GetBasePoints().p2, s1.GetBasePoints().p2 ) );
-    Color c = r_as.GetRandomColor();
+    Color c = r_as.GetRandomColor( Color(100,100,100) );
     for (auto it = begin( vect ); it != end( vect ); it++)
     {
-        it->SetColor( c );
+        it->SetColor( Color::Red );
         segs.insert( segs.begin(), *it );
     }
     rand_size = 3;
@@ -267,5 +246,9 @@ void SnowflakesFractal::SetCenterPoint( const BasePoint& p )
 {
     center_point = p;
     StartNewSnowflakesSegment();
-    tris.push_back( KochTriangle( segs.at(0), segs.at(2), segs.at(1) ) );
+
+    tris.push_back( KochTriangle( segs.at( 0 ), segs.at( 2 ), segs.at( 1 ), 0 ) );
+    Color c = r_as.GetRandomColor( Color( r_as.GetRandomNumber( 255 ),  r_as.GetRandomNumber( 255 ), r_as.GetRandomNumber( 255 ) ) );
+    tris.at( 0 ).SetColor( c );
+    model->AddKochTriangles( tris );
 }

@@ -1,5 +1,11 @@
  #pragma once
 
+struct HSV {
+    float h;
+    float s;
+    float v;
+};
+
 
 class RandomAS 
 {
@@ -13,7 +19,11 @@ public:
 
     int* GetRandomNumbers( int num, int w );
 
-    Color GetRandomColor();
+    Color GetRandomColor( const Color& color_ );
+
+private:
+
+    HSV GetColorStep() const;
 
 private:
 

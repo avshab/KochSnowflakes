@@ -58,32 +58,141 @@ bool RandomAS::IsDivideRandom( int current, int size, double w )
 }
 
 
-Color RandomAS::GetRandomColor()
-{
-    int col = GetRandomNumber( 5 );
+struct RGB {
+    int r;
+    int g;
+    int b;
+};
 
-    switch (col)
-    {
+
+
+
+
+void rgb2hsv( struct RGB &rgb, struct HSV &hsv )
+{
+    float h = 0.0;
+    float s, v;
+    float max_v = max( rgb.r, rgb.g );
+    max_v = max( max_v, rgb.b );
+    float min_v = min( rgb.r, rgb.g );
+    min_v = min( min_v, rgb.b );
+    float d = max_v - min_v;
+
+    if (max_v == min_v)
+        h = 0.0;
+    else if (max_v == rgb.r && h >= rgb.b)
+        h = 60.0 * ((rgb.g - rgb.b) / (max_v - min_v));
+    else if (max_v == rgb.r && rgb.g < rgb.b)
+        h = 60.0 * ((rgb.g - rgb.b) / (max_v - min_v)) + 360.0;
+    else if (max_v == rgb.g)
+        h = 60.0 * ((rgb.b - rgb.r) / (max_v - min_v)) + 120.0;
+    else if (max_v == rgb.b)
+        h = 60.0 * ((rgb.r - rgb.g) / (max_v - min_v)) + 240.0;
+
+
+    float h1 = 60.0 * ((rgb.g - rgb.b) / (max_v - min_v));
+    float h2 = 60.0 * ((rgb.g - rgb.b) / (max_v - min_v)) + 360.0;
+    float h3 = 60.0 * ((rgb.b - rgb.r) / (max_v - min_v)) + 120.0;
+    float h4 = 60.0 * ((rgb.r - rgb.g) / (max_v - min_v)) + 240.0;
+
+
+    if (max_v == 0.0)
+        s = 0.0;
+    else 
+        s = 1 - min_v / max_v;
+
+    v = max_v / 255;
+
+    hsv.h = h;
+    hsv.s = s;
+    hsv.v = v;
+}
+
+
+void hsv2rgb( struct HSV &hsv, struct RGB &rgb )
+{
+    double hh, p, q, t, ff;
+    long i;
+    RGB out;   
+
+    if (hsv.s <= 0.0) {       // < is bogus, just shuts up warnings
+        out.r = hsv.v;
+        out.g = hsv.v;
+        out.b = hsv.v;
+        rgb = out;
+    }
+    hh = hsv.h;
+    if (hh >= 360.0) hh = 0.0;
+    hh /= 60.0;
+    i = (long)hh;
+    ff = hh - i;
+    p = 255 * hsv.v * (1.0 - hsv.s / 100) / 100;
+    q = 255 * hsv.v * (1.0 - (hsv.s / 100 * ff)) / 100;
+    t = 255 * hsv.v * (1.0 - (hsv.s / 100 * (1.0 - ff))) / 100;
+
+    switch (i) {
         case 0:
-            return Color::Yellow;
+            out.r = 255 * hsv.v / 100;
+            out.g = t;
+            out.b = p;
             break;
         case 1:
-            return Color::Blue;
+            out.r = q;
+            out.g = 255 * hsv.v / 100;
+            out.b = p;
             break;
         case 2:
-            return Color::Red;
-            break;    
+            out.r = p;
+            out.g = 255 * hsv.v / 100;
+            out.b = t;
+            break;
+
         case 3:
-            return Color::Green;
+            out.r = p;
+            out.g = q;
+            out.b = 255 * hsv.v / 100;
             break;
         case 4:
-            return Color::Purple;
+            out.r = t;
+            out.g = p;
+            out.b = 255 * hsv.v / 100;
             break;
+        case 5:
         default:
-            return Color::White;
+            out.r = 255 * hsv.v / 100;
+            out.g = p;
+            out.b = q;
             break;
     }
+    rgb = out;
 }
+
+HSV RandomAS::GetColorStep() const
+{
+    HSV hsv;
+    hsv.h = GetRandomNumber( 50 ) + 30;
+    hsv.s = GetRandomNumber( 40 ) + 10;
+    hsv.v = GetRandomNumber( 40 ) + 10;
+    return hsv;
+}
+
+Color RandomAS::GetRandomColor( const Color& color_)
+{
+    RGB rgb = { color_.GetR(), color_.GetG(), color_.GetB() };
+
+    HSV hsv = { 0, 0, 0 };
+    rgb2hsv( rgb, hsv );
+
+    HSV delta_hsv = GetColorStep();
+    hsv.h += delta_hsv.h;
+    hsv.v += delta_hsv.v;
+    hsv.s += delta_hsv.s;
+
+    hsv2rgb( hsv, rgb );
+
+    return Color( rgb.r, rgb.g, rgb.b );
+};
+   
 
 
 #include <Windows.h>
