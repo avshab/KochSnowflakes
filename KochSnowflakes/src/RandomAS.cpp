@@ -169,27 +169,10 @@ void hsv2rgb( struct HSV &hsv, struct RGB &rgb )
 
 
 
-HSV RandomAS::GetColorStep( int iter_num ) const
+HSV RandomAS::GetColorStep( int iter_num, int elem_num ) const
 {
-    int factor = 0;
-   
-    switch (GetRandomNumber( 3 ))
-    {
-        case 0:
-            factor = 1;
-            break;
-        case 1:
-            factor = 1;
-            break;
-        case 2:
-            factor = 1;
-            break;
-        default:
-            break;
-    }
 
     int factor_2 = 0;    
-    //int r_2 = GetRandomNumber( 4 );
     switch (GetRandomNumber( 2 ))
     {
         case 0:
@@ -200,17 +183,17 @@ HSV RandomAS::GetColorStep( int iter_num ) const
             break;
         default:
             break;
-    }
+    }                   
     HSV hsv;
-    hsv.h = factor * (GetRandomNumber(30) + 3);
-    hsv.s = factor_2 * (GetRandomNumber( iter_num / 2 + 2 ) + 15);
+    hsv.h = 3 * (elem_num  + 1) * factor_2;
+    hsv.s = ( iter_num + 1 ) * factor_2 * 4;
     hsv.v = 0;
-
+    
     
     return hsv;
 }
 
-Color RandomAS::GetRandomColor( const Color& color_, int iter_num )
+Color RandomAS::GetRandomColor( const Color& color_, int iter_num, int elem_num )
 {   
    
 
@@ -223,7 +206,7 @@ Color RandomAS::GetRandomColor( const Color& color_, int iter_num )
         return color_;
 
     }*/
-    HSV delta_hsv = GetColorStep(iter_num);
+    HSV delta_hsv = GetColorStep( iter_num, elem_num );
     hsv.h += delta_hsv.h;
     hsv.s = 80 + delta_hsv.s;  
     hsv.v = 100;

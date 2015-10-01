@@ -230,7 +230,7 @@ void SnowflakesFractal::StartNewSnowflakesSegment()
     vect.push_back( KochSegment( s1.GetBasePoints().p2, s2.GetBasePoints().p2 ) );
     vect.push_back( KochSegment( s2.GetBasePoints().p2, s3.GetBasePoints().p2 ) );
     vect.push_back( KochSegment( s3.GetBasePoints().p2, s1.GetBasePoints().p2 ) );
-    Color c = r_as.GetRandomColor( Color(255,151,187), 0 );
+    Color c = r_as.GetRandomColor( Color(255,151,187), 0, 0 );
     for (auto it = begin( vect ); it != end( vect ); it++)
     {
         it->SetColor( c );
@@ -248,7 +248,7 @@ void SnowflakesFractal::SetCenterPoint( const BasePoint& p )
     StartNewSnowflakesSegment();
 
     tris.push_back( KochTriangle( segs.at( 0 ), segs.at( 2 ), segs.at( 1 ), 0 ) );
-    Color c = r_as.GetRandomColor( Color( r_as.GetRandomNumber( 255 ) + 12,  r_as.GetRandomNumber( 255 ) + 133, r_as.GetRandomNumber( 255 ) + 324 ), 0 );
+    Color c = r_as.GetRandomColor( Color( r_as.GetRandomNumber( 255 ) + 12,  r_as.GetRandomNumber( 255 ) + 133, r_as.GetRandomNumber( 255 ) + 324 ), 0, 0 );
     tris.at( 0 ).SetColor( c );
     model->AddKochTriangles( tris );
 }

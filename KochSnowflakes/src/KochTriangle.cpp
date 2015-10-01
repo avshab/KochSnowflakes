@@ -45,18 +45,25 @@ KochTriangle::KochTriangle( const BasePoint& p1, const BasePoint& p2, const Base
 void KochTriangle::SetChildsTriangles()
 {
 
-    childs.push_back(KochTriangle( segs.at( 0 ).GetUnitPoints().p4, segs.at( 1 ).GetUnitPoints().p1, segs.at( 1 ).GetUnitPoints().p2, iter_order ));
-    childs.push_back(KochTriangle( segs.at( 1 ).GetUnitPoints().p4, segs.at( 2 ).GetUnitPoints().p1, segs.at( 2 ).GetUnitPoints().p2, iter_order ));
-    childs.push_back(KochTriangle( segs.at( 2 ).GetUnitPoints().p4, segs.at( 0 ).GetUnitPoints().p1, segs.at( 0 ).GetUnitPoints().p2, iter_order ));
+    childs.push_back( KochTriangle( segs.at( 2 ).GetUnitPoints().p4, segs.at( 0 ).GetUnitPoints().p1, segs.at( 0 ).GetUnitPoints().p2, iter_order ));
+    childs.push_back( KochTriangle( segs.at( 0 ).GetUnitPoints().p2, segs.at( 0 ).GetUnitPoints().p3, segs.at( 0 ).GetUnitPoints().p4, iter_order ));
+    childs.push_back( KochTriangle( segs.at( 0 ).GetUnitPoints().p4, segs.at( 1 ).GetUnitPoints().p1, segs.at( 1 ).GetUnitPoints().p2, iter_order ));
+    childs.push_back( KochTriangle( segs.at( 1 ).GetUnitPoints().p2, segs.at( 1 ).GetUnitPoints().p3, segs.at( 1 ).GetUnitPoints().p4, iter_order ));
+    childs.push_back( KochTriangle( segs.at( 1 ).GetUnitPoints().p4, segs.at( 2 ).GetUnitPoints().p1, segs.at( 2 ).GetUnitPoints().p2, iter_order ));
+    childs.push_back( KochTriangle( segs.at( 2 ).GetUnitPoints().p2, segs.at( 2 ).GetUnitPoints().p3, segs.at( 2 ).GetUnitPoints().p4, iter_order ));
+    
+    
+    
+    
 
-    childs.push_back(KochTriangle( segs.at( 0 ).GetUnitPoints().p2, segs.at( 1 ).GetUnitPoints().p2, segs.at( 2 ).GetUnitPoints().p2, iter_order ));
+   childs.push_back(KochTriangle( segs.at( 0 ).GetUnitPoints().p2, segs.at( 1 ).GetUnitPoints().p2, segs.at( 2 ).GetUnitPoints().p2, iter_order ));
     //childs.push_back(KochTriangle( segs.at( 0 ).GetUnitPoints().p4, segs.at( 1 ).GetUnitPoints().p4, segs.at( 2 ).GetUnitPoints().p4, iter_order ));
 
-    for (int i = 0; i < 3; i++)
-    {  
-        KochUnitPoints pts = segs.at( i ).GetUnitPoints();    
-        childs.push_back( KochTriangle( pts.p2, pts.p3, pts.p4, iter_order ) );
-    }
+    //for (int i = 0; i < 3; i++)
+    //{  
+    //    KochUnitPoints pts = segs.at( i ).GetUnitPoints();    
+    //    childs.push_back( KochTriangle( pts.p2, pts.p3, pts.p4, iter_order ) );
+    //}
    
 }
 
@@ -70,10 +77,11 @@ std::vector<KochTriangle> KochTriangle::GetIterTriangles()
         SetChildsTriangles();
 
         was_iterating = true;
-        for (auto it = begin( childs ); it != end( childs ); it++)
+        for (int i = 0; i < 7; i++)
         {   
-            it->SetColor( rand.GetRandomColor( color, iter_order ) );
-            cur_tris.push_back( *it );
+            childs.at(i).SetColor( rand.GetRandomColor( color, iter_order, i ) );
+            if (i != 6)
+                cur_tris.push_back( childs.at( i ) );
         }
 
         return cur_tris;
@@ -92,7 +100,7 @@ std::vector<KochTriangle> KochTriangle::GetIterTriangles()
         cur_tris = childs.at( num ).GetIterTriangles();
         KochTriangle tri = childs.at( num );
         if (!cur_tris.empty())
-        {
+        { 
             childs.erase( childs.begin() + num );
             childs.push_back( tri );
             return  cur_tris;
