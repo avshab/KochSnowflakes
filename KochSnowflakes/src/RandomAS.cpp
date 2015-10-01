@@ -104,8 +104,8 @@ void rgb2hsv( struct RGB &rgb, struct HSV &hsv )
     v = max_v / 255;
 
     hsv.h = h;
-    hsv.s = s;
-    hsv.v = v;
+    hsv.s = s * 100;
+    hsv.v = v * 100;
 }
 
 
@@ -167,29 +167,92 @@ void hsv2rgb( struct HSV &hsv, struct RGB &rgb )
     rgb = out;
 }
 
-HSV RandomAS::GetColorStep() const
+
+
+HSV RandomAS::GetColorStep( int iter_num ) const
 {
+    int factor = 0;
+   
+    switch (GetRandomNumber( 3 ))
+    {
+        case 0:
+            factor = 1;
+            break;
+        case 1:
+            factor = 1;
+            break;
+        case 2:
+            factor = 1;
+            break;
+        default:
+            break;
+    }
+
+    int factor_2 = 0;    
+    //int r_2 = GetRandomNumber( 4 );
+    switch (GetRandomNumber( 2 ))
+    {
+        case 0:
+            factor_2 = -1;
+            break;
+        case 1:
+            factor_2 = 1;
+            break;
+        default:
+            break;
+    }
     HSV hsv;
-    hsv.h = GetRandomNumber( 40 ) + 30;
-    hsv.s = GetRandomNumber( 20 ) + 60;
-    hsv.v = GetRandomNumber( 20 ) + 60;
+    hsv.h = factor * (GetRandomNumber(30) + 3);
+    hsv.s = factor_2 * (GetRandomNumber( iter_num / 2 + 2 ) + 15);
+    hsv.v = 0;
+
+    
     return hsv;
 }
 
-Color RandomAS::GetRandomColor( const Color& color_)
-{
+Color RandomAS::GetRandomColor( const Color& color_, int iter_num )
+{   
+   
+
     RGB rgb = { color_.GetR(), color_.GetG(), color_.GetB() };
 
     HSV hsv = { 0, 0, 0 };
     rgb2hsv( rgb, hsv );
+   /* if (hsv.v = 100 && hsv.s == 0)
+    {
+        return color_;
 
-    HSV delta_hsv = GetColorStep();
+    }*/
+    HSV delta_hsv = GetColorStep(iter_num);
     hsv.h += delta_hsv.h;
-    hsv.v += delta_hsv.v;
-    hsv.s += delta_hsv.s;
+    hsv.s = 80 + delta_hsv.s;  
+    hsv.v = 100;
+    
+    /*if (iter_num >= 5)
+    { 
+        int t = GetRandomNumber( 5 );
+        if (t != 3)
+        {
+           hsv.v = 100;
+           hsv.s = 0;
+        }
+        
+    }
+
+    if (iter_num == 4 && GetRandomNumber( 3 ) == 1)
+    {
+        hsv.v = 100;
+        hsv.s = 0;
+    }*/
+
+    if (hsv.h > 359)
+        hsv.h -= 360;
+    else if (hsv.h < 0)
+        hsv.h += 360;
 
     hsv2rgb( hsv, rgb );
 
+  
     return Color( rgb.r, rgb.g, rgb.b );
 };
    

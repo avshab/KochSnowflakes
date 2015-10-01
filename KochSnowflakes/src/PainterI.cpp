@@ -134,8 +134,9 @@ void PainterI::PaintPoints( const std::vector<CoordinatesObject*>& points, Graph
 
 void PainterI::PaintFace(const CoordinatesPolygon& face, Graphics* g ) const
 {
-   // Color c = face.GetColor();
-    SolidBrush brush( face.GetColor() );
+    Color c = face.GetColor();
+    Pen pen( c, 1 );
+    SolidBrush brush( c );
     const int t = face.pts_size;
     Point pts[3100];
     std::vector<CoordinatesPoint> coords = face.GetCoordinates();

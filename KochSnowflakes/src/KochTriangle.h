@@ -1,7 +1,6 @@
 #pragma once
 #include "KochSegment.h"
 #include "RandomAS.h"
-#include <map>
 
 
 class KochTriangle
@@ -36,7 +35,7 @@ private:
 
     std::vector<KochSegment> segs;
 
-    std::map<int, KochTriangle> childs;
+    std::vector<KochTriangle> childs;
 
     bool was_iterating;
 

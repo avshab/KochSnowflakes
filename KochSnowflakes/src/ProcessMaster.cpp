@@ -37,7 +37,7 @@ void ProcessMaster::Process()
      	fractal->Iterate();                        
 	    painter->SetModel(&model->GetModel());
 	    painter->RedrawWindow();
-        Sleep( 50 );
+        Sleep( 4 );
     }
 
 }

@@ -19,11 +19,12 @@ public:
 
     int* GetRandomNumbers( int num, int w );
 
-    Color GetRandomColor( const Color& color_ );
+    Color GetRandomColor( const Color& color_, int iter_num );
+
 
 private:
 
-    HSV GetColorStep() const;
+    HSV GetColorStep( int iter_num ) const;
 
 private:
 
