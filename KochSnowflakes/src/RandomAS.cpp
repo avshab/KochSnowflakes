@@ -176,18 +176,21 @@ HSV RandomAS::GetColorStep( int iter_num, int elem_num ) const
     switch (GetRandomNumber( 2 ))
     {
         case 0:
-            factor_2 = -1;
+            factor_2 = 5;
             break;
         case 1:
-            factor_2 = 1;
+            factor_2 = -5;
             break;
         default:
             break;
     }                   
     HSV hsv;
-    hsv.h = 3 * (elem_num  + 1) * factor_2;
-    hsv.s = ( iter_num + 1 ) * factor_2 * 4;
-    hsv.v = 0;
+    int j = 6;
+    if (iter_num > 4)
+        j = iter_num;
+    hsv.h = elem_num * (j - iter_num) * (j - iter_num) * (j - iter_num)/* * factor_2*/ / 16;
+    hsv.s = 0;//(sqrt( /*(j -iter_num) **/ elem_num )) * 2;
+    hsv.v = 1.5 * factor_2;
     
     
     return hsv;

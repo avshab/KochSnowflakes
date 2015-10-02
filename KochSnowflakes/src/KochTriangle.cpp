@@ -17,8 +17,8 @@ KochTriangle::KochTriangle( const KochSegment& s1, const KochSegment& s2, const 
 
     was_iterating = false;
     iter_order = ++iter_order_;
-    if (segs.at( 0 ).GetLength() < 1)
-        iter_order = 10;
+    if (segs.at( 0 ).GetLength() < 2)
+        iter_order = 15;
 }
 
 
@@ -37,34 +37,34 @@ KochTriangle::KochTriangle( const BasePoint& p1, const BasePoint& p2, const Base
 
     was_iterating = false;
     iter_order = ++iter_order_;
-    if (segs.at( 0 ).GetLength() < 1)
-        iter_order = 10;
+    if (segs.at( 0 ).GetLength() < 2)
+        iter_order = 15;
 }
  
 
 void KochTriangle::SetChildsTriangles()
 {
-
-    childs.push_back( KochTriangle( segs.at( 2 ).GetUnitPoints().p4, segs.at( 0 ).GetUnitPoints().p1, segs.at( 0 ).GetUnitPoints().p2, iter_order ));
-    childs.push_back( KochTriangle( segs.at( 0 ).GetUnitPoints().p2, segs.at( 0 ).GetUnitPoints().p3, segs.at( 0 ).GetUnitPoints().p4, iter_order ));
-    childs.push_back( KochTriangle( segs.at( 0 ).GetUnitPoints().p4, segs.at( 1 ).GetUnitPoints().p1, segs.at( 1 ).GetUnitPoints().p2, iter_order ));
-    childs.push_back( KochTriangle( segs.at( 1 ).GetUnitPoints().p2, segs.at( 1 ).GetUnitPoints().p3, segs.at( 1 ).GetUnitPoints().p4, iter_order ));
-    childs.push_back( KochTriangle( segs.at( 1 ).GetUnitPoints().p4, segs.at( 2 ).GetUnitPoints().p1, segs.at( 2 ).GetUnitPoints().p2, iter_order ));
-    childs.push_back( KochTriangle( segs.at( 2 ).GetUnitPoints().p2, segs.at( 2 ).GetUnitPoints().p3, segs.at( 2 ).GetUnitPoints().p4, iter_order ));
+    std::vector<KochTriangle> cur_tri;
+    cur_tri.push_back( KochTriangle( segs.at( 2 ).GetUnitPoints().p4, segs.at( 0 ).GetUnitPoints().p1, segs.at( 0 ).GetUnitPoints().p2, iter_order ) );
+    cur_tri.push_back( KochTriangle( segs.at( 0 ).GetUnitPoints().p2, segs.at( 0 ).GetUnitPoints().p3, segs.at( 0 ).GetUnitPoints().p4, iter_order ) );
+    cur_tri.push_back( KochTriangle( segs.at( 0 ).GetUnitPoints().p4, segs.at( 1 ).GetUnitPoints().p1, segs.at( 1 ).GetUnitPoints().p2, iter_order ) );
+    cur_tri.push_back( KochTriangle( segs.at( 1 ).GetUnitPoints().p2, segs.at( 1 ).GetUnitPoints().p3, segs.at( 1 ).GetUnitPoints().p4, iter_order ) );
+    cur_tri.push_back( KochTriangle( segs.at( 1 ).GetUnitPoints().p4, segs.at( 2 ).GetUnitPoints().p1, segs.at( 2 ).GetUnitPoints().p2, iter_order ) );
+    cur_tri.push_back( KochTriangle( segs.at( 2 ).GetUnitPoints().p2, segs.at( 2 ).GetUnitPoints().p3, segs.at( 2 ).GetUnitPoints().p4, iter_order ) );
     
+    int j = rand.GetRandomNumber( 6 );
+    for (int i = 0; i < 6; i++, j++)
+    { 
+        if (j == 6)
+            j = 0;
+        childs.push_back( cur_tri.at( j ) );
+    }
     
-    
-    
-
-   childs.push_back(KochTriangle( segs.at( 0 ).GetUnitPoints().p2, segs.at( 1 ).GetUnitPoints().p2, segs.at( 2 ).GetUnitPoints().p2, iter_order ));
-    //childs.push_back(KochTriangle( segs.at( 0 ).GetUnitPoints().p4, segs.at( 1 ).GetUnitPoints().p4, segs.at( 2 ).GetUnitPoints().p4, iter_order ));
-
-    //for (int i = 0; i < 3; i++)
-    //{  
-    //    KochUnitPoints pts = segs.at( i ).GetUnitPoints();    
-    //    childs.push_back( KochTriangle( pts.p2, pts.p3, pts.p4, iter_order ) );
-    //}
-   
+    j = rand.GetRandomNumber( 2 );
+    if (j == 0)
+        childs.push_back(KochTriangle( segs.at( 0 ).GetUnitPoints().p2, segs.at( 1 ).GetUnitPoints().p2, segs.at( 2 ).GetUnitPoints().p2, iter_order ));
+    else if (j == 1)
+        childs.push_back(KochTriangle( segs.at( 0 ).GetUnitPoints().p4, segs.at( 1 ).GetUnitPoints().p4, segs.at( 2 ).GetUnitPoints().p4, iter_order ));
 }
 
 std::vector<KochTriangle> KochTriangle::GetIterTriangles()
@@ -89,14 +89,14 @@ std::vector<KochTriangle> KochTriangle::GetIterTriangles()
 
     
 
-    if (iter_order > 8)
+    if (iter_order >= 15)
         return cur_tris;
 
     int counter = 0;
     while (counter < 10)
     {
-        int num = rand.GetRandomNumber( 5 );      
-        
+        int num = rand.GetRandomNumber( 3 );      
+
         cur_tris = childs.at( num ).GetIterTriangles();
         KochTriangle tri = childs.at( num );
         if (!cur_tris.empty())
