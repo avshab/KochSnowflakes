@@ -95,8 +95,9 @@ std::vector<KochTriangle> KochTriangle::GetIterTriangles()
     int counter = 0;
     while (counter < 10)
     {
-        int num = rand.GetRandomNumber( 3 );      
-
+        int num = rand.GetRandomNumber( 2 );      
+        if (iter_order > 2)
+            num += 5;
         cur_tris = childs.at( num ).GetIterTriangles();
         KochTriangle tri = childs.at( num );
         if (!cur_tris.empty())
