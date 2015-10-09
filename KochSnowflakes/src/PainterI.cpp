@@ -85,13 +85,15 @@ void PainterI::OnPaint()
 			if (!it->second.empty())
 				PaintPoints(it->second, &g);
 
-		if (it->first == eModelObjectType::BASE_SEGMENT)
+
+
+       if (it->first == eModelObjectType::BASE_POLYGON)
+            if (!it->second.empty())
+                PaintFaces( it->second, &g );  
+        
+        if (it->first == eModelObjectType::BASE_SEGMENT)
 			if (!it->second.empty())
 				PaintSegments(it->second, &g);
-
-        if (it->first == eModelObjectType::BASE_POLYGON)
-            if (!it->second.empty())
-                PaintFaces( it->second, &g );
 		
 	}
 
@@ -132,19 +134,64 @@ void PainterI::PaintPoints( const std::vector<CoordinatesObject*>& points, Graph
 }
 
 
+
+Point Rotate( Point p, Point c, double a ) 
+{
+    double alfa = a * 3.14159265 / 180.0;
+    double Bx = cos( alfa ) * (p.X - c.X) - sin( alfa ) * (p.Y - c.Y);
+    double By = sin( alfa ) * (p.X - c.X) + cos( alfa ) * (p.Y - c.Y);
+    Point cp( c.X + Bx, c.Y + By );
+    return  cp;
+}
+
+
+Point GetPointIntoSeg( Point p1, Point p2, double k )
+{
+    return Point( p1.X + (p2.X - p1.X) * k, p1.Y + (p2.Y - p1.Y) * k );
+}
+
 void PainterI::PaintFace(const CoordinatesPolygon& face, Graphics* g ) const
 {
     Color c = face.GetColor();
     Pen pen( c, 1 );
     SolidBrush brush( c );
     const int t = face.pts_size;
-    Point pts[3100];
+    Point pts[12];
     std::vector<CoordinatesPoint> coords = face.GetCoordinates();
     for (int i = 0; i < face.pts_size; i++)
-        pts[i] = AdaptPointCoordinates( coords.at( i ) );
+        pts[i*4] = AdaptPointCoordinates( coords.at( i ) );
 
+
+    Point pm = GetPointIntoSeg( pts[4], pts[0], 0.5 );
+    Point pc = GetPointIntoSeg( pts[8], pm, 2.0/3.0 );
+    
+    pts[1] = GetPointIntoSeg( pts[0], pts[4], 1.0 / 3.0 );
+
+    pts[2] = Rotate( pts[0], pc, 60 );
+
+    pts[3] = GetPointIntoSeg( pts[0], pts[4], 2.0 / 3.0 );
+
+    pts[5] = GetPointIntoSeg( pts[4], pts[8], 1.0 / 3.0 );
+
+    pts[6] = Rotate( pts[0], pc, 180 );
+
+    pts[7] = GetPointIntoSeg( pts[4], pts[8], 2.0 / 3.0 );
+
+    pts[9] = GetPointIntoSeg( pts[8], pts[0], 1.0 / 3.0 );
+
+    pts[10] = Rotate( pts[0], pc, -60);
+
+    pts[11] = GetPointIntoSeg( pts[8], pts[0], 2.0 / 3.0 );
+
+    PointF fp( (Gdiplus::REAL)pc.X, (Gdiplus::REAL)pc.Y );
+    Rect rect( pc.X - StylesFigures::point_radius, pc.Y - StylesFigures::point_radius, 2 * StylesFigures::point_radius, 2 * StylesFigures::point_radius );
+    Rect rect2( pts[9].X - StylesFigures::point_radius, pts[9].Y - StylesFigures::point_radius, 2 * StylesFigures::point_radius, 2 * StylesFigures::point_radius );
+    SolidBrush brush2( Color::DarkSeaGreen );
    
-    g->FillPolygon( &brush, pts, face.pts_size );
+    
+    g->FillPolygon( &brush, pts, 12 );
+    //g->FillEllipse( &brush, rect );
+    //g->FillEllipse( &brush, rect2 );
 }
 
 

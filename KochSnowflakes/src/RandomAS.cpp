@@ -197,7 +197,7 @@ HSV RandomAS::GetColorStep( int iter_num, int elem_num ) const
     switch (GetRandomNumber( 2 ))
     {
         case 0:
-            factor_2 = -1;
+            factor_2 = 2;
             break;
         case 1:
             factor_2 = 1;
@@ -207,9 +207,9 @@ HSV RandomAS::GetColorStep( int iter_num, int elem_num ) const
     }
     int j = 6;
     if (iter_num == 1)
-        factor_2 = factor_2 * 10 * (7 - elem_num);
+        factor_2 = factor_2 * 2 * (7 - elem_num);
     else
-        factor_2 = factor_2  * 4;
+        factor_2 = factor_2 * 3;
 
    
     if (iter_num > 4)
@@ -217,10 +217,10 @@ HSV RandomAS::GetColorStep( int iter_num, int elem_num ) const
     hsv.h = factor_2;
 
     if (iter_num == 1)
-        hsv.s = 2;
+        hsv.s = 12;
     else
-        hsv.s = factor_2 * 5;
-    hsv.v = 90;
+        hsv.s = factor_2 * 4;
+    //hsv.v = 90;
     
     
     return hsv;
@@ -237,7 +237,6 @@ Color RandomAS::GetRandomColor( const Color& color_, int iter_num, int elem_num 
    /* if (hsv.v = 100 && hsv.s == 0)
     {
         return color_;
-
     }*/
     HSV delta_hsv = GetColorStep( iter_num, elem_num );
     hsv.h += delta_hsv.h;
@@ -256,7 +255,6 @@ Color RandomAS::GetRandomColor( const Color& color_, int iter_num, int elem_num 
            hsv.v = 100;
            hsv.s = 0;
         }
-        
     }
 
     if (iter_num == 4 && GetRandomNumber( 3 ) == 1)
@@ -306,4 +304,38 @@ int* RandomAS::GetRandomNumbers( int randoms, int w )
 
 
     return ver;
+}
+
+
+Color RandomAS::GetBaseColor() const
+{
+    int r = GetRandomNumber( 2 );
+    switch( r )
+    {
+        case 0:
+            return Color::Aqua;
+        case 1:
+            return Color::Aquamarine;
+        case 2:
+            return Color::Blue;
+        case 3:
+            return Color::BlueViolet;
+        case 4:
+            return Color::CornflowerBlue;
+        case 5:
+            return Color::Cyan;
+        case 6:
+            return Color::DarkBlue;
+        case 7:
+            return Color::DarkOrchid;
+        case 8:
+            return Color::MediumBlue;
+        case 9:
+            return Color::PaleTurquoise;
+        case 10:
+            return Color::DarkSlateBlue;
+        default:
+            return Color::MediumBlue;
+
+    }
 }

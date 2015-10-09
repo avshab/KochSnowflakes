@@ -20,7 +20,6 @@ BaseSegment::~BaseSegment()
 
 BasePoint BaseSegment::GetMiddlePoint( const BasePoint& p1_, const BasePoint& p2_, double k ) const
 {
-    BasePoint pad( p1_.GetX() + (p2_.GetX() - p1_.GetX()) * k, p1_.GetY() + (p2_.GetY() - p1_.GetY()) * k, p1_.GetZ() + (p2_.GetZ() - p1_.GetZ())  * k );
     return BasePoint( p1_.GetX() + (p2_.GetX() - p1_.GetX()) * k, p1_.GetY() + (p2_.GetY() - p1_.GetY()) * k, p1_.GetZ() + (p2_.GetZ() - p1_.GetZ())  * k );
 }
 

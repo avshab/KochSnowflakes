@@ -57,5 +57,7 @@ private:
 
     void DivideTriangles();
 
-    void StartNewSnowflakesSegment();
+    void StartNewSnowflakesTriangle();
+
+    void StartNewSnowflakesHexagon();
 };

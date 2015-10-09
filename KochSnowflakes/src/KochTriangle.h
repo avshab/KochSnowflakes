@@ -25,6 +25,8 @@ public:
 
     Color GetColor() const;
 
+    void SetCentralPoint();
+
 private:
 
     void SetChildsTriangles();
@@ -42,4 +44,6 @@ private:
     int iter_order;
 
     RandomAS rand;
+
+    BasePoint central_point;
 };

@@ -108,6 +108,7 @@ std::vector<KochSegment> KochSegment::Divide( eGrowthDirection dir )
     segs.push_back( KochSegment( seg.p4, seg.p5 ) );
     //segs.push_back( KochSegment( seg.p4, seg.p2 ) );  
 
+
     for (auto it = begin( segs ); it != end( segs ); it++)
     {
         it->SetColor( GetColor() );   

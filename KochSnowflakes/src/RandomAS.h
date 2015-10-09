@@ -21,6 +21,7 @@ public:
 
     Color GetRandomColor( const Color& color_, int iter_num, int elem_num );
 
+    Color GetBaseColor() const;
 
 private:
 

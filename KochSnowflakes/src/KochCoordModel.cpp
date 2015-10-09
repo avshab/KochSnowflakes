@@ -83,10 +83,12 @@ void KochCoordModel::AddKochTriangles( const std::vector<KochTriangle>& tris )
 }
 
 
+
 void KochCoordModel::SetKochTriangle( const KochTriangle& tri )
 {
     std::vector<CoordinatesPoint> coords;
     std::vector<BasePoint> pts = tri.GetPoints();
+
 
     for (auto it = begin( pts ); it != end( pts ); it++)
         coords.push_back(TranslatePointToCoord(it));
@@ -95,6 +97,12 @@ void KochCoordModel::SetKochTriangle( const KochTriangle& tri )
     pol->SetColor( tri.GetColor() );
     AddObject( eModelObjectType::BASE_POLYGON, pol );
     pol = NULL;
+
+
+    std::vector<KochSegment> segs = tri.GetSegments();
+
+    for (auto it = begin( segs ); it != end( segs ); it++)
+        SetKochSegment( *it );
 }
 
 
