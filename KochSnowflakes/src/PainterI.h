@@ -40,10 +40,16 @@ private:
 
 	void PaintSegments(const std::vector<CoordinatesObject*>& segments, Graphics* g) const;
 
+    void PaintSegment( const CoordinatesSegment& seg, Graphics* g ) const;
+
+   // void PaintSnowSegment( const CoordinatesSegment& seg, Graphics* g ) const;
+
     void PaintFaces( const std::vector<CoordinatesObject*>& faces, Graphics* g ) const;
 
-    void PaintFace( const CoordinatesPolygon& points, Graphics* g ) const;
+    void PaintSnowFace( const CoordinatesPolygon& points, Graphics* g ) const;
     
+    void PaintFace( const CoordinatesPolygon& points, Graphics* g ) const;
+
     bool IsDushSegment( int id_elem ) const;
 
     bool IsVisibleSegment( int id_elem ) const;

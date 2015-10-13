@@ -32,9 +32,9 @@ KochTriangle::KochTriangle( const BasePoint& p1, const BasePoint& p2, const Base
     versus.push_back( p3 );
 
 
-    segs.push_back( KochSegment( p1, p2 ) );
-    segs.push_back( KochSegment( p2, p3 ) );
-    segs.push_back( KochSegment( p3, p1 ) );
+    segs.push_back( KochSegment( p1, p2, 0 ) );
+    segs.push_back( KochSegment( p2, p3, 0 ) );
+    segs.push_back( KochSegment( p3, p1, 0 ) );
     for (int i = 0; i < 3; i++)
         segs.at( i ).Divide();
 

@@ -17,6 +17,8 @@ public:
 
 	void SetKochSegments( const std::vector<KochSegment>& segs );
 
+    void AddKochSegments( const std::vector<KochSegment>& segs );
+
 	void SetKochSegment( const KochSegment& seg );  
     
     void SetCenterPoint( const BasePoint& p );
@@ -25,10 +27,11 @@ public:
 
     void AddKochTriangles( const std::vector<KochTriangle>& tris );
 
+    void AddKochPolygon( const KochPolygon& p );
+
     void SetKochTriangle( const KochTriangle& tri );
 
 private:
-
 
     BasePoint  base_point;
 

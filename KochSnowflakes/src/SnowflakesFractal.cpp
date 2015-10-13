@@ -48,8 +48,6 @@ void SnowflakesFractal::DivideTriangles()
     grow_dir = eGrowthDirection::OUTSIDE;
     std::vector<KochTriangle> cur_tris = tris.at(0).GetIterTriangles();
 
-
-   // model->
     model->AddKochTriangles( cur_tris );
     ITERATION_INDEX++;
 }
@@ -57,20 +55,28 @@ void SnowflakesFractal::DivideTriangles()
 
 void SnowflakesFractal::DivideAll()
 {
-    eGrowthDirection grow_dir = eGrowthDirection::OUTSIDE;
-
-    std::vector<KochSegment> new_segs;
-    for (auto it = begin( segs ); it != end( segs ); it++)
+    if (ITERATION_INDEX == 1)
     {
-        std::vector<KochSegment> cur_segs = it->Divide( grow_dir );
+         model->SetKochSegments( segs );
+    } else { 
+        eGrowthDirection grow_dir = eGrowthDirection::OUTSIDE;
 
-        for (auto it_c = begin( cur_segs ); it_c != end( cur_segs ); it_c++)
-            new_segs.push_back( *it_c );
-    }
-    segs.clear();
-    segs = new_segs;
-    model->SetKochSegments( segs );
-    ITERATION_INDEX++;
+        std::vector<KochSegment> new_segs;
+        for (int i = 0; i < 24; i++)
+        {
+            std::vector<KochSegment> new_segs_ = segs.at(i).Divide( grow_dir );
+            for (int j = 0; j < new_segs_.size(); j++)
+            {
+                new_segs.push_back( new_segs_.at( j ) );
+                segs.push_back( new_segs_.at( j ) );
+            }
+        }  
+        for (int i = 0; i < segs.size(); i++)
+            model->AddKochPolygon( segs.at( i ).GetPaintPolygon() );
+
+        model->SetKochSegments( new_segs );      
+       
+    } ITERATION_INDEX++;
 }
 
 
@@ -228,9 +234,9 @@ void SnowflakesFractal::StartNewSnowflakesTriangle()
     BaseSegment s2( s1.Rotate( par_m[0] + 120 ) );
     BaseSegment s3( s1.Rotate( par_m[0] + 240 ) );
    
-    vect.push_back( KochSegment( s1.GetBasePoints().p2, s2.GetBasePoints().p2 ) );
-    vect.push_back( KochSegment( s2.GetBasePoints().p2, s3.GetBasePoints().p2 ) );
-    vect.push_back( KochSegment( s3.GetBasePoints().p2, s1.GetBasePoints().p2 ) );
+    vect.push_back( KochSegment( s1.GetBasePoints().p2, s2.GetBasePoints().p2, 0 ) );
+    vect.push_back( KochSegment( s2.GetBasePoints().p2, s3.GetBasePoints().p2, 0 ) );
+    vect.push_back( KochSegment( s3.GetBasePoints().p2, s1.GetBasePoints().p2, 0 ) );
     Color c = r_as.GetRandomColor( Color(255,151,187), 0, 0 );
     for (auto it = begin( vect ); it != end( vect ); it++)
     {
@@ -261,25 +267,44 @@ void SnowflakesFractal::StartNewSnowflakesHexagon()
     BaseSegment s3( s1.Rotate( par_m[0] + 120 ) );
     BaseSegment s4( s1.Rotate( par_m[0] + 180 ) );
     BaseSegment s5( s1.Rotate( par_m[0] + 240 ) );
-    BaseSegment s6( s1.Rotate( par_m[0] + 300 ) );
+    BaseSegment s6( s0.Rotate( par_m[0] - 60 ) );
 
 
-   // vect.push_back( KochSegment( s1.GetBasePoints().p2, s2.GetBasePoints().p2 ));
-    vect.push_back( KochSegment( GetPIS( center_point, GetPIS( s1.GetBasePoints().p2, s2.GetBasePoints().p2, 0.5 ), 2 ), s1.GetBasePoints().p2 ) );
-    vect.push_back( KochSegment( GetPIS( center_point, GetPIS( s1.GetBasePoints().p2, s2.GetBasePoints().p2, 0.5 ), 2 ), s2.GetBasePoints().p2 ) );
-    //vect.push_back( KochSegment( s2.GetBasePoints().p2, s3.GetBasePoints().p2 ) );
-    //vect.push_back( KochSegment( s3.GetBasePoints().p2, s4.GetBasePoints().p2 ) );
-    //vect.push_back( KochSegment( s4.GetBasePoints().p2, s5.GetBasePoints().p2 ) );
-    //vect.push_back( KochSegment( s5.GetBasePoints().p2, s6.GetBasePoints().p2 ) );
-    //vect.push_back( KochSegment( s6.GetBasePoints().p2, s1.GetBasePoints().p2 ) );
+
+    vect.push_back( KochSegment( s1.GetBasePoints().p2, GetPIS( center_point, GetPIS( s1.GetBasePoints().p2, s2.GetBasePoints().p2, 0.5 ), 2 ), 0 ));
+    vect.push_back( KochSegment( GetPIS( center_point, GetPIS( s1.GetBasePoints().p2, s2.GetBasePoints().p2, 0.5 ), 2 ), s2.GetBasePoints().p2, 0 ));
+
+    vect.push_back( KochSegment( s2.GetBasePoints().p2, GetPIS( center_point, GetPIS( s2.GetBasePoints().p2, s3.GetBasePoints().p2, 0.5 ), 2 ), 0 ));
+    vect.push_back( KochSegment( GetPIS( center_point, GetPIS( s2.GetBasePoints().p2, s3.GetBasePoints().p2, 0.5 ), 2 ), s3.GetBasePoints().p2, 0 ));
+
+    vect.push_back( KochSegment( s3.GetBasePoints().p2, GetPIS( center_point, GetPIS( s3.GetBasePoints().p2, s4.GetBasePoints().p2, 0.5 ), 2 ), 0 ));
+    vect.push_back( KochSegment( GetPIS( center_point, GetPIS( s3.GetBasePoints().p2, s4.GetBasePoints().p2, 0.5 ), 2 ), s4.GetBasePoints().p2, 0 ));
 
 
-    vect.push_back( KochSegment( s1.GetBasePoints().p2, center_point ) );
-    vect.push_back( KochSegment( s2.GetBasePoints().p2, center_point ) );
-    vect.push_back( KochSegment( s3.GetBasePoints().p2, center_point ) );
-    vect.push_back( KochSegment( s4.GetBasePoints().p2, center_point ) );
-    vect.push_back( KochSegment( s5.GetBasePoints().p2, center_point ) );
-    vect.push_back( KochSegment( s6.GetBasePoints().p2, center_point ) );
+    vect.push_back( KochSegment( s4.GetBasePoints().p2, GetPIS( center_point, GetPIS( s4.GetBasePoints().p2, s5.GetBasePoints().p2, 0.5 ), 2 ), 0 ));
+    vect.push_back( KochSegment( GetPIS( center_point, GetPIS( s4.GetBasePoints().p2, s5.GetBasePoints().p2, 0.5 ), 2 ), s5.GetBasePoints().p2, 0 ));
+
+    vect.push_back( KochSegment( s5.GetBasePoints().p2, GetPIS( center_point, GetPIS( s5.GetBasePoints().p2, s6.GetBasePoints().p2, 0.5 ), 2 ), 0 ));
+    vect.push_back( KochSegment( GetPIS( center_point, GetPIS( s5.GetBasePoints().p2, s6.GetBasePoints().p2, 0.5 ), 2 ), s6.GetBasePoints().p2, 0 ));
+
+    vect.push_back( KochSegment( s6.GetBasePoints().p2, GetPIS( center_point, GetPIS( s6.GetBasePoints().p2, s1.GetBasePoints().p2, 0.5 ), 2 ), 0 ));
+    vect.push_back( KochSegment( GetPIS( center_point, GetPIS( s6.GetBasePoints().p2, s1.GetBasePoints().p2, 0.5 ), 2 ), s1.GetBasePoints().p2, 0 ));
+
+
+    vect.push_back( KochSegment( s2.GetBasePoints().p2, s1.GetBasePoints().p2, 0 ) );
+    vect.push_back( KochSegment( s3.GetBasePoints().p2, s2.GetBasePoints().p2, 0 ) );
+    vect.push_back( KochSegment( s4.GetBasePoints().p2, s3.GetBasePoints().p2, 0 ) );
+    vect.push_back( KochSegment( s5.GetBasePoints().p2, s4.GetBasePoints().p2, 0 ) );
+    vect.push_back( KochSegment( s6.GetBasePoints().p2, s5.GetBasePoints().p2, 0 ) );
+    vect.push_back( KochSegment( s1.GetBasePoints().p2, s6.GetBasePoints().p2, 0 ) );
+
+
+    vect.push_back( KochSegment( s1.GetBasePoints().p2, center_point, 0 ) );
+    vect.push_back( KochSegment( s2.GetBasePoints().p2, center_point, 0 ) );
+    vect.push_back( KochSegment( s3.GetBasePoints().p2, center_point, 0 ) );
+    vect.push_back( KochSegment( s4.GetBasePoints().p2, center_point, 0 ) );
+    vect.push_back( KochSegment( s5.GetBasePoints().p2, center_point, 0 ) );
+    vect.push_back( KochSegment( s6.GetBasePoints().p2, center_point, 0 ) );
 
     Color c = r_as.GetRandomColor( Color( 255, 151, 187 ), 0, 0 );
     for (auto it = begin( vect ); it != end( vect ); it++)

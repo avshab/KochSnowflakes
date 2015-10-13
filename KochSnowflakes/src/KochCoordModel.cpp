@@ -9,6 +9,11 @@ CoordinatesPoint TranslatePointToCoord( std::vector<BasePoint>::iterator p )
 }
 
 
+CoordinatesPoint TranslatePointToCoord( BasePoint p )
+{
+    return CoordinatesPoint( PointPos( p.GetX(), p.GetY() ), "p", true );
+}
+
 KochCoordModel::KochCoordModel() : CoordinatesModel()
 {
 
@@ -17,6 +22,7 @@ KochCoordModel::KochCoordModel() : CoordinatesModel()
 
 KochCoordModel::~KochCoordModel()
 {
+
 }
 
 
@@ -30,7 +36,7 @@ std::vector<KochSegment> KochCoordModel::GetKochSegments() const
 		SegmentCoordPoints pts = m->GetUnitPoints();
 		BasePoint p1(pts.c1.GetPos().x, pts.c1.GetPos().y, 0.0);
 		BasePoint p2(pts.c2.GetPos().x, pts.c2.GetPos().y, 0.0);
-		KochSegment ks(p1, p2);
+		KochSegment ks(p1, p2, 0);
         ks.SetColor( m->GetColor() );
 		segs.push_back(ks);
         m = NULL;
@@ -44,6 +50,13 @@ void KochCoordModel::SetKochSegments(const std::vector<KochSegment>& segs_)
 	Clear( eModelObjectType::BASE_SEGMENT );
 	for (auto it = begin(segs_); it != end(segs_); it++)
 		SetKochSegment(*it);
+}
+
+
+void KochCoordModel::AddKochSegments( const std::vector<KochSegment>& segs_ )
+{
+    for (auto it = begin( segs_ ); it != end( segs_ ); it++)
+        SetKochSegment( *it );
 }
 
 
@@ -65,6 +78,21 @@ void KochCoordModel::SetKochSegment(const KochSegment& seg)
 }
 
 
+void KochCoordModel::AddKochPolygon( const KochPolygon& p )
+{
+    if (p.s_pts.empty())
+        return;
+    std::vector<CoordinatesPoint> coords;
+
+    for (auto it = begin( p.s_pts ); it != end( p.s_pts ); it++)
+        coords.push_back( TranslatePointToCoord( *it ) );
+
+
+    CoordinatesObject* pol = new CoordinatesPolygon( coords, "polygon", true );
+    pol->SetColor( p.s_color );
+    AddObject( eModelObjectType::BASE_POLYGON, pol );
+}
+
 
 void KochCoordModel::SetKochTriangles( const std::vector<KochTriangle>& tris )
 {
@@ -81,7 +109,6 @@ void KochCoordModel::AddKochTriangles( const std::vector<KochTriangle>& tris )
     for (auto it = begin( tris ); it != end( tris ); it++)
         SetKochTriangle( *it );
 }
-
 
 
 void KochCoordModel::SetKochTriangle( const KochTriangle& tri )
@@ -110,5 +137,4 @@ void KochCoordModel::SetCenterPoint( const BasePoint& p )
 {
     base_point = p;    
 }
-
 

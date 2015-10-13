@@ -32,13 +32,14 @@ void ProcessMaster::SetPainter(PainterI *p)
 
 void ProcessMaster::Process()
 {
-    bool auto_iter = false;
+    bool auto_iter = false;       
     do 
     {
      	fractal->Iterate();                        
 	    painter->SetModel(&model->GetModel());
-	    painter->RedrawWindow();
+        painter->RedrawWindow();
         Sleep( 30 );
+
     } while(auto_iter);
 
 }

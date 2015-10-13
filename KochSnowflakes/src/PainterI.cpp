@@ -79,7 +79,8 @@ void PainterI::OnPaint()
 
 	std::map<eModelObjectType, std::vector<CoordinatesObject*>> model_map = model.GetObjectMap();
 	
-	for (auto it = begin(model_map); it != end(model_map); it++)
+
+    for (auto it = begin(model_map); it != end(model_map); it++)
 	{
 		if (it->first == eModelObjectType::BASE_POINT)
 			if (!it->second.empty())
@@ -113,19 +114,38 @@ bool PainterI::IsDushSegment( int id_elem ) const
 
 void PainterI::PaintSegments(const std::vector<CoordinatesObject*>& segments, Graphics* g) const
 {
-	for (auto it = begin(segments); it != end(segments); it++)
-    {
-		Color cr = dynamic_cast<CoordinatesSegment*>(*it)->GetColor();
-        
-        Gdiplus::Point p1 = AdaptPointCoordinates( dynamic_cast<CoordinatesSegment*>(*it)->GetUnitPoints().c1 );
-        Gdiplus::Point p2 = AdaptPointCoordinates( dynamic_cast<CoordinatesSegment*>(*it)->GetUnitPoints().c2 );
-
-        Color color( cr.GetRed(), cr.GetGreen(), cr.GetBlue() );    
-        Pen pen( color, 1 );
-        SolidBrush brush( color );
-		g->DrawLine(&pen, p1, p2);
-    }
+    for (int i = 0; i < segments.size(); i++)
+        PaintSegment( *dynamic_cast<CoordinatesSegment*>(segments.at(i)), g );
 }
+
+
+void PainterI::PaintSegment( const CoordinatesSegment& seg, Graphics* g ) const
+{
+    Color cr = seg.GetColor();
+
+    Gdiplus::Point p1 = AdaptPointCoordinates( seg.GetUnitPoints().c1 );
+    Gdiplus::Point p2 = AdaptPointCoordinates( seg.GetUnitPoints().c2 );
+
+    Color color( cr.GetRed(), cr.GetGreen(), cr.GetBlue() );
+    Pen pen( color, 1 );
+    SolidBrush brush( color );
+    g->DrawLine( &pen, p1, p2 );
+}
+
+
+//void PainterI::PaintSnowSegment( const CoordinatesSegment& seg, Graphics* g ) const
+//{
+//    Color cr = seg.GetColor();
+//
+//    Gdiplus::Point p1 = AdaptPointCoordinates( seg.GetUnitPoints().c1 );
+//    Gdiplus::Point p2 = AdaptPointCoordinates( seg.GetUnitPoints().c2 );
+//
+//    Color color( cr.GetRed(), cr.GetGreen(), cr.GetBlue() );
+//    Pen pen( color, 1 );
+//    SolidBrush brush( color );
+//    g->DrawLine( &pen, p1, p2 );
+//}
+
 
 void PainterI::PaintPoints( const std::vector<CoordinatesObject*>& points, Graphics* g ) const
 {
@@ -150,7 +170,7 @@ Point GetPointIntoSeg( Point p1, Point p2, double k )
     return Point( p1.X + (p2.X - p1.X) * k, p1.Y + (p2.Y - p1.Y) * k );
 }
 
-void PainterI::PaintFace(const CoordinatesPolygon& face, Graphics* g ) const
+void PainterI::PaintSnowFace(const CoordinatesPolygon& face, Graphics* g ) const
 {
     Color c = face.GetColor();
     Pen pen( c, 1 );
@@ -192,6 +212,20 @@ void PainterI::PaintFace(const CoordinatesPolygon& face, Graphics* g ) const
     g->FillPolygon( &brush, pts, 12 );
     //g->FillEllipse( &brush, rect );
     //g->FillEllipse( &brush, rect2 );
+}
+
+void PainterI::PaintFace( const CoordinatesPolygon& face, Graphics* g ) const
+{
+    Color c = face.GetColor();
+    Pen pen( c, 1 );
+    SolidBrush brush( c );
+    const int t = face.pts_size;
+    Point pts[300];
+    std::vector<CoordinatesPoint> coords = face.GetCoordinates();
+    for (int i = 0; i < face.pts_size; i++)
+        pts[i] = AdaptPointCoordinates( coords.at( i ) );
+
+    g->FillPolygon( &brush, pts, face.pts_size );
 }
 
 

@@ -20,19 +20,26 @@ struct KochUnitPoints
     BasePoint p5;
 };
 
+struct KochPolygon
+{
+    std::vector<BasePoint> s_pts;
+    Color s_color;
+};
 
 class KochSegment :
     public BaseSegment
 {
 public:
 
-    KochSegment( const BasePoint& p1, const BasePoint& p2 );
+    KochSegment( const BasePoint& p1, const BasePoint& p2, int iter_rder );
 
-    KochSegment( const BaseSegment& s );
+    KochSegment( const BaseSegment& s, int iter_rder );
 
     KochSegment();
 
     std::vector<KochSegment> Divide( eGrowthDirection = eGrowthDirection::OUTSIDE );
+
+    std::vector<KochSegment> GetChilds( eGrowthDirection = eGrowthDirection::OUTSIDE );
 
     BasePoint GetPointIsosTriangle( eGrowthDirection = eGrowthDirection::OUTSIDE ) ;
 
@@ -41,6 +48,9 @@ public:
     void SetColor( Color color );
 
     Color GetColor() const;
+
+    KochPolygon GetPaintPolygon();
+
 
 private:
 
@@ -58,7 +68,13 @@ private:
 
     BasePoint opposite_point;
 
-    int order_iteration;
+    int iter_order;
+
+    bool was_iterating;
+
+    std::vector<KochSegment> childs;
 
     Color color;
+
+    KochPolygon paint_pols;
 };

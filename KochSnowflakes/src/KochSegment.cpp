@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "KochSegment.h"
+#include "RandomAS.h"
 
 #include <cmath>
 
@@ -25,12 +26,10 @@ namespace
 
         return  BasePoint( bp.p1.GetX() + Bx, bp.p1.GetY() + By, bp.p1.GetZ() );
     }
-
 }
 
 
-
-KochSegment::KochSegment( const BasePoint& p1_, const BasePoint& p2_ )
+KochSegment::KochSegment( const BasePoint& p1_, const BasePoint& p2_, int iter_order_ )
 	: BaseSegment(p1_,p2_)
 {
     BaseSegment sn( p1_, p2_ );
@@ -42,10 +41,12 @@ KochSegment::KochSegment( const BasePoint& p1_, const BasePoint& p2_ )
     seg.p2 = GetMiddlePoint( seg.p1, seg.p5, k );
     seg.p4 = GetMiddlePoint( seg.p5, seg.p1, k );
     opposite_point = GetThirdPoint( &sn, eGrowthDirection::INSIDE );
-    order_iteration = 0;
+    iter_order = ++iter_order_;
+    was_iterating = false;
 }
 
-KochSegment::KochSegment( const BaseSegment& s )
+
+KochSegment::KochSegment( const BaseSegment& s, int iter_order_ )
     : BaseSegment( s )
 {
     SegmentBasePoints bp = GetBasePoints();
@@ -58,7 +59,8 @@ KochSegment::KochSegment( const BaseSegment& s )
     seg.p2 = GetMiddlePoint( seg.p1, seg.p5, k );
     seg.p4 = GetMiddlePoint( seg.p5, seg.p1, k );
     opposite_point = GetThirdPoint( &sn, eGrowthDirection::INSIDE );
-    order_iteration = 0;
+    iter_order = ++iter_order_;
+    was_iterating = false;
 }
  
 
@@ -66,7 +68,6 @@ KochSegment::KochSegment()
 {
   
 }
-
 
 
 KochUnitPoints KochSegment::GetUnitPoints() const
@@ -93,34 +94,55 @@ BasePoint KochSegment::GetPointIsosTriangle( eGrowthDirection dir )
     return  GetThirdPoint( this, dir );
 }
 
+
+std::vector<KochSegment> KochSegment::GetChilds( eGrowthDirection dir )
+{
+    if (!childs.empty())
+        return childs;
+    
+    seg.p3 = KochSegment( seg.p2, seg.p4, 0 ).GetPointIsosTriangle( dir );
+
+    childs.push_back( KochSegment( seg.p1, seg.p2, iter_order ) );
+    childs.push_back( KochSegment( seg.p2, seg.p3, iter_order ) );
+    childs.push_back( KochSegment( seg.p3, seg.p4, iter_order ) );      
+    childs.push_back( KochSegment( seg.p4, seg.p2, iter_order ) );
+    childs.push_back( KochSegment( seg.p4, seg.p5, iter_order ) );
+
+
+    was_iterating = true;
+    for (int i = 0; i < childs.size(); i++)
+        childs.at( i ).SetColor( color );
+    return childs;
+}
+
+
 std::vector<KochSegment> KochSegment::Divide( eGrowthDirection dir )
 {   
-    std::vector<KochSegment> segs;
-    if (order_iteration != 0)
-        return segs;
-    seg.p3 = KochSegment( seg.p2, seg.p4 ).GetPointIsosTriangle( dir );
-    BasePoint  ff = KochSegment( seg.p2, seg.p4 ).GetPointIsosTriangle( eGrowthDirection::INSIDE );
+    if (was_iterating == false)
+        return GetChilds();
 
-    order_iteration++;
-    segs.push_back( KochSegment( seg.p1, seg.p2 ) );
-    segs.push_back( KochSegment( seg.p2, seg.p3 ) );
-    segs.push_back( KochSegment( seg.p3, seg.p4 ) );
-    segs.push_back( KochSegment( seg.p4, seg.p5 ) );
-    //segs.push_back( KochSegment( seg.p4, seg.p2 ) );  
+    std::vector<KochSegment> cur_segs;
 
+    if (iter_order >= 10)
+        return cur_segs;
 
-    for (auto it = begin( segs ); it != end( segs ); it++)
+    RandomAS rand;
+    for (int i = 0; i < 5; i++)
     {
-        it->SetColor( GetColor() );   
+        std::vector<KochSegment> cur_segs_ = childs.at( i ).Divide();
+        if (!cur_segs_.empty())
+        {
+            for (int j = 0; j < cur_segs_.size(); j++)
+                cur_segs.push_back( cur_segs_.at( j ) );
+        }
     }
-
-    return segs;
+    return  cur_segs;
 }
 
 
 void KochSegment::SetIteration( int order )
 {
-    order_iteration = order;
+    iter_order = order;
 }
 
 
@@ -133,3 +155,24 @@ eGrowthDirection KochSegment::GetDirection() const
     return eGrowthDirection::OUTSIDE;
 }
 
+
+KochPolygon KochSegment::GetPaintPolygon()
+{
+    KochPolygon po;
+    if (childs.empty())
+        return po;
+
+    if (childs.at( 0 ).childs.empty())
+        return po;
+    if (childs.size() > 5)
+        int d = 8;
+
+    for (int i = 1; i < 4; i++)
+    {
+        std::vector<KochSegment> chl = childs.at( i ).GetChilds( eGrowthDirection::OUTSIDE );
+        for (int i = 0; i < chl.size(); i++)
+            po.s_pts.push_back( BasePoint( chl.at( i ).GetBasePoints().p1 ) );
+
+    }
+    return po;
+}
