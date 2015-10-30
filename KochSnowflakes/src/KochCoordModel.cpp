@@ -14,6 +14,7 @@ CoordinatesPoint TranslatePointToCoord( BasePoint p )
     return CoordinatesPoint( PointPos( p.GetX(), p.GetY() ), "p", true );
 }
 
+
 KochCoordModel::KochCoordModel() : CoordinatesModel()
 {
 
@@ -70,11 +71,18 @@ void KochCoordModel::SetKochSegment(const KochSegment& seg)
 	SegmentCoordPoints cpts(c1, c2);
 	CoordinatesObject* s = new CoordinatesSegment(cpts, "segment", true);
 
-
     s->SetColor( seg.GetColor() );
 
 	AddObject(eModelObjectType::BASE_SEGMENT, s);
     s = NULL;
+}
+
+
+void KochCoordModel::SetKochPolygons( const std::vector<KochPolygon>& pols )
+{
+    Clear( eModelObjectType::BASE_POLYGON );
+    for( auto it = begin( pols ); it != end( pols ); it++ )
+        AddKochPolygon( *it );
 }
 
 
@@ -116,7 +124,6 @@ void KochCoordModel::SetKochTriangle( const KochTriangle& tri )
     std::vector<CoordinatesPoint> coords;
     std::vector<BasePoint> pts = tri.GetPoints();
 
-
     for (auto it = begin( pts ); it != end( pts ); it++)
         coords.push_back(TranslatePointToCoord(it));
 
@@ -124,7 +131,6 @@ void KochCoordModel::SetKochTriangle( const KochTriangle& tri )
     pol->SetColor( tri.GetColor() );
     AddObject( eModelObjectType::BASE_POLYGON, pol );
     pol = NULL;
-
 
     std::vector<KochSegment> segs = tri.GetSegments();
 

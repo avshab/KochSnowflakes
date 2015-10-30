@@ -14,16 +14,16 @@ SnowflakesFractal::SnowflakesFractal( KochCoordModel* m )
 {
     rand_size = 3;
     iter = 0;
-
+    base_segs_size = 0;
 }
 
 
 void SnowflakesFractal::Iterate()
 {
-    // DoubleDivideAll();
-    // SimpleRandom();
+   // DoubleDivideAll();
+   // SimpleRandom();
      DivideAll();
-    // NewRandom();
+   // NewRandom();
    // DivideTriangles();
 }
                                                                                                 
@@ -62,8 +62,9 @@ void SnowflakesFractal::DivideAll()
         eGrowthDirection grow_dir = eGrowthDirection::OUTSIDE;
 
         std::vector<KochSegment> new_segs;
-        for (int i = 0; i < 24; i++)
+        for (int i = 0; i < base_segs_size; i++)
         {
+
             std::vector<KochSegment> new_segs_ = segs.at(i).Divide( grow_dir );
             for (int j = 0; j < new_segs_.size(); j++)
             {
@@ -71,9 +72,19 @@ void SnowflakesFractal::DivideAll()
                 segs.push_back( new_segs_.at( j ) );
             }
         }  
-        for (int i = 0; i < segs.size(); i++)
-            model->AddKochPolygon( segs.at( i ).GetPaintPolygon() );
 
+
+        std::vector<KochPolygon> pols;
+        int gg = segs.size();
+        for (int i = 0; i < segs.size(); i++)
+        {
+            KochPolygon pol = segs.at( i ).GetPaintPolygon();
+            if (!pol.s_pts.empty())
+                pols.push_back( pol );
+        }
+
+      model->SetKochPolygons( pols );
+        int ps = pols.size();
         model->SetKochSegments( new_segs );      
        
     } ITERATION_INDEX++;
@@ -95,7 +106,6 @@ void SnowflakesFractal::SimpleRandom()
 			return;
         }
     }
-
 }
 
 
@@ -244,9 +254,10 @@ void SnowflakesFractal::StartNewSnowflakesTriangle()
         segs.insert( segs.begin(), *it );
     }
     rand_size = 3;
-    iter = 0;
-        
+    iter = 0;        
 }
+
+
 BasePoint GetPIS( BasePoint p1, BasePoint p2, double k )
 {
     return BasePoint( p1.GetX() + (p2.GetX() - p1.GetX()) * k, p1.GetY() + (p2.GetY() - p1.GetY()) * k, p1.GetZ() + (p2.GetZ() - p1.GetZ()) * k );
@@ -280,7 +291,6 @@ void SnowflakesFractal::StartNewSnowflakesHexagon()
     vect.push_back( KochSegment( s3.GetBasePoints().p2, GetPIS( center_point, GetPIS( s3.GetBasePoints().p2, s4.GetBasePoints().p2, 0.5 ), 2 ), 0 ));
     vect.push_back( KochSegment( GetPIS( center_point, GetPIS( s3.GetBasePoints().p2, s4.GetBasePoints().p2, 0.5 ), 2 ), s4.GetBasePoints().p2, 0 ));
 
-
     vect.push_back( KochSegment( s4.GetBasePoints().p2, GetPIS( center_point, GetPIS( s4.GetBasePoints().p2, s5.GetBasePoints().p2, 0.5 ), 2 ), 0 ));
     vect.push_back( KochSegment( GetPIS( center_point, GetPIS( s4.GetBasePoints().p2, s5.GetBasePoints().p2, 0.5 ), 2 ), s5.GetBasePoints().p2, 0 ));
 
@@ -291,12 +301,12 @@ void SnowflakesFractal::StartNewSnowflakesHexagon()
     vect.push_back( KochSegment( GetPIS( center_point, GetPIS( s6.GetBasePoints().p2, s1.GetBasePoints().p2, 0.5 ), 2 ), s1.GetBasePoints().p2, 0 ));
 
 
-    vect.push_back( KochSegment( s2.GetBasePoints().p2, s1.GetBasePoints().p2, 0 ) );
-    vect.push_back( KochSegment( s3.GetBasePoints().p2, s2.GetBasePoints().p2, 0 ) );
-    vect.push_back( KochSegment( s4.GetBasePoints().p2, s3.GetBasePoints().p2, 0 ) );
-    vect.push_back( KochSegment( s5.GetBasePoints().p2, s4.GetBasePoints().p2, 0 ) );
-    vect.push_back( KochSegment( s6.GetBasePoints().p2, s5.GetBasePoints().p2, 0 ) );
-    vect.push_back( KochSegment( s1.GetBasePoints().p2, s6.GetBasePoints().p2, 0 ) );
+    //vect.push_back( KochSegment( s2.GetBasePoints().p2, s1.GetBasePoints().p2, 0 ) );
+    //vect.push_back( KochSegment( s3.GetBasePoints().p2, s2.GetBasePoints().p2, 0 ) );
+    //vect.push_back( KochSegment( s4.GetBasePoints().p2, s3.GetBasePoints().p2, 0 ) );
+    //vect.push_back( KochSegment( s5.GetBasePoints().p2, s4.GetBasePoints().p2, 0 ) );
+    //vect.push_back( KochSegment( s6.GetBasePoints().p2, s5.GetBasePoints().p2, 0 ) );
+    //vect.push_back( KochSegment( s1.GetBasePoints().p2, s6.GetBasePoints().p2, 0 ) ); 
 
 
     vect.push_back( KochSegment( s1.GetBasePoints().p2, center_point, 0 ) );
@@ -305,6 +315,10 @@ void SnowflakesFractal::StartNewSnowflakesHexagon()
     vect.push_back( KochSegment( s4.GetBasePoints().p2, center_point, 0 ) );
     vect.push_back( KochSegment( s5.GetBasePoints().p2, center_point, 0 ) );
     vect.push_back( KochSegment( s6.GetBasePoints().p2, center_point, 0 ) );
+
+    std::vector<KochPolygon> pols;
+
+    base_segs_size = vect.size();
 
     Color c = r_as.GetRandomColor( Color( 255, 151, 187 ), 0, 0 );
     for (auto it = begin( vect ); it != end( vect ); it++)
@@ -331,6 +345,7 @@ void SnowflakesFractal::SetCenterPoint( const BasePoint& p )
         model->AddKochTriangles( tris );
     }
     else
-        StartNewSnowflakesHexagon();
+        //  StartNewSnowflakesTriangle();
+      StartNewSnowflakesHexagon();
     
 }

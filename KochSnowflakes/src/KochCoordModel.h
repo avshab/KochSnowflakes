@@ -29,10 +29,16 @@ public:
 
     void AddKochPolygon( const KochPolygon& p );
 
+    void SetKochPolygons( const std::vector<KochPolygon>& pols );
+
+    void SetBasePolygons( const std::vector<KochPolygon>& pols );
+
     void SetKochTriangle( const KochTriangle& tri );
 
 private:
 
     BasePoint  base_point;
+
+    std::vector<KochPolygon> pols;
 
 };

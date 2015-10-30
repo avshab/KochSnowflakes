@@ -87,7 +87,7 @@ void PainterI::OnPaint()
 				PaintPoints(it->second, &g);
 
 
-
+       int ss = it->second.size();
        if (it->first == eModelObjectType::BASE_POLYGON)
             if (!it->second.empty())
                 PaintFaces( it->second, &g );  
@@ -216,14 +216,16 @@ void PainterI::PaintSnowFace(const CoordinatesPolygon& face, Graphics* g ) const
 
 void PainterI::PaintFace( const CoordinatesPolygon& face, Graphics* g ) const
 {
-    Color c = face.GetColor();
+    Color c( 100, 72, 27, 72 );// = face.GetColor();
     Pen pen( c, 1 );
     SolidBrush brush( c );
     const int t = face.pts_size;
-    Point pts[300];
+    Point pts[3000];
+
     std::vector<CoordinatesPoint> coords = face.GetCoordinates();
     for (int i = 0; i < face.pts_size; i++)
         pts[i] = AdaptPointCoordinates( coords.at( i ) );
+
 
     g->FillPolygon( &brush, pts, face.pts_size );
 }

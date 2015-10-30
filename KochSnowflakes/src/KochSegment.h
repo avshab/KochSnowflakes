@@ -1,4 +1,5 @@
 #pragma once
+
 #include "BaseSegment.h"
 #include "CoordinatesObject.h"
 
@@ -24,11 +25,18 @@ struct KochPolygon
 {
     std::vector<BasePoint> s_pts;
     Color s_color;
+
+    void AddSegs( const std::vector<BasePoint>& pts )
+    { 
+        for (auto it = begin( pts ); it != end( pts ); it++)
+            s_pts.push_back( *it );
+    }
 };
 
 class KochSegment :
     public BaseSegment
 {
+
 public:
 
     KochSegment( const BasePoint& p1, const BasePoint& p2, int iter_rder );
@@ -49,7 +57,11 @@ public:
 
     Color GetColor() const;
 
-    KochPolygon GetPaintPolygon();
+    Color GetParentPolygonColor() const;
+
+    KochPolygon GetPaintPolygon();  
+
+    void RefreshKochPolygon();
 
 
 private:
@@ -76,5 +88,5 @@ private:
 
     Color color;
 
-    KochPolygon paint_pols;
+    KochPolygon paint_pol;
 };

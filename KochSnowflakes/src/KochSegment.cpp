@@ -89,6 +89,12 @@ Color KochSegment::GetColor() const
 }
 
 
+Color KochSegment::GetParentPolygonColor() const
+{
+    return paint_pol.s_color;
+}
+
+
 BasePoint KochSegment::GetPointIsosTriangle( eGrowthDirection dir )
 {
     return  GetThirdPoint( this, dir );
@@ -102,17 +108,38 @@ std::vector<KochSegment> KochSegment::GetChilds( eGrowthDirection dir )
     
     seg.p3 = KochSegment( seg.p2, seg.p4, 0 ).GetPointIsosTriangle( dir );
 
-    childs.push_back( KochSegment( seg.p1, seg.p2, iter_order ) );
+    childs.push_back( KochSegment( seg.p1, seg.p2, iter_order ) );   
     childs.push_back( KochSegment( seg.p2, seg.p3, iter_order ) );
-    childs.push_back( KochSegment( seg.p3, seg.p4, iter_order ) );      
+    childs.push_back( KochSegment( seg.p3, seg.p4, iter_order ) );  
+    childs.push_back( KochSegment( seg.p4, seg.p5, iter_order ) );    
     childs.push_back( KochSegment( seg.p4, seg.p2, iter_order ) );
-    childs.push_back( KochSegment( seg.p4, seg.p5, iter_order ) );
 
+    RefreshKochPolygon();
 
     was_iterating = true;
+
     for (int i = 0; i < childs.size(); i++)
         childs.at( i ).SetColor( color );
     return childs;
+}
+
+
+void KochSegment::RefreshKochPolygon()
+{
+    if (was_iterating == false)
+    {
+        for (int i = 0; i < 4; i++)
+            paint_pol.s_pts.push_back( childs.at(i).GetBasePoints().p1 );
+        return;
+    }     
+
+
+    paint_pol.s_pts.clear();
+    for (int i = 0; i < childs.size(); i++)
+    {
+        paint_pol.AddSegs( childs.at( i ).paint_pol.s_pts );
+    }
+
 }
 
 
@@ -133,9 +160,12 @@ std::vector<KochSegment> KochSegment::Divide( eGrowthDirection dir )
         if (!cur_segs_.empty())
         {
             for (int j = 0; j < cur_segs_.size(); j++)
-                cur_segs.push_back( cur_segs_.at( j ) );
+            {
+                cur_segs.push_back( cur_segs_.at( j ) );    
+            }
         }
     }
+    RefreshKochPolygon();
     return  cur_segs;
 }
 
@@ -158,21 +188,20 @@ eGrowthDirection KochSegment::GetDirection() const
 
 KochPolygon KochSegment::GetPaintPolygon()
 {
-    KochPolygon po;
-    if (childs.empty())
-        return po;
+    //KochPolygon po;
+    //if (childs.empty())
+    //    return po;
 
-    if (childs.at( 0 ).childs.empty())
-        return po;
-    if (childs.size() > 5)
-        int d = 8;
+    //if (childs.at( 0 ).childs.empty())
+    //    return po;
 
-    for (int i = 1; i < 4; i++)
+    /*for (int i = 0; i < childs.size(); i++)
     {
         std::vector<KochSegment> chl = childs.at( i ).GetChilds( eGrowthDirection::OUTSIDE );
         for (int i = 0; i < chl.size(); i++)
             po.s_pts.push_back( BasePoint( chl.at( i ).GetBasePoints().p1 ) );
 
-    }
-    return po;
+    }*/
+
+    return paint_pol;
 }

@@ -41,6 +41,8 @@ private:
 
     KochCoordModel* model;
 
+    int base_segs_size;
+
 private:
 
     void DivideAll();    
